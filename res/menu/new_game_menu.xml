@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/add_player" android:titleCondensed="@string/add_player_short" android:showAsAction="ifRoom|withText" android:id="@+id/add_player" android:icon="@drawable/ic_menu_invite"></item>
+    <item android:title="@string/start_game" android:titleCondensed="@string/start_game_short" android:showAsAction="ifRoom|withText" android:id="@+id/start_game" android:icon="@drawable/ic_menu_play_clip"></item>
+</menu>

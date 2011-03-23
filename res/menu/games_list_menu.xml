@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/new_game" android:titleCondensed="@string/new_game_short" android:id="@+id/new_game" android:showAsAction="ifRoom|withText" android:icon="@drawable/ic_menu_add"></item>
+    <item android:title="@string/view_players" android:titleCondensed="@string/view_players_short" android:showAsAction="ifRoom|withText" android:id="@+id/view_players" android:icon="@drawable/ic_menu_friendslist"></item>
+    <item android:title="@string/clear_history" android:titleCondensed="@string/clear_history_short" android:id="@+id/clear_history" android:icon="@drawable/ic_menu_delete"></item>
+</menu>
