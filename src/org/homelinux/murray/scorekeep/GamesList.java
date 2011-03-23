@@ -3,21 +3,35 @@ package org.homelinux.murray.scorekeep;
 import org.homelinux.murray.scorekeep.R;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
 import android.content.Intent;
+import android.database.Cursor;
 import android.widget.Toast;
 
-public class GamesList extends Activity {
-    /** Called when the activity is first created. */
+public class GamesList extends ListActivity {
+	DbHelper dbh;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.games_list);
+        dbh = new DbHelper(this);
+        Cursor cursor = dbh.getGamesList();
+        startManagingCursor(cursor);
+        GamesListAdapter gla = new GamesListAdapter(this,cursor);
+        setListAdapter(gla);
     }
-    
+  /*  
+    @Override
+    public void onDestroy() {
+    	this.onDestroy();
+    	dbh.closeDb();
+    }
+    */
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater inflater = getMenuInflater();

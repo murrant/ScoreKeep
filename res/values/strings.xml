@@ -14,4 +14,7 @@
     <string name="get_started">Press Menu -> New Game to begin.</string>
     <string name="clear_history">Clear History</string>
     <string name="clear_history_short">Clear</string>
+    <string name="no_players">You must select a player before starting a game.</string>
+    <string name="game">Game</string>
+    <string name="no_games">No games, press Menu->New to create one.</string>
 </resources>

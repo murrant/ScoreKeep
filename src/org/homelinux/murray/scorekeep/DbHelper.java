@@ -34,10 +34,16 @@ public class DbHelper {
 	private static final String DELIMITER = ",";
 	
 	private SQLiteDatabase db;
+	private Context context;
 
 	public DbHelper(Context context) {
 		OpenHelper openHelper = new OpenHelper(context);
 		db = openHelper.getWritableDatabase();
+		this.context = context;
+	}
+	
+	public void closeDb() {
+		db.close();
 	}
 
 	// create a new player, returns id
@@ -51,7 +57,11 @@ public class DbHelper {
 	
 	public long newGame(String description, long[] players) {
 		ContentValues gameValues = new ContentValues();
-		gameValues.put(KEY_DESCRIPTION, description);
+		if(description.isEmpty()) {
+			gameValues.put(KEY_DESCRIPTION, context.getString(R.string.game));
+		} else {
+			gameValues.put(KEY_DESCRIPTION, description);
+		}
 		gameValues.put(KEY_PLAYER_IDS, serialize(players));
 		long now = (new Date()).getTime();
 		gameValues.put(KEY_CREATION_DATE, now);
@@ -107,7 +117,7 @@ public class DbHelper {
 		return null;
 	}
 
-	public Cursor getGame(int gameId) {
+	public Cursor getGame(long gameId) {
 		return null;
 	}
 
