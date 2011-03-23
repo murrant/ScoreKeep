@@ -34,12 +34,12 @@ public class DbHelper {
 	private static final String DELIMITER = ",";
 	
 	private SQLiteDatabase db;
-	private Context context;
+	private String gameString;
 
 	public DbHelper(Context context) {
 		OpenHelper openHelper = new OpenHelper(context);
 		db = openHelper.getWritableDatabase();
-		this.context = context;
+		gameString = context.getString(R.string.game);
 	}
 	
 	public void closeDb() {
@@ -58,7 +58,7 @@ public class DbHelper {
 	public long newGame(String description, long[] players) {
 		ContentValues gameValues = new ContentValues();
 		if(description.isEmpty()) {
-			gameValues.put(KEY_DESCRIPTION, context.getString(R.string.game));
+			gameValues.put(KEY_DESCRIPTION, gameString);
 		} else {
 			gameValues.put(KEY_DESCRIPTION, description);
 		}
