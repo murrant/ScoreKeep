@@ -1,19 +1,9 @@
 package org.homelinux.murray.scorekeep;
 
-import java.util.ArrayList;
-import org.homelinux.murray.scorekeep.R;
-
 import android.app.Activity;
-import android.app.ListActivity;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-import android.view.View;
-import android.view.View.OnClickListener;
+
 
 public class ScoreCard extends Activity {
 	//ArrayList<Player> players=new ArrayList<Player>();
@@ -31,7 +21,7 @@ public class ScoreCard extends Activity {
         
         dbh = new DbHelper(this);
         Cursor game = dbh.getGame(gameId);
-
+        game.getCount();
     }
     /*
     @Override

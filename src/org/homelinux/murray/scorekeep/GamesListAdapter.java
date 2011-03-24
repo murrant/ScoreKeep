@@ -40,17 +40,17 @@ public class GamesListAdapter extends CursorAdapter {
 	}
 	
 	private void setDescription(TextView item, Cursor cursor) {
-		item.setText(cursor.getString(cursor.getColumnIndex(DbHelper.KEY_DESCRIPTION)));		
+		item.setText(cursor.getString(cursor.getColumnIndex(DbHelper.COLUMN_NAME_DESCRIPTION)));		
 	}
 
 	private void setCreationDate(TextView item, Cursor cursor) {
-		Date startedDate = new Date(cursor.getLong(cursor.getColumnIndex(DbHelper.KEY_CREATION_DATE)));
+		Date startedDate = new Date(cursor.getLong(cursor.getColumnIndex(DbHelper.COLUMN_NAME_CREATION_DATE)));
 		String startedString = DateFormat.getDateInstance().format(startedDate);
 		item.setText(startedString);		
 	}
 
 	private void setModifiedDate(TextView item, Cursor cursor) {
-		Date playedDate = new Date(cursor.getLong(cursor.getColumnIndex(DbHelper.KEY_MODIFIED_DATE)));
+		Date playedDate = new Date(cursor.getLong(cursor.getColumnIndex(DbHelper.COLUMN_NAME_MODIFIED_DATE)));
 		String playedString = DateFormat.getDateTimeInstance().format(playedDate);
 		item.setText(playedString);		
 	}

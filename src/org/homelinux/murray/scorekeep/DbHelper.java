@@ -2,7 +2,8 @@ package org.homelinux.murray.scorekeep;
 
 import java.util.Date;
 import java.util.Random;
-import java.util.StringTokenizer;
+
+import org.homelinux.murray.scorekeep.provider.ScoresProvider;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -20,18 +21,16 @@ public class DbHelper {
 	public static final String TABLE_PLAYERS = "players";
 	public static final String TABLE_SCORES = "scores";
 
-	public static final String KEY_ROW_ID = "_id";
-	public static final String KEY_DESCRIPTION = "description";
-	public static final String KEY_PLAYER_IDS = "player_ids";
-	public static final String KEY_CREATION_DATE = "creation_date";
-	public static final String KEY_MODIFIED_DATE = "modified_date";
-	public static final String KEY_NAME = "name";
-	public static final String KEY_COLOR = "color";
-	public static final String KEY_GAME_ID = "game_id";
-	public static final String KEY_PLAYER_ID = "player_id";
-	public static final String KEY_SCORE = "score";
-	
-	private static final String DELIMITER = ",";
+	public static final String _ID = "_id";
+	public static final String COLUMN_NAME_DESCRIPTION = "description";
+	public static final String COLUMN_NAME_PLAYER_IDS = "player_ids";
+	public static final String COLUMN_NAME_CREATION_DATE = "creation_date";
+	public static final String COLUMN_NAME_MODIFIED_DATE = "modified_date";
+	public static final String COLUMN_NAME_NAME = "name";
+	public static final String COLUMN_NAME_COLOR = "color";
+	public static final String COLUMN_NAME_GAME_ID = "game_id";
+	public static final String COLUMN_NAME_PLAYER_ID = "player_id";
+	public static final String COLUMN_NAME_SCORE = "score";
 	
 	private SQLiteDatabase db;
 	private String gameString;
@@ -49,66 +48,66 @@ public class DbHelper {
 	// create a new player, returns id
 	public long newPlayer(String name) {
 		ContentValues playerValues = new ContentValues();
-		playerValues.put(KEY_NAME, name);
+		playerValues.put(COLUMN_NAME_NAME, name);
 		Random rand = new Random();
-		playerValues.put(KEY_COLOR, Color.rgb(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256)));
+		playerValues.put(COLUMN_NAME_COLOR, Color.rgb(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256)));
 		return db.insert(TABLE_PLAYERS, null, playerValues);
 	}
 	
 	public long newGame(String description, long[] players) {
 		ContentValues gameValues = new ContentValues();
 		if(description.isEmpty()) {
-			gameValues.put(KEY_DESCRIPTION, gameString);
+			gameValues.put(COLUMN_NAME_DESCRIPTION, gameString);
 		} else {
-			gameValues.put(KEY_DESCRIPTION, description);
+			gameValues.put(COLUMN_NAME_DESCRIPTION, description);
 		}
-		gameValues.put(KEY_PLAYER_IDS, serialize(players));
+		gameValues.put(COLUMN_NAME_PLAYER_IDS, ScoresProvider.serializePlayers(players));
 		long now = (new Date()).getTime();
-		gameValues.put(KEY_CREATION_DATE, now);
-		gameValues.put(KEY_MODIFIED_DATE, now);
+		gameValues.put(COLUMN_NAME_CREATION_DATE, now);
+		gameValues.put(COLUMN_NAME_MODIFIED_DATE, now);
 		return db.insert(TABLE_GAMES, null, gameValues);
 	}
 	
 	public long newScore(int gameId, int playerId, int score) {
         ContentValues scoreValues = new ContentValues();
-        scoreValues.put(KEY_GAME_ID, gameId);
-        scoreValues.put(KEY_PLAYER_ID, playerId);
-        scoreValues.put(KEY_SCORE, score);
+        scoreValues.put(COLUMN_NAME_GAME_ID, gameId);
+        scoreValues.put(COLUMN_NAME_PLAYER_ID, playerId);
+        scoreValues.put(COLUMN_NAME_SCORE, score);
 		return db.insert(TABLE_SCORES, null, scoreValues);
 	}
 	
 	// get all players
 	public Cursor getPlayers() {
-		String[] columns = new String[]{KEY_ROW_ID,KEY_NAME,KEY_COLOR};
-		return db.query(TABLE_PLAYERS, columns, null, null, null, null, KEY_NAME);
+		String[] columns = new String[]{_ID,COLUMN_NAME_NAME,COLUMN_NAME_COLOR};
+		return db.query(TABLE_PLAYERS, columns, null, null, null, null, COLUMN_NAME_NAME);
 	}
 	
 	public Cursor getGamesList() {
-		String[] columns = new String[]{KEY_ROW_ID,KEY_DESCRIPTION,KEY_CREATION_DATE, KEY_MODIFIED_DATE};
+		String[] columns = new String[]{_ID,COLUMN_NAME_DESCRIPTION,COLUMN_NAME_CREATION_DATE, COLUMN_NAME_MODIFIED_DATE};
 		return db.query(TABLE_GAMES, columns, null, null, null, null, null);
 	}
 	
 	// Get all data for a game
 	public Cursor getScores(int gameId, int playerId) {
-		String[] columns = new String[]{KEY_ROW_ID,KEY_SCORE};
-		String selection = KEY_GAME_ID + "=" + gameId + " AND " + KEY_PLAYER_ID + "=" + playerId;
-		return db.query(TABLE_SCORES, columns, selection, null, null, null, KEY_ROW_ID);
+		String[] columns = new String[]{_ID,COLUMN_NAME_SCORE};
+		String selection = COLUMN_NAME_GAME_ID + "=" + gameId + " AND " + COLUMN_NAME_PLAYER_ID + "=" + playerId;
+		return db.query(TABLE_SCORES, columns, selection, null, null, null, _ID);
 	}
 	
 	// get a player with no scores
 	public Cursor getPlayer(int playerId) {
-		String[] columns = new String[]{KEY_ROW_ID,KEY_NAME,KEY_COLOR};
-		String selection = KEY_ROW_ID + "=" + playerId;
+		String[] columns = new String[]{_ID,COLUMN_NAME_NAME,COLUMN_NAME_COLOR};
+		String selection = _ID + "=" + playerId;
 		return db.query(TABLE_PLAYERS, columns, selection, null, null, null, null);
 	}
 	
 	// get a players from a game with no scores
 	public Cursor getPlayers(int gameId) {
 		// grab the string of players, this is stored as a comma seperated list of nums
-		Cursor pc = db.query(TABLE_GAMES, new String[]{KEY_PLAYER_IDS}, KEY_ROW_ID + "=" + gameId, null, null, null, null);
+		Cursor pc = db.query(TABLE_GAMES, new String[]{COLUMN_NAME_PLAYER_IDS}, _ID + "=" + gameId, null, null, null, null);
 		
-		String[] columns = new String[]{KEY_ROW_ID,KEY_NAME,KEY_COLOR};
-		String selection = KEY_ROW_ID + " IN ( " + pc.getString(pc.getColumnIndex(KEY_PLAYER_IDS)) + " )";
+		String[] columns = new String[]{_ID,COLUMN_NAME_NAME,COLUMN_NAME_COLOR};
+		String selection = _ID + " IN ( " + pc.getString(pc.getColumnIndex(COLUMN_NAME_PLAYER_IDS)) + " )";
 		return db.query(TABLE_PLAYERS, columns, selection, null, null, null, null);
 	}
 	
@@ -127,27 +126,7 @@ public class DbHelper {
 		db.delete(TABLE_SCORES, null, null);
 	}
 	
-	// ghetto serialize
-	private String serialize(long[] inputArray) {
-		StringBuffer sb = new StringBuffer();
-		for ( long num : inputArray ) {
-			sb.append(num);
-			sb.append(DELIMITER);
-		}
-		return sb.toString();
-	}
-	
-	// ghetto deserialize
-	@SuppressWarnings("unused")
-	private long[] deserialize(String inputString) {
-		StringTokenizer st = new StringTokenizer(inputString, DELIMITER);
-		long[] array = new long[st.countTokens()];
-		int n = 0;
-		while (st.hasMoreTokens()) {
-			array[n++] = Long.valueOf(st.nextToken());
-		}
-		return array;
-	}
+
 	
 	// Open helper to load/create DB.
 	private static class OpenHelper extends SQLiteOpenHelper {
@@ -158,15 +137,15 @@ public class DbHelper {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL("create table " + TABLE_GAMES + " (" + 
-					KEY_ROW_ID + " integer primary key autoincrement, " + KEY_DESCRIPTION + " text not null, " + 
-					KEY_PLAYER_IDS + " text not null, " + KEY_CREATION_DATE + " integer not null, " +
-					KEY_MODIFIED_DATE + " integer not null)");
+					_ID + " integer primary key autoincrement, " + COLUMN_NAME_DESCRIPTION + " text not null, " + 
+					COLUMN_NAME_PLAYER_IDS + " text not null, " + COLUMN_NAME_CREATION_DATE + " integer not null, " +
+					COLUMN_NAME_MODIFIED_DATE + " integer not null)");
 			db.execSQL("create table " + TABLE_PLAYERS + " (" + 
-					KEY_ROW_ID + " integer primary key autoincrement, " + KEY_NAME + " text not null, " + 
-					KEY_COLOR + " text)");
+					_ID + " integer primary key autoincrement, " + COLUMN_NAME_NAME + " text not null, " + 
+					COLUMN_NAME_COLOR + " text)");
 			db.execSQL("create table " + TABLE_SCORES + " (" + 
-					KEY_ROW_ID + " integer primary key autoincrement, " + KEY_GAME_ID + " integer not null, " +
-					KEY_PLAYER_ID + " integer not null, " + KEY_SCORE + " integer not null)");
+					_ID + " integer primary key autoincrement, " + COLUMN_NAME_GAME_ID + " integer not null, " +
+					COLUMN_NAME_PLAYER_ID + " integer not null, " + COLUMN_NAME_SCORE + " integer not null)");
 		}
 
 		@Override

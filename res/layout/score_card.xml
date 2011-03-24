@@ -10,6 +10,6 @@
          </LinearLayout>
 
     </ScrollView>
-        </HorizontalScrollView>
+  </HorizontalScrollView>
 
 </LinearLayout>
