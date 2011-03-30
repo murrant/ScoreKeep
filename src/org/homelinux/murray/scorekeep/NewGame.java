@@ -1,7 +1,5 @@
 package org.homelinux.murray.scorekeep;
 
-import java.util.ArrayList;
-
 import org.homelinux.murray.scorekeep.R;
 import org.homelinux.murray.scorekeep.provider.Game;
 import org.homelinux.murray.scorekeep.provider.Player;
@@ -19,8 +17,6 @@ import android.content.Intent;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.app.AlertDialog;
-import android.widget.Adapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,18 +34,12 @@ public class NewGame extends Activity {
         
         Cursor c = managedQuery(Player.CONTENT_URI, null, null, null, null);
         list = (ListView) findViewById(R.id.new_game_players_list);
-        PlayerAdapter adapter=new PlayerAdapter(this, c);
+
+        PlayerAdapter adapter = new PlayerAdapter(this, c);
         list.setAdapter(adapter);
         list.setItemsCanFocus(false);
         list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
-    /*
-    @Override
-    public void onDestroy() {
-    	super.onDestroy();
-    	dbh.closeDb();
-    }
-    */
     
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,27 +54,14 @@ public class NewGame extends Activity {
 		switch (item.getItemId()) {
 		case R.id.start_game:
 			Intent intent = new Intent(this, ScoreCard.class);
-
-			Adapter adapter = list.getAdapter();
-			int count = adapter.getCount();
-			ArrayList<Long> selectedItems = new ArrayList<Long>();
-			for (int i = 0; i<count; i++) {
-				CheckBox cb = (CheckBox) list.getChildAt(i);
-				if(cb.isChecked()) {
-					selectedItems.add(list.getItemIdAtPosition(i));
-				}
-			}
-        	int selectedCount = selectedItems.size();
-        	if(selectedCount < 1) {
-        		Toast.makeText(this,R.string.no_players,Toast.LENGTH_SHORT).show();
+			
+			long[] players = list.getCheckedItemIds();
+        	if(players.length < 1) {
+        		Toast.makeText(this,R.string.no_players_selected,Toast.LENGTH_SHORT).show();
         		return false;
         	}
-        	long[] players = new long[selectedCount];
-        	for (int i =0; i<selectedCount; i++) {
-        		players[i] = selectedItems.get(i).longValue();
-        	}
-        	
-        	final TextView gameDesc = (TextView) findViewById(R.id.game_desc);
+			
+			final TextView gameDesc = (TextView) findViewById(R.id.game_desc);
         	Uri newGameUri = newGame(gameDesc.getText().toString(), players);
         	intent.setData(newGameUri);  //set data uri for the new game
 			startActivity(intent);

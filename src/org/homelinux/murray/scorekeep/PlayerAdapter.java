@@ -4,30 +4,13 @@ import org.homelinux.murray.scorekeep.provider.Player;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CursorAdapter;
+import android.widget.SimpleCursorAdapter;
 
-public class PlayerAdapter extends CursorAdapter {
+public class PlayerAdapter extends SimpleCursorAdapter {
+    private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
+    private final static int[] TO = new int[]{android.R.id.text1};
+
 	public PlayerAdapter(Context context, Cursor c) {
-		super(context, c);
-	}
-
-	@Override
-	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		final LayoutInflater inflater = LayoutInflater.from(context);
-		CheckBox v = (CheckBox) inflater.inflate(R.layout.player_item, parent, false);
-		v.setText(cursor.getString(cursor.getColumnIndex(Player.COLUMN_NAME_NAME)));
-		v.setBackgroundColor(cursor.getInt(cursor.getColumnIndex(Player.COLUMN_NAME_COLOR)));
-		return v;
-	}
-	
-	@Override
-	public void bindView(View view, Context context, Cursor cursor) {
-		CheckBox v = (CheckBox) view;
-		v.setText(cursor.getString(cursor.getColumnIndex(Player.COLUMN_NAME_NAME)));
-		v.setBackgroundColor(cursor.getInt(cursor.getColumnIndex(Player.COLUMN_NAME_COLOR)));
+		super(context, android.R.layout.simple_list_item_multiple_choice, c, FROM, TO);
 	}
 }
