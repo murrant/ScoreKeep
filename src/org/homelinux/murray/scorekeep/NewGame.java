@@ -3,14 +3,21 @@ package org.homelinux.murray.scorekeep;
 import java.util.ArrayList;
 
 import org.homelinux.murray.scorekeep.R;
+import org.homelinux.murray.scorekeep.provider.Game;
+import org.homelinux.murray.scorekeep.provider.Player;
+import org.homelinux.murray.scorekeep.provider.ScoresProvider;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.app.AlertDialog;
 import android.widget.Adapter;
 import android.widget.CheckBox;
@@ -20,8 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class NewGame extends Activity {
-	PlayerAdapter adapter;
-	DbHelper dbh;
+	private static final String DEBUG_TAG = "ScoreKeep:NewGame";
 	private ListView list;
 	
 	/** Called when the activity is first created. */
@@ -30,9 +36,9 @@ public class NewGame extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_game);
         
-        dbh = new DbHelper(this);
+        Cursor c = managedQuery(Player.CONTENT_URI, null, null, null, null);
         list = (ListView) findViewById(R.id.new_game_players_list);
-        adapter=new PlayerAdapter(this, dbh.getPlayers());
+        PlayerAdapter adapter=new PlayerAdapter(this, c);
         list.setAdapter(adapter);
         list.setItemsCanFocus(false);
         list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -57,7 +63,7 @@ public class NewGame extends Activity {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.start_game:
-			Intent intent = new Intent(NewGame.this, ScoreCard.class);
+			Intent intent = new Intent(this, ScoreCard.class);
 
 			Adapter adapter = list.getAdapter();
 			int count = adapter.getCount();
@@ -79,26 +85,23 @@ public class NewGame extends Activity {
         	}
         	
         	final TextView gameDesc = (TextView) findViewById(R.id.game_desc);
-        	long gameId = dbh.newGame(gameDesc.getText().toString(), players);
-        	Bundle bundle = new Bundle();
-        	bundle.putLong("GameID",gameId);  //pass game id of stored game
-        	intent.putExtras(bundle);
-        	
-			NewGame.this.startActivity(intent);
+        	Uri newGameUri = newGame(gameDesc.getText().toString(), players);
+        	intent.setData(newGameUri);  //set data uri for the new game
+			startActivity(intent);
     	    return true;
     	case R.id.add_player:
     		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-    		alert.setTitle("New Player");
+    		alert.setTitle(R.string.new_player);
     		final EditText input = new EditText(this);
     		alert.setView(input);
-    		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+    		alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
     			public void onClick(DialogInterface dialog, int whichButton) {
     				String value = input.getText().toString().trim();
     				addPlayer(value);
     				
     			}
     		});
-    		alert.setNegativeButton("Cancel",
+    		alert.setNegativeButton(R.string.cancel,
     				new DialogInterface.OnClickListener() {
     					public void onClick(DialogInterface dialog, int whichButton) {
     						dialog.cancel();
@@ -111,8 +114,20 @@ public class NewGame extends Activity {
     	}
 	}
     
-	public void addPlayer(String name) {
-		 dbh.newPlayer(name);
-		 adapter.notifyDataSetChanged();
+	private Uri addPlayer(String name) {
+		ContentValues content = new ContentValues();
+		content.put(Player.COLUMN_NAME_NAME, name);
+		Uri result = getContentResolver().insert(Player.CONTENT_URI, content);
+		Log.d(DEBUG_TAG, "Add player result Uri: "+result.toString());
+		return result;
+	}
+	
+	private Uri newGame(String desc, long[] player_ids) {
+		ContentValues content = new ContentValues();
+		content.put(Game.COLUMN_NAME_DESCRIPTION, desc);
+		content.put(Game.COLUMN_NAME_PLAYER_IDS, ScoresProvider.serializePlayers(player_ids));
+		Uri result = getContentResolver().insert(Game.CONTENT_URI, content);
+		Log.d(DEBUG_TAG, "New Game result Uri: "+result.toString());
+		return result;
 	}
 }

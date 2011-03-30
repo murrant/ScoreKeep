@@ -13,6 +13,7 @@
         </activity>
         <activity android:name="NewGame"></activity>
         <activity android:name="ScoreCard"></activity>
-        <provider android:name=".provider.ScoresProvider" android:authorities="org.homelinux.murray.scoresprovider"></provider>
+        <activity android:name="PlayerList"></activity><provider android:name=".provider.ScoresProvider" android:authorities="org.homelinux.murray.scoresprovider"></provider>
+        
     </application>
 </manifest>

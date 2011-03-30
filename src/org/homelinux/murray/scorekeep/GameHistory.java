@@ -2,15 +2,12 @@ package org.homelinux.murray.scorekeep;
 
 import org.homelinux.murray.scorekeep.R;
 import org.homelinux.murray.scorekeep.provider.Game;
-import org.homelinux.murray.scorekeep.provider.ScoresProvider;
-
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.widget.Toast;
@@ -32,13 +29,9 @@ public class GameHistory extends ListActivity {
             setListAdapter(gla);
         }
     }
-  /*  
-    @Override
-    public void onDestroy() {
-    	this.onDestroy();
-    	dbh.closeDb();
-    }
-    */
+ 
+    
+    
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater inflater = getMenuInflater();
@@ -51,17 +44,18 @@ public class GameHistory extends ListActivity {
     	// Handle item selection
     	switch (item.getItemId()) {
     	case R.id.new_game:
-        	Intent intent = new Intent(GameHistory.this, NewGame.class);
-			GameHistory.this.startActivity(intent);
+    		startActivity(new Intent(this, NewGame.class));
     	    return true;
     	case R.id.view_players:
-			Toast.makeText(getApplicationContext(), "No Players",
-					Toast.LENGTH_SHORT).show();
+    		startActivity(new Intent(this, PlayerList.class));
         	return true;
     	case R.id.clear_history:
-			Toast.makeText(getApplicationContext(), "History Destroyed!",
-					Toast.LENGTH_SHORT).show();
-        	return true;
+    		int rows = getContentResolver().delete(Game.CONTENT_URI, null, null);
+    		if(rows>0) {
+    			Toast.makeText(getApplicationContext(), rows+" games deleted!", Toast.LENGTH_SHORT).show();
+    			return true;
+    		}
+    		return false;
     	default:
         	return super.onOptionsItemSelected(item);
     	}
