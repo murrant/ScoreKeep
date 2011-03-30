@@ -1,28 +1,36 @@
 package org.homelinux.murray.scorekeep;
 
 import org.homelinux.murray.scorekeep.R;
+import org.homelinux.murray.scorekeep.provider.Game;
+import org.homelinux.murray.scorekeep.provider.ScoresProvider;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.widget.Toast;
 
-public class GamesList extends ListActivity {
-	DbHelper dbh;
-
+public class GameHistory extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.games_list);
-        dbh = new DbHelper(this);
-        Cursor cursor = dbh.getGamesList();
-        startManagingCursor(cursor);
-        GamesListAdapter gla = new GamesListAdapter(this,cursor);
-        setListAdapter(gla);
+        
+        Cursor cursor = managedQuery(Game.CONTENT_URI, null, null, null, null);
+
+        Log.d("ScoreKeep:GameHistory", "Game Uri is: "+Game.CONTENT_URI);
+        if(cursor == null) {
+            Log.d("ScoreKeep:GameHistory", "Cursor is null");
+        } else {
+        	Log.d("ScoreKeep:GameHistory", "cursor.getCount()=" + cursor.getCount());
+            GamesListAdapter gla = new GamesListAdapter(this,cursor);
+            setListAdapter(gla);
+        }
     }
   /*  
     @Override
@@ -43,8 +51,8 @@ public class GamesList extends ListActivity {
     	// Handle item selection
     	switch (item.getItemId()) {
     	case R.id.new_game:
-        	Intent intent = new Intent(GamesList.this, NewGame.class);
-			GamesList.this.startActivity(intent);
+        	Intent intent = new Intent(GameHistory.this, NewGame.class);
+			GameHistory.this.startActivity(intent);
     	    return true;
     	case R.id.view_players:
 			Toast.makeText(getApplicationContext(), "No Players",

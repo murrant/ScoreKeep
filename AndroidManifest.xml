@@ -5,16 +5,14 @@
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="11" />
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        
-        <activity android:name="GamesList" android:label="@string/app_name">
+        <activity android:name="GameHistory" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
-        
         <activity android:name="NewGame"></activity>
         <activity android:name="ScoreCard"></activity>
-
+        <provider android:name=".provider.ScoresProvider" android:authorities="org.homelinux.murray.scoresprovider"></provider>
     </application>
 </manifest>

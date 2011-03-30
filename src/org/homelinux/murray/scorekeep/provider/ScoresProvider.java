@@ -30,7 +30,8 @@ import android.util.Log;
  */
 public final class ScoresProvider extends ContentProvider {
 	public static final String AUTHORITY = "org.homelinux.murray.scoresprovider";
-	public static final Uri CONTENT_URI= Uri.parse("content://"+AUTHORITY);
+	protected static final String SCHEME = "content://";
+	public static final Uri CONTENT_URI= Uri.parse(SCHEME+AUTHORITY);
 
 	private static final String DB_NAME = "games.db";
 	private static final int DB_VERSION = 2;
@@ -52,12 +53,12 @@ public final class ScoresProvider extends ContentProvider {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
         // Add Uri patterns
-        sUriMatcher.addURI(Game.AUTHORITY, Game.PATH_GAME, GAME);
-        sUriMatcher.addURI(Game.AUTHORITY, Game.PATH_GAME_ID+"#", GAME_ID);
-        sUriMatcher.addURI(Player.AUTHORITY, Player.PATH_PLAYER, PLAYER);
-        sUriMatcher.addURI(Player.AUTHORITY, Player.PATH_PLAYER_ID+"#", PLAYER_ID);
-        sUriMatcher.addURI(Score.AUTHORITY, Score.PATH_SCORE, SCORE);
-        sUriMatcher.addURI(Score.AUTHORITY, Score.PATH_SCORE_ID+"#", SCORE_ID);
+        sUriMatcher.addURI(AUTHORITY, Game.PATH_GAME, GAME);
+        sUriMatcher.addURI(AUTHORITY, Game.PATH_GAME_ID+"#", GAME_ID);
+        sUriMatcher.addURI(AUTHORITY, Player.PATH_PLAYER, PLAYER);
+        sUriMatcher.addURI(AUTHORITY, Player.PATH_PLAYER_ID+"#", PLAYER_ID);
+        sUriMatcher.addURI(AUTHORITY, Score.PATH_SCORE, SCORE);
+        sUriMatcher.addURI(AUTHORITY, Score.PATH_SCORE_ID+"#", SCORE_ID);
 
     }
     
@@ -213,6 +214,8 @@ public final class ScoresProvider extends ContentProvider {
 	 */
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+			Log.d("ScoresProvider", "Incoming Uri:" + uri.toString() + " Match " + sUriMatcher.match(uri));
+			
 	       // Constructs a new query builder and sets its table name
 	       SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 	       String id = null;
@@ -259,7 +262,8 @@ public final class ScoresProvider extends ContentProvider {
 	        * selected, then the Cursor object is empty, and Cursor.getCount() returns 0.
 	        */
 	       Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, orderBy);
-
+	       Log.d("ScoresProvider", "Query result is: "+c);
+	       
 	       // Tells the Cursor what URI to watch, so it knows when its source data changes
 	       c.setNotificationUri(getContext().getContentResolver(), uri);
 	       return c;
@@ -351,7 +355,7 @@ public final class ScoresProvider extends ContentProvider {
 			sb.append(num);
 			sb.append(DELIMITER);
 		}
-		return sb.substring(0, -1); // don't return the last delimiter
+		return sb.substring(0, sb.length()-1); // don't return the last delimiter
 	}
 	
 	// ghetto deserialize

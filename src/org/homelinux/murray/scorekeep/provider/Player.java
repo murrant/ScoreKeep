@@ -4,8 +4,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class Player implements BaseColumns {
-	public static final String AUTHORITY = "org.homelinux.murray.scoresprovider";
-
 	//static only
 	private Player() {}
 	
@@ -19,41 +17,36 @@ public class Player implements BaseColumns {
      */
 
     /**
-     * The scheme part for this provider's URI
-     */
-    private static final String SCHEME = "content://";
-
-    /**
      * Path parts for the URIs
      */
 
     /**
      * Path part for the Scores URI
      */
-    protected static final String PATH_PLAYER = "/game/player";
+    protected static final String PATH_PLAYER = "game/player";
 
     /**
      * Path part for the Scores ID URI
      */
-    protected static final String PATH_PLAYER_ID = "/game/player/";
+    protected static final String PATH_PLAYER_ID = "game/player/";
 
     /**
      * The content:// style URL for this table
      */
-    public static final Uri CONTENT_URI =  Uri.parse(SCHEME + AUTHORITY + PATH_PLAYER);
+    public static final Uri CONTENT_URI =  Uri.parse(ScoresProvider.SCHEME + ScoresProvider.AUTHORITY + "/" + PATH_PLAYER);
 
     /**
      * The content URI base for a single player. Callers must
      * append a numeric note id to this Uri to retrieve a note
      */
-    public static final Uri CONTENT_ID_URI_BASE = Uri.parse(SCHEME + AUTHORITY + PATH_PLAYER_ID);
+    public static final Uri CONTENT_ID_URI_BASE = Uri.parse(ScoresProvider.SCHEME + ScoresProvider.AUTHORITY + "/" + PATH_PLAYER_ID);
 
     /**
      * The content URI match pattern for a single player, specified by its ID. Use this to match
      * incoming URIs or to construct an Intent.
      */
     public static final Uri CONTENT_ID_URI_PATTERN
-        = Uri.parse(SCHEME + AUTHORITY + PATH_PLAYER_ID + "#");
+        = Uri.parse(ScoresProvider.SCHEME + ScoresProvider.AUTHORITY + "/" + PATH_PLAYER_ID + "#");
     
     /**
      * 0-relative position of the ID segment in the path part of a ID URI
