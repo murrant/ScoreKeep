@@ -45,6 +45,7 @@ public final class ScoresProvider extends ContentProvider {
 	private static final int SCORE_ID = 6;
 	
 	private static final UriMatcher sUriMatcher;
+	private static final String DEBUG_TAG = "ScoresProvider";
     static {
         /*
          * Creates and initializes the URI matcher
@@ -189,7 +190,7 @@ public final class ScoresProvider extends ContentProvider {
 				values.put(Score.COLUMN_NAME_CREATE_DATE, now);	
 			}
 			SQLiteDatabase sdb = dbh.getWritableDatabase();
-			insertedRowId = sdb.insert(Player.TABLE_NAME, null, values);
+			insertedRowId = sdb.insert(Score.TABLE_NAME, null, values);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
@@ -262,7 +263,7 @@ public final class ScoresProvider extends ContentProvider {
 	        * selected, then the Cursor object is empty, and Cursor.getCount() returns 0.
 	        */
 	       Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, orderBy);
-	       Log.d("ScoresProvider", "Query result is: "+c);
+	       Log.d(DEBUG_TAG, "Query result is: "+c);
 	       
 	       // Tells the Cursor what URI to watch, so it knows when its source data changes
 	       c.setNotificationUri(getContext().getContentResolver(), uri);

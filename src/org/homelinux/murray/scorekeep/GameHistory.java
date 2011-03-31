@@ -54,15 +54,19 @@ public class GameHistory extends ListActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Log.d(DEBUG_TAG, "Menu Item ID: "+item.getItemId());
+		Log.d(DEBUG_TAG, "New Game ID: "+R.id.glmenu_new_game);
+		Log.d(DEBUG_TAG, "View Players ID: "+R.id.glmenu_view_players);
+		Log.d(DEBUG_TAG, "Clear History ID: "+R.id.glmenu_clear_history);		
 		// Handle item selection
 		switch (item.getItemId()) {
-		case R.id.new_game:
+		case R.id.glmenu_new_game:
 			startActivity(new Intent(this, NewGame.class));
 			return true;
-		case R.id.view_players:
+		case R.id.glmenu_view_players:
 			startActivity(new Intent(this, PlayerList.class));
 			return true;
-		case R.id.clear_history:
+		case R.id.glmenu_clear_history:
 			int rows = getContentResolver().delete(Game.CONTENT_URI, null, null);
 			if(rows>0) {
 				Toast.makeText(getApplicationContext(), rows+" games deleted!", Toast.LENGTH_SHORT).show();
