@@ -3,13 +3,17 @@ package org.homelinux.murray.scorekeep;
 import org.homelinux.murray.scorekeep.R;
 import org.homelinux.murray.scorekeep.provider.Game;
 import android.app.ListActivity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.view.View;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 public class GameHistory extends ListActivity {
@@ -29,6 +33,16 @@ public class GameHistory extends ListActivity {
 		
 		GamesListAdapter gla = new GamesListAdapter(this,cursor);
 		setListAdapter(gla);
+		
+		// Open games on click
+		getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {  
+			public void onItemClick(AdapterView<?> listView, View item, int position, long id) {
+				Intent intent = new Intent(listView.getContext(), ScoreCard.class);
+				Uri gameUri = ContentUris.withAppendedId(Game.CONTENT_ID_URI_BASE, id);
+				intent.setData(gameUri);  //set data uri for the new game
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
@@ -59,4 +73,6 @@ public class GameHistory extends ListActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	
 }
