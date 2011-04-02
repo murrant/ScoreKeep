@@ -25,7 +25,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 /**
- * @author Tony Murray
+ * @author Tony Murray <tonymurray@gmail.com>
  *
  */
 public final class ScoresProvider extends ContentProvider {
@@ -183,7 +183,7 @@ public final class ScoresProvider extends ContentProvider {
 			if(!values.containsKey(Score.COLUMN_NAME_PLAYER_ID)) {
 				throw new IllegalArgumentException("Key "+Score.COLUMN_NAME_PLAYER_ID+" required in ContentValues for URI: "+uri);
 			}
-			if( !(values.containsKey(Score.COLUMN_NAME_SCORE) && values.containsKey(Score.COLUMN_NAME_CONTEXT)) ) {
+			if( !(values.containsKey(Score.COLUMN_NAME_SCORE) || values.containsKey(Score.COLUMN_NAME_CONTEXT)) ) {
 				throw new IllegalArgumentException("Either key "+Score.COLUMN_NAME_SCORE+
 						" or "+Score.COLUMN_NAME_CONTEXT+" are required in ContentValues for URI: "+uri);
 			}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Score Keep</string>
-    <string name="game_description">Game:</string>
+    <string name="game_description">Game: </string>
     <string name="new_game">New Game</string>
     <string name="new_game_short">New</string>
     <string name="view_players">View/Edit Players</string>

@@ -22,12 +22,14 @@ public class GameHistory extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d(DEBUG_TAG, "Games_list:id"+R.layout.games_list);
 		setContentView(R.layout.games_list);
 
 		/* Android 3.0...
 		CursorLoader loader = new CursorLoader(this, Game.CONTENT_URI, null, null, null, null);
 		Cursor cursor = loader.loadInBackground();
 		*/
+		
 		Cursor cursor = managedQuery(Game.CONTENT_URI, null, null, null, null);
 		Log.d(DEBUG_TAG, "Cursor retrieved:"+cursor);
 		
@@ -43,6 +45,7 @@ public class GameHistory extends ListActivity {
 				startActivity(intent);
 			}
 		});
+		
 	}
 
 	@Override
