@@ -4,18 +4,14 @@ import java.util.ArrayList;
 import org.homelinux.murray.scorekeep.provider.Player;
 import org.homelinux.murray.scorekeep.provider.Score;
 
-import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 
 public final class PlayerData implements OnClickListener {
 	private static final String DEBUG_TAG = "ScoreKeep:PlayerData";
@@ -77,26 +73,23 @@ public final class PlayerData implements OnClickListener {
 	}
 
 	public long addScore(long score) {
-		return addScoreAndContext(Long.toString(score), null);
+		return addScoreAndContext(score, null);
 	}
 	
 	public void addContext(String context) {
 		addScoreAndContext(null,context);
 	}
 	
-	public long addScoreAndContext(String score, String context) {
+	public long addScoreAndContext(Long score, String context) {
 		// insert to the DB
 		ContentValues values = new ContentValues();
 		values.put(Score.COLUMN_NAME_GAME_ID, game.id);
 		values.put(Score.COLUMN_NAME_PLAYER_ID, id);
-		Long scoreObject = null;
 		if(score==null&&context==null) {
 			Log.d(DEBUG_TAG, "Score and Context are null, WTH?");
 		}
-		if(score != null&&!score.isEmpty()) {
-			long ls = evaluate(score);
-			scoreObject = new Long(ls);
-			values.put(Score.COLUMN_NAME_SCORE, ls);
+		if(score != null) {
+			values.put(Score.COLUMN_NAME_SCORE, score.longValue());
 		}
 		if(context != null&&!context.isEmpty()) {
 			values.put(Score.COLUMN_NAME_CONTEXT, context);
@@ -107,9 +100,9 @@ public final class PlayerData implements OnClickListener {
 		
 		Uri uri = appContext.getContentResolver().insert(Score.CONTENT_URI, values);
 		// add to history
-		scores.add(new ScoreData(ContentUris.parseId(uri), scoreObject, context, now));
+		scores.add(new ScoreData(ContentUris.parseId(uri), score, context, now));
 		// add to total
-		total += total;
+		total += score;
 		appContext.getContentResolver().notifyChange(uri, null);
 		return total;
 	}
@@ -138,33 +131,11 @@ public final class PlayerData implements OnClickListener {
 		int vid = v.getId();
 		switch(vid) {
 		case R.id.badge_add:
-			final AlertDialog.Builder addScoreDialog = new AlertDialog.Builder(v.getContext());
-			addScoreDialog.setTitle("Enter Score");
-			LinearLayout ll = new LinearLayout(v.getContext());
-			ll.setOrientation(LinearLayout.VERTICAL);
-			final EditText scoreInput = new EditText(v.getContext());
-			scoreInput.setHint("Score");
-			ll.addView(scoreInput);
-			final EditText contextText = new EditText(v.getContext());
-			contextText.setHint("Context");
-			ll.addView(contextText);
-			addScoreDialog.setView(ll);
-			addScoreDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					String value = scoreInput.getText().toString().trim();
-					addScoreAndContext(value, contextText.getText().toString());
-				}
-			});
-			addScoreDialog.setNegativeButton(R.string.cancel,
-					new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					dialog.cancel();
-				}
-			});
-			addScoreDialog.show();
+			(new AddScoreDialog(v.getContext(), this)).show();
 			return;
 		case R.id.badge_history:
-			System.out.println("Score History button clicked.");
+			Log.d(DEBUG_TAG, "Score History button clicked.");
+			
 		}
 	}
 }

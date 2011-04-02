@@ -22,4 +22,9 @@
     <string name="cancel">Cancel</string>
     <string name="no_players_selected">You must select at least one player to start a game.</string>
     <string name="add_score">Add Score</string>
+    <string name="plus_5">+5</string>
+    <string name="minus_5">-5</string>
+    <string name="minus_1">-1</string>
+    <string name="plus_1">+1</string>
+    <string name="number_parse_failed">Failed to interpret a number.</string>
 </resources>
