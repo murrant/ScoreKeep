@@ -37,7 +37,7 @@ public class Score implements BaseColumns {
 
     /**
      * The content URI base for a single score. Callers must
-     * append a numeric note id to this Uri to retrieve a note
+     * append a numeric id to this Uri to retrieve a score
      */
     public static final Uri CONTENT_ID_URI_BASE = Uri.parse(ScoresProvider.SCHEME + ScoresProvider.AUTHORITY + "/" + PATH_SCORE_ID);
 
@@ -81,6 +81,12 @@ public class Score implements BaseColumns {
      * <P>Type: INTEGER (long of the score, may be negative)</P>
      */
 	public static final String COLUMN_NAME_SCORE = "score";
+	
+    /**
+     * Column name for the score context
+     * <P>Type: TEXT</P>
+     */
+	public static final String COLUMN_NAME_CONTEXT = "context";
     
     /*
      * MIME type definitions
@@ -99,5 +105,5 @@ public class Score implements BaseColumns {
     /**
      * The default sort order for this table, oldest scores on top
      */
-    public static final String DEFAULT_SORT_ORDER = COLUMN_NAME_CREATE_DATE+" DESC";
+    public static final String DEFAULT_SORT_ORDER = COLUMN_NAME_CREATE_DATE+" ASC";
 }

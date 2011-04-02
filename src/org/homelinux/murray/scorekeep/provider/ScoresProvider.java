@@ -34,7 +34,7 @@ public final class ScoresProvider extends ContentProvider {
 	public static final Uri CONTENT_URI= Uri.parse(SCHEME+AUTHORITY);
 
 	private static final String DB_NAME = "games.db";
-	private static final int DB_VERSION = 2;
+	private static final int DB_VERSION = 3;
 	
 	// Constants for the Uri Matcher
 	private static final int GAME = 1;
@@ -183,8 +183,9 @@ public final class ScoresProvider extends ContentProvider {
 			if(!values.containsKey(Score.COLUMN_NAME_PLAYER_ID)) {
 				throw new IllegalArgumentException("Key "+Score.COLUMN_NAME_PLAYER_ID+" required in ContentValues for URI: "+uri);
 			}
-			if(!values.containsKey(Score.COLUMN_NAME_SCORE)) {
-				throw new IllegalArgumentException("Key "+Score.COLUMN_NAME_SCORE+" required in ContentValues for URI: "+uri);
+			if( !(values.containsKey(Score.COLUMN_NAME_SCORE) && values.containsKey(Score.COLUMN_NAME_CONTEXT)) ) {
+				throw new IllegalArgumentException("Either key "+Score.COLUMN_NAME_SCORE+
+						" or "+Score.COLUMN_NAME_CONTEXT+" are required in ContentValues for URI: "+uri);
 			}
 			if(!values.containsKey(Score.COLUMN_NAME_CREATE_DATE)) {
 				values.put(Score.COLUMN_NAME_CREATE_DATE, now);	
@@ -384,11 +385,11 @@ public final class ScoresProvider extends ContentProvider {
 					Game.COLUMN_NAME_MODIFICATION_DATE + " integer not null)");
 			db.execSQL("create table " + Player.TABLE_NAME + " (" + 
 					Player._ID + " integer primary key autoincrement, " + Player.COLUMN_NAME_NAME + " text not null, " + 
-					Player.COLUMN_NAME_COLOR + " text not null)");
+					Player.COLUMN_NAME_COLOR + " integer not null)");
 			db.execSQL("create table " + Score.TABLE_NAME + " (" + 
 					Score._ID + " integer primary key autoincrement, " + Score.COLUMN_NAME_GAME_ID + " integer not null, " +
-					Score.COLUMN_NAME_PLAYER_ID + " integer not null, " + Score.COLUMN_NAME_SCORE + " integer not null, " +
-					Score.COLUMN_NAME_CREATE_DATE + " integer not null)");
+					Score.COLUMN_NAME_PLAYER_ID + " integer not null, " + Score.COLUMN_NAME_SCORE + " integer, " +
+					Score.COLUMN_NAME_CONTEXT + " text, " + Score.COLUMN_NAME_CREATE_DATE + " integer not null)");
 		}
 
 		@Override
