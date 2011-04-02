@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 public final class PlayerData implements OnClickListener {
 	private static final String DEBUG_TAG = "ScoreKeep:PlayerData";
@@ -53,7 +54,7 @@ public final class PlayerData implements OnClickListener {
 		total = 0; //TODO starting score
 		long id, created;
 		Long score;
-		String scoreContext;
+		String scoreContext = null;
 		while(sc.moveToNext()) {
 			id = sc.getLong(idColumn);
 			if(sc.isNull(scoreColumn)) {
@@ -62,7 +63,10 @@ public final class PlayerData implements OnClickListener {
 				score = new Long(sc.getLong(scoreColumn));
 			}
 			
-			scoreContext = sc.getString(contextColumn);
+			if(!sc.isNull(contextColumn)) {
+				scoreContext = sc.getString(contextColumn);
+				currentContext = scoreContext;
+			}
 
 			created = sc.getLong(createdColumn);
 			scores.add(new ScoreData(id, score, scoreContext, created));
@@ -136,12 +140,19 @@ public final class PlayerData implements OnClickListener {
 		case R.id.badge_add:
 			final AlertDialog.Builder addScoreDialog = new AlertDialog.Builder(v.getContext());
 			addScoreDialog.setTitle("Enter Score");
-			final EditText input = new EditText(v.getContext());
-			addScoreDialog.setView(input);
+			LinearLayout ll = new LinearLayout(v.getContext());
+			ll.setOrientation(LinearLayout.VERTICAL);
+			final EditText scoreInput = new EditText(v.getContext());
+			scoreInput.setHint("Score");
+			ll.addView(scoreInput);
+			final EditText contextText = new EditText(v.getContext());
+			contextText.setHint("Context");
+			ll.addView(contextText);
+			addScoreDialog.setView(ll);
 			addScoreDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					String value = input.getText().toString().trim();
-					addScore(evaluate(value));
+					String value = scoreInput.getText().toString().trim();
+					addScoreAndContext(value, contextText.getText().toString());
 				}
 			});
 			addScoreDialog.setNegativeButton(R.string.cancel,
