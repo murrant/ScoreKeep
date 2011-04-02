@@ -8,21 +8,19 @@ import org.homelinux.murray.scorekeep.provider.ScoresProvider;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DataSetObservable;
-import android.database.DataSetObserver;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-public final class GameData implements ListAdapter {
+public final class GameData extends BaseAdapter implements ListAdapter {
 	final long id;
 	final String description;
 	private ArrayList<PlayerData> players = new ArrayList<PlayerData>();
-	private final DataSetObservable mDataSetObservable = new DataSetObservable();
 	private final LayoutInflater mInflater;
 
 	/**
@@ -106,23 +104,6 @@ public final class GameData implements ListAdapter {
 
 	public boolean isEmpty() {
 		return players.isEmpty();
-	}
-	
-    /**
-     * Notifies the attached View that the underlying data has been changed
-     * and it should refresh itself.
-     */
-    public void notifyDataSetChanged() {
-    	mDataSetObservable.notifyInvalidated();
-        mDataSetObservable.notifyChanged();
-    }
-
-	public void registerDataSetObserver(DataSetObserver observer) {
-		mDataSetObservable.registerObserver(observer);
-	}
-
-	public void unregisterDataSetObserver(DataSetObserver observer) {
-		mDataSetObservable.unregisterObserver(observer);
 	}
 	
     public static class ViewHolder {

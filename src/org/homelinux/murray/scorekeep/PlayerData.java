@@ -61,6 +61,7 @@ public final class PlayerData implements OnClickListener {
 				score = null;
 			} else {
 				score = new Long(sc.getLong(scoreColumn));
+				total += score;
 			}
 			
 			if(!sc.isNull(contextColumn)) {
@@ -70,7 +71,6 @@ public final class PlayerData implements OnClickListener {
 
 			created = sc.getLong(createdColumn);
 			scores.add(new ScoreData(id, score, scoreContext, created));
-			total += score;
 		}
 		
 
@@ -110,7 +110,7 @@ public final class PlayerData implements OnClickListener {
 		scores.add(new ScoreData(ContentUris.parseId(uri), scoreObject, context, now));
 		// add to total
 		total += total;
-		game.notifyDataSetChanged();
+		appContext.getContentResolver().notifyChange(uri, null);
 		return total;
 	}
 	
