@@ -86,5 +86,5 @@ public class Player implements BaseColumns {
     /**
      * The default sort order for this table, alphabetically
      */
-    public static final String DEFAULT_SORT_ORDER = COLUMN_NAME_NAME+" DESC";
+    public static final String DEFAULT_SORT_ORDER = COLUMN_NAME_NAME+" ASC";
 }
