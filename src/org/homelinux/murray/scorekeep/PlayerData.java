@@ -93,12 +93,12 @@ public final class PlayerData implements OnClickListener {
 		if(score==null&&context==null) {
 			Log.d(DEBUG_TAG, "Score and Context are null, WTH?");
 		}
-		if(score != null) {
+		if(score != null&&!score.isEmpty()) {
 			long ls = evaluate(score);
 			scoreObject = new Long(ls);
 			values.put(Score.COLUMN_NAME_SCORE, ls);
 		}
-		if(context != null) {
+		if(context != null&&!context.isEmpty()) {
 			values.put(Score.COLUMN_NAME_CONTEXT, context);
 			currentContext = context;
 		}
