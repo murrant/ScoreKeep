@@ -10,7 +10,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.database.DataSetObservable;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
