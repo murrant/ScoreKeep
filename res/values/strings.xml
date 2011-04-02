@@ -16,7 +16,7 @@
     <string name="clear_history_short">Clear</string>
     <string name="no_players">No players, Press Menu-&gt;New to create player.</string>
     <string name="game">Game</string>
-    <string name="no_games">No games, press Menu-&gt;New to create game.</string>
+    <string name="no_games">No games.\n\nPress Menu-&gt;New to create game.</string>
     <string name="new_player">New Player</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
