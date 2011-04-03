@@ -14,10 +14,6 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.SimpleCursorAdapter;
-import android.widget.WrapperListAdapter;
 
 public final class PlayerData implements View.OnClickListener, DialogInterface.OnClickListener {
 	private static final String DEBUG_TAG = "ScoreKeep:PlayerData";
@@ -91,11 +87,13 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 		ContentValues values = new ContentValues();
 		values.put(Score.COLUMN_NAME_GAME_ID, game.id);
 		values.put(Score.COLUMN_NAME_PLAYER_ID, id);
-		if(score==null&&context==null) {
+		if(score==null&&(context==null||context.isEmpty())) {
 			Log.d(DEBUG_TAG, "Score and Context are null, WTH?");
+			return total;
 		}
 		if(score != null) {
 			values.put(Score.COLUMN_NAME_SCORE, score.longValue());
+			total += score;
 		}
 		if(context != null&&!context.isEmpty()) {
 			values.put(Score.COLUMN_NAME_CONTEXT, context);
@@ -108,7 +106,7 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 		// add to history
 		scores.add(new ScoreData(ContentUris.parseId(uri), score, context, now));
 		// add to total
-		total += score;
+
 		appContext.getContentResolver().notifyChange(uri, null);
 		return total;
 	}

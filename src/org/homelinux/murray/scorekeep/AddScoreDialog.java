@@ -104,7 +104,7 @@ public class AddScoreDialog extends Dialog implements View.OnClickListener,TextV
 	private void finish() {
 		String startExp = scoreEdit.getText().toString();
 		Long addScore = Long.getLong(startExp);
-		if(addScore == null) {
+		if(startExp != null && !startExp.isEmpty() && addScore == null) {
 			try {
 				addScore = Math.round(mathEval.evaluate(startExp));
 			} catch(Exception e) {
@@ -113,7 +113,6 @@ public class AddScoreDialog extends Dialog implements View.OnClickListener,TextV
 				return; //failed, we can't add a score.
 			}
 		}
-
 		playerData.addScoreAndContext(addScore, contextEdit.getText().toString());
 		dismiss();
 	}
