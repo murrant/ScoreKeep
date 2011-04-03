@@ -84,16 +84,21 @@ public final class ScoresProvider extends ContentProvider {
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		String id = null;
 		String table;
+		SQLiteDatabase db = dbh.getWritableDatabase();
 		switch(sUriMatcher.match(uri)) {
 		case GAME_ID:
 			id = uri.getPathSegments().get(Game.ID_PATH_POSITION);
+			db.delete(Score.TABLE_NAME, Score.COLUMN_NAME_GAME_ID+"="+id, null);
 		case GAME:
 			table = Game.TABLE_NAME;
+			if(id==null) db.delete(Score.TABLE_NAME, null, null);
 			break;
 		case PLAYER_ID:
 			id = uri.getPathSegments().get(Player.ID_PATH_POSITION);
+			db.delete(Score.TABLE_NAME, Score.COLUMN_NAME_PLAYER_ID+"="+id, null);
 		case PLAYER:
 			table = Player.TABLE_NAME;
+			if(id==null) db.delete(Score.TABLE_NAME, null, null);
 			break;
 		case SCORE_ID:
 			id = uri.getPathSegments().get(Score.ID_PATH_POSITION);
@@ -113,7 +118,7 @@ public final class ScoresProvider extends ContentProvider {
 			finalSelection = selection;
 		}
 		// Opens the database object in "write" mode.
-		SQLiteDatabase db = dbh.getWritableDatabase();
+
 
 		int count = db.delete(table, finalSelection, selectionArgs);
 
