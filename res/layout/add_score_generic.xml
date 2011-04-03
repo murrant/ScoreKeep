@@ -6,11 +6,11 @@
     <LinearLayout android:id="@+id/linearLayout1" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
         <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/minus_5" android:id="@+id/minus_5"></Button>
         <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/minus_1" android:id="@+id/minus_1"></Button>
-        <EditText android:hint="Score" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1" android:id="@+id/score_edit"></EditText>
+        <EditText android:hint="Score" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1" android:id="@+id/score_edit" android:inputType="number|numberSigned"></EditText>
         <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/plus_1" android:id="@+id/plus_1"></Button>
         <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/plus_5" android:id="@+id/plus_5"></Button>
     </LinearLayout>
-    <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/context_edit" android:hint="Context"></EditText>
+    <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/context_edit" android:hint="Context" android:inputType="textCapSentences"></EditText>
     <RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="match_parent" android:layout_height="wrap_content">
         <Button android:layout_alignParentLeft="true" android:id="@+id/ok" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@android:string/ok"></Button>
         <Button android:layout_alignParentRight="true" android:id="@+id/cancel" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@android:string/cancel"></Button>
