@@ -4,16 +4,22 @@ import java.util.ArrayList;
 import org.homelinux.murray.scorekeep.provider.Player;
 import org.homelinux.murray.scorekeep.provider.Score;
 
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.SimpleCursorAdapter;
+import android.widget.WrapperListAdapter;
 
-public final class PlayerData implements OnClickListener {
+public final class PlayerData implements View.OnClickListener, DialogInterface.OnClickListener {
 	private static final String DEBUG_TAG = "ScoreKeep:PlayerData";
 	final long id;
 	final String name;
@@ -107,18 +113,6 @@ public final class PlayerData implements OnClickListener {
 		return total;
 	}
 	
-	/**
-	 * Evaluates the string as a math formula
-	 * 
-	 * @param math Math formula to evaluate
-	 * @return returns result
-	 */
-	private static long evaluate(String math) {
-		MathEval me = new MathEval();
-		double result = me.evaluate(math);
-		return Math.round(result);
-	}
-	
 	public long getTotal() {
 		return total;
 	}
@@ -134,8 +128,21 @@ public final class PlayerData implements OnClickListener {
 			(new AddScoreDialog(v.getContext(), this)).show();
 			return;
 		case R.id.badge_history:
+			Context context = v.getContext();
 			Log.d(DEBUG_TAG, "Score History button clicked.");
+			final AlertDialog.Builder alert = new AlertDialog.Builder(context);
+			
+			HistoryAdapter ha = new HistoryAdapter(context, scores);
+			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			alert.setCustomTitle(inflater.inflate(R.layout.score_history_item, null));
+			alert.setAdapter(ha, this);
+			alert.show();
 			
 		}
+	}
+
+	public void onClick(DialogInterface dialog, int which) {
+		// TODO Auto-generated method stub, from history list
+		
 	}
 }

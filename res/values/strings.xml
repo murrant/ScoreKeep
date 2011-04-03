@@ -27,4 +27,6 @@
     <string name="minus_1">-1</string>
     <string name="plus_1">+1</string>
     <string name="number_parse_failed">Failed to interpret a number.</string>
+    <string name="score">Score</string>
+    <string name="context">Context</string>
 </resources>
