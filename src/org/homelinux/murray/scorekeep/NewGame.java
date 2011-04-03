@@ -8,6 +8,7 @@ import org.homelinux.murray.scorekeep.provider.ScoresProvider;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -70,6 +71,7 @@ public class NewGame extends Activity {
 			final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			alert.setTitle(R.string.new_player);
 			final EditText input = new EditText(this);
+			input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 			alert.setView(input);
 			alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
