@@ -23,7 +23,7 @@ public class AddScoreDialog extends Dialog implements View.OnClickListener,TextV
 		this.playerData = playerData;
 		//TODO support alternate dialogs
 		setContentView(R.layout.add_score_generic);
-		setTitle(parent.getText(R.string.add_score));
+		setTitle(playerData.name+" - "+parent.getText(R.string.add_score));
 		
 		//generic elements
 		scoreEdit = (TextView) findViewById(R.id.score_edit);
