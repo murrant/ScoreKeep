@@ -1,11 +1,17 @@
 package org.homelinux.murray.scorekeep;
 
+import org.homelinux.murray.scorekeep.provider.Game;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class ScoreCard extends Activity {
@@ -33,5 +39,31 @@ public class ScoreCard extends Activity {
 		desc.setText(game.description);
 		
 		grid.setAdapter(game);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.score_card_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {		
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.new_game:
+			startActivity(new Intent(this, NewGame.class));
+			this.finish();
+			return true;
+		case R.id.change_players:
+			//TODO modify players
+			return false;
+		case R.id.reset_scores:
+			game.resetScores();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 }

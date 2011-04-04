@@ -53,7 +53,7 @@ public class GamesListAdapter extends CursorAdapter {
 
 	private void setModifiedDate(TextView item, Cursor cursor) {
 		Date playedDate = new Date(cursor.getLong(cursor.getColumnIndex(Game.COLUMN_NAME_MODIFICATION_DATE)));
-		String playedString = DateFormat.getDateTimeInstance().format(playedDate);
-		item.setText(playedString);		
+		DateFormat dt = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
+		item.setText(dt.format(playedDate));		
 	}
 }

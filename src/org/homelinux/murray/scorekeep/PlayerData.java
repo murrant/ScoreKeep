@@ -5,6 +5,7 @@ import org.homelinux.murray.scorekeep.provider.Player;
 import org.homelinux.murray.scorekeep.provider.Score;
 
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -22,7 +23,7 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 	final long color;
 	final GameData game;
 	private long total;
-	private String currentContext = null;
+	private String scoreContext = null;
 	private final ArrayList<ScoreData> scores = new ArrayList<ScoreData>();
 	private final Context appContext;
 	
@@ -49,10 +50,10 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 		int idColumn = sc.getColumnIndex(Score._ID);
 		int contextColumn = sc.getColumnIndex(Score.COLUMN_NAME_CONTEXT);
 		int createdColumn = sc.getColumnIndex(Score.COLUMN_NAME_CREATE_DATE);
-		total = 0; //TODO starting score
+		total = game.startingScore;
 		long id, created;
 		Long score;
-		String scoreContext = null;
+		String tmpContext = null;
 		while(sc.moveToNext()) {
 			id = sc.getLong(idColumn);
 			if(sc.isNull(scoreColumn)) {
@@ -63,12 +64,12 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 			}
 			
 			if(!sc.isNull(contextColumn)) {
-				scoreContext = sc.getString(contextColumn);
-				currentContext = scoreContext;
+				tmpContext = sc.getString(contextColumn);
+				scoreContext = tmpContext;
 			}
 
 			created = sc.getLong(createdColumn);
-			scores.add(new ScoreData(id, score, scoreContext, created));
+			scores.add(new ScoreData(id, score, tmpContext, created));
 		}
 		
 
@@ -97,7 +98,7 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 		}
 		if(context != null&&!context.isEmpty()) {
 			values.put(Score.COLUMN_NAME_CONTEXT, context);
-			currentContext = context;
+			scoreContext = context;
 		}
 		Long now = Long.valueOf(System.currentTimeMillis());
 		values.put(Score.COLUMN_NAME_CREATE_DATE, now);
@@ -116,7 +117,7 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 	}
 	
 	public String getCurrentContext() {
-		return currentContext;
+		return scoreContext;
 	}
 
 	public void onClick(View v) {
@@ -142,5 +143,15 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 	public void onClick(DialogInterface dialog, int which) {
 		// TODO Auto-generated method stub, from history list
 		
+	}
+
+	public void resetScore() {
+		ContentResolver cr = appContext.getContentResolver();
+		String where = Score.COLUMN_NAME_GAME_ID+"="+game.id+" AND "+Score.COLUMN_NAME_PLAYER_ID+"="+id;
+		total = game.startingScore;
+		scoreContext = "";
+		scores.clear();
+		cr.delete(Score.CONTENT_URI, where, null);
+		// must notify...
 	}
 }

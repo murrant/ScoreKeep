@@ -5,7 +5,6 @@ import org.homelinux.murray.scorekeep.provider.Game;
 import android.app.ListActivity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
@@ -16,13 +15,14 @@ import android.database.Cursor;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+
 public class GameHistory extends ListActivity {
+	@SuppressWarnings("unused")
 	private static final String DEBUG_TAG = "ScoreKeep:GameHistory";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d(DEBUG_TAG, "Games_list:id"+R.layout.games_list);
 		setContentView(R.layout.games_list);
 
 		/* Android 3.0...
@@ -31,7 +31,6 @@ public class GameHistory extends ListActivity {
 		*/
 		
 		Cursor cursor = managedQuery(Game.CONTENT_URI, null, null, null, null);
-		Log.d(DEBUG_TAG, "Cursor retrieved:"+cursor);
 		
 		GamesListAdapter gla = new GamesListAdapter(this,cursor);
 		setListAdapter(gla);
@@ -56,11 +55,7 @@ public class GameHistory extends ListActivity {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.d(DEBUG_TAG, "Menu Item ID: "+item.getItemId());
-		Log.d(DEBUG_TAG, "New Game ID: "+R.id.glmenu_new_game);
-		Log.d(DEBUG_TAG, "View Players ID: "+R.id.glmenu_view_players);
-		Log.d(DEBUG_TAG, "Clear History ID: "+R.id.glmenu_clear_history);		
+	public boolean onOptionsItemSelected(MenuItem item) {		
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.glmenu_new_game:

@@ -29,4 +29,7 @@
     <string name="number_parse_failed">Failed to interpret a number.</string>
     <string name="score">Score</string>
     <string name="context">Context</string>
+    <string name="change_players">Change Players</string>
+    <string name="reset_scores">Reset Scores</string>
+    <string name="reset_scores_short">Reset</string>
 </resources>

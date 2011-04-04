@@ -3,7 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent" android:orientation="horizontal">
-    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/gl_desc" android:text="TextView" android:layout_margin="3dip" android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
-    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/gl_created" android:text="TextView" android:layout_margin="3dip" android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
-    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/gl_modified" android:text="TextView" android:layout_margin="3dip" android:layout_weight="1" android:textAppearance="?android:attr/textAppearanceLarge"></TextView>
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/gl_desc" android:text="TextView" android:layout_margin="3dip" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="0.9"></TextView>
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/gl_created" android:text="TextView" android:layout_margin="3dip" android:textAppearance="?android:attr/textAppearanceMedium" android:visibility="gone"></TextView>
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/gl_modified" android:text="TextView" android:layout_margin="3dip" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="0.1"></TextView>
 </LinearLayout>

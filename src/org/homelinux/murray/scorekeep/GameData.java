@@ -20,6 +20,7 @@ import android.widget.TextView;
 public final class GameData extends BaseAdapter implements ListAdapter {
 	final long id;
 	final String description;
+	final long startingScore = 0;  //TODO support alternate starting scores
 	private ArrayList<PlayerData> players = new ArrayList<PlayerData>();
 	private final LayoutInflater mInflater;
 
@@ -122,5 +123,12 @@ public final class GameData extends BaseAdapter implements ListAdapter {
 	public boolean isEnabled(int position) {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public void resetScores() {
+		for(PlayerData player : players) {
+			player.resetScore();
+		}
+		this.notifyDataSetChanged();
 	}
 }
