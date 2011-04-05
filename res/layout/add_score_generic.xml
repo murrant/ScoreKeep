@@ -11,8 +11,8 @@
         <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/plus_5" android:id="@+id/plus_5"></Button>
     </LinearLayout>
     <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/context_edit" android:hint="Context" android:inputType="textCapSentences"></EditText>
-    <RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="match_parent" android:layout_height="wrap_content">
-        <Button android:layout_alignParentLeft="true" android:id="@+id/ok" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@android:string/ok"></Button>
-        <Button android:layout_alignParentRight="true" android:id="@+id/cancel" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@android:string/cancel"></Button>
-    </RelativeLayout>
+    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:layout_width="match_parent">
+        <Button android:id="@+id/ok" android:text="@android:string/ok" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1"></Button>
+        <Button android:id="@+id/cancel" android:text="@android:string/cancel" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1"></Button>
+    </LinearLayout>
 </LinearLayout>
