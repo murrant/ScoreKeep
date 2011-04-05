@@ -129,6 +129,6 @@ public final class GameData extends BaseAdapter implements ListAdapter {
 		for(PlayerData player : players) {
 			player.resetScore();
 		}
-		this.notifyDataSetChanged();
+		notifyDataSetChanged();
 	}
 }

@@ -1,7 +1,5 @@
 package org.homelinux.murray.scorekeep;
 
-import org.homelinux.murray.scorekeep.provider.Game;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class ScoreCard extends Activity {
@@ -52,12 +49,14 @@ public class ScoreCard extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {		
 		// Handle item selection
 		switch (item.getItemId()) {
+		case R.id.score_round:
+			return false;
 		case R.id.new_game:
 			startActivity(new Intent(this, NewGame.class));
 			this.finish();
 			return true;
 		case R.id.change_players:
-			//TODO modify players
+			//TODO add/remove/reorder players
 			return false;
 		case R.id.reset_scores:
 			game.resetScores();

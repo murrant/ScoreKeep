@@ -32,4 +32,5 @@
     <string name="change_players">Change Players</string>
     <string name="reset_scores">Reset Scores</string>
     <string name="reset_scores_short">Reset</string>
+    <string name="score_round">Score Round</string>
 </resources>
