@@ -37,7 +37,7 @@ public class Player implements BaseColumns {
 
     /**
      * The content URI base for a single player. Callers must
-     * append a numeric note id to this Uri to retrieve a note
+     * append a numeric id
      */
     public static final Uri CONTENT_ID_URI_BASE = Uri.parse(ScoresProvider.SCHEME + ScoresProvider.AUTHORITY + "/" + PATH_PLAYER_ID);
 
