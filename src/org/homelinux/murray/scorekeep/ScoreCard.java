@@ -25,6 +25,7 @@ public class ScoreCard extends Activity {
 		// If there is no data associated with the Intent, bring up new game dialog
 		if (dataUri == null) {
 			startActivity(new Intent(this, NewGame.class));
+			finish(); // remove this activity
 			return;
 		}
 
@@ -53,7 +54,7 @@ public class ScoreCard extends Activity {
 			return false;
 		case R.id.new_game:
 			startActivity(new Intent(this, NewGame.class));
-			this.finish();
+			finish(); // remove this activity
 			return true;
 		case R.id.change_players:
 			//TODO add/remove/reorder players

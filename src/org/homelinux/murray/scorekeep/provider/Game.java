@@ -62,6 +62,12 @@ public class Game implements BaseColumns {
      * <P>Type: TEXT</P>
      */
 	public static final String COLUMN_NAME_DESCRIPTION = "description";
+	
+    /**
+     * Column name for the game type id.  This is from a pre-defined list.
+     * <P>Type: INTEGER</P>
+     */
+    public static final String COLUMN_NAME_TYPE = "gametype";
 
     /**
      * Column name of the player ids

@@ -50,7 +50,7 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 		int idColumn = sc.getColumnIndex(Score._ID);
 		int contextColumn = sc.getColumnIndex(Score.COLUMN_NAME_CONTEXT);
 		int createdColumn = sc.getColumnIndex(Score.COLUMN_NAME_CREATE_DATE);
-		total = game.startingScore;
+		total = game.starting_score;
 		long id, created;
 		Long score;
 		String tmpContext = null;
@@ -148,7 +148,7 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 	public void resetScore() {
 		ContentResolver cr = appContext.getContentResolver();
 		String where = Score.COLUMN_NAME_GAME_ID+"="+game.id+" AND "+Score.COLUMN_NAME_PLAYER_ID+"="+id;
-		total = game.startingScore;
+		total = game.starting_score;
 		scoreContext = "";
 		scores.clear();
 		cr.delete(Score.CONTENT_URI, where, null);

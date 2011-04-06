@@ -1,6 +1,7 @@
 package org.homelinux.murray.scorekeep;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.homelinux.murray.scorekeep.provider.Game;
 import org.homelinux.murray.scorekeep.provider.ScoresProvider;
@@ -19,8 +20,9 @@ import android.widget.TextView;
 
 public final class GameData extends BaseAdapter implements ListAdapter {
 	final long id;
+	final GameTypes.Type game_type;
 	final String description;
-	final long startingScore = 0;  //TODO support alternate starting scores
+	final long starting_score = 0;  //TODO support alternate starting scores
 	private ArrayList<PlayerData> players = new ArrayList<PlayerData>();
 	private final LayoutInflater mInflater;
 
@@ -35,6 +37,8 @@ public final class GameData extends BaseAdapter implements ListAdapter {
 		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		Cursor gameCursor = context.getContentResolver().query(gameUri, null, null, null, null);
 		gameCursor.moveToFirst();
+		int gameType = gameCursor.getInt(gameCursor.getColumnIndex(Game.COLUMN_NAME_TYPE));
+		game_type = GameTypes.TYPES.get(Collections.binarySearch(GameTypes.TYPES, GameTypes.getComparable(gameType)));
 		description = gameCursor.getString(gameCursor.getColumnIndex(Game.COLUMN_NAME_DESCRIPTION));
 		String playerIdsString = gameCursor.getString(gameCursor.getColumnIndex(Game.COLUMN_NAME_PLAYER_IDS));
 		

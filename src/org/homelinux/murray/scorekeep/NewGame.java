@@ -18,14 +18,16 @@ import android.content.Intent;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.app.AlertDialog;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class NewGame extends Activity {
 	private static final String DEBUG_TAG = "ScoreKeep:NewGame";
 	private ListView list;
+	private Spinner gameTypes;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -33,9 +35,12 @@ public class NewGame extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_game);
 
+		gameTypes = (Spinner) findViewById(R.id.game_type_list);
+		ArrayAdapter<GameTypes.Type> aa = new ArrayAdapter<GameTypes.Type>(this, R.layout.item_game_type, android.R.id.text1, GameTypes.TYPES);
+		gameTypes.setAdapter(aa);
+
 		Cursor c = managedQuery(Player.CONTENT_URI, null, null, null, null);
 		list = (ListView) findViewById(R.id.new_game_players_list);
-
 		PlayerAdapter adapter = new PlayerAdapter(this, c);
 		list.setAdapter(adapter);
 		list.setItemsCanFocus(false);
@@ -62,8 +67,8 @@ public class NewGame extends Activity {
 				return false;
 			}
 
-			final TextView gameDesc = (TextView) findViewById(R.id.game_desc);
-			Uri newGameUri = newGame(gameDesc.getText().toString(), players);
+			GameTypes.Type gameType = GameTypes.TYPES.get(gameTypes.getSelectedItemPosition());
+			Uri newGameUri = newGame(gameType, players);
 			intent.setData(newGameUri);  //set data uri for the new game
 			startActivity(intent);
 			return true;
@@ -101,9 +106,10 @@ public class NewGame extends Activity {
 		return result;
 	}
 
-	private Uri newGame(String desc, long[] player_ids) {
+	private Uri newGame(GameTypes.Type game, long[] player_ids) {
 		ContentValues content = new ContentValues();
-		content.put(Game.COLUMN_NAME_DESCRIPTION, desc);
+		content.put(Game.COLUMN_NAME_TYPE, game.id);
+		content.put(Game.COLUMN_NAME_DESCRIPTION, game.name);
 		content.put(Game.COLUMN_NAME_PLAYER_IDS, ScoresProvider.serializePlayers(player_ids));
 		Uri result = getContentResolver().insert(Game.CONTENT_URI, content);
 		Log.d(DEBUG_TAG, "New Game result Uri: "+result.toString());

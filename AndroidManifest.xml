@@ -11,7 +11,7 @@
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
-        <activity android:name="NewGame"></activity>
+        <activity android:name="NewGame" android:noHistory="true"></activity>
         <activity android:name="ScoreCard"></activity>
         <activity android:name="PlayerList"></activity><provider android:name=".provider.ScoresProvider" android:authorities="org.homelinux.murray.scoresprovider"></provider>
         

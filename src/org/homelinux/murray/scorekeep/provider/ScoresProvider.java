@@ -6,6 +6,7 @@ package org.homelinux.murray.scorekeep.provider;
 import java.util.Random;
 import java.util.StringTokenizer;
 
+import org.homelinux.murray.scorekeep.GameTypes;
 import org.homelinux.murray.scorekeep.R;
 
 import android.content.ContentProvider;
@@ -34,7 +35,7 @@ public final class ScoresProvider extends ContentProvider {
 	public static final Uri CONTENT_URI= Uri.parse(SCHEME+AUTHORITY);
 
 	private static final String DB_NAME = "games.db";
-	private static final int DB_VERSION = 3;
+	private static final int DB_VERSION = 4;
 	
 	// Constants for the Uri Matcher
 	private static final int GAME = 1;
@@ -156,6 +157,9 @@ public final class ScoresProvider extends ContentProvider {
 		case GAME:
 			if(!values.containsKey(Game.COLUMN_NAME_PLAYER_IDS)) {
 				throw new IllegalArgumentException("Key "+Game.COLUMN_NAME_PLAYER_IDS+" required in ContentValues for URI: "+uri);
+			}
+			if(!values.containsKey(Game.COLUMN_NAME_TYPE)) {
+				values.put(Game.COLUMN_NAME_TYPE, GameTypes.DEFAULT.id);
 			}
 			if(!values.containsKey(Game.COLUMN_NAME_DESCRIPTION)) {
 				values.put(Game.COLUMN_NAME_DESCRIPTION, getContext().getString(R.string.game));
@@ -385,9 +389,9 @@ public final class ScoresProvider extends ContentProvider {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL("create table " + Game.TABLE_NAME + " (" + 
-					Game._ID + " integer primary key autoincrement, " + Game.COLUMN_NAME_DESCRIPTION + " text not null, " + 
-					Game.COLUMN_NAME_PLAYER_IDS + " text not null, " + Game.COLUMN_NAME_CREATE_DATE + " integer not null, " +
-					Game.COLUMN_NAME_MODIFICATION_DATE + " integer not null)");
+					Game._ID + " integer primary key autoincrement, " + Game.COLUMN_NAME_TYPE + " integer not null, " +
+					Game.COLUMN_NAME_DESCRIPTION + " text not null, " + Game.COLUMN_NAME_PLAYER_IDS + " text not null, " +
+					Game.COLUMN_NAME_CREATE_DATE + " integer not null, " + Game.COLUMN_NAME_MODIFICATION_DATE + " integer not null)");
 			db.execSQL("create table " + Player.TABLE_NAME + " (" + 
 					Player._ID + " integer primary key autoincrement, " + Player.COLUMN_NAME_NAME + " text not null, " + 
 					Player.COLUMN_NAME_COLOR + " integer not null)");
