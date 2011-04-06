@@ -5,7 +5,7 @@
 // is not liable for any losses of any kind, direct or indirect, which result
 // from the use of this software.
 
-package org.homelinux.murray.scorekeep;
+package org.homelinux.murray.scorekeep.games;
 
 import java.util.*;
 

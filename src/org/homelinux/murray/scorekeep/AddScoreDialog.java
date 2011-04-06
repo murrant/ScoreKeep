@@ -1,5 +1,8 @@
 package org.homelinux.murray.scorekeep;
 
+import org.homelinux.murray.scorekeep.games.GameDefinition;
+import org.homelinux.murray.scorekeep.games.MathEval;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
@@ -8,19 +11,20 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class AddScoreDialog extends Dialog implements View.OnClickListener,TextView.OnEditorActionListener {
 	private static final String DEBUG_TAG = "ScoreKeep:AddScoreDialog";
 	private final TextView scoreEdit;
 	private final TextView contextEdit;
 
-	private final PlayerData playerData;
+	private final PlayerData player;
+	private final GameDefinition gameDef;
 	private final MathEval mathEval = new MathEval();
 
 	public AddScoreDialog(Context parent, PlayerData playerData) {
 		super(parent);
-		this.playerData = playerData;
+		player = playerData;
+		gameDef = playerData.game.game_type;
 		//TODO support alternate dialogs
 		setContentView(playerData.game.game_type.resource);
 		setTitle(playerData.name+" - "+parent.getText(R.string.add_score));
@@ -64,13 +68,18 @@ public class AddScoreDialog extends Dialog implements View.OnClickListener,TextV
 			amount = 5;
 			break;
 		case R.id.ok:
-			finish();
+			scoreIt();
 			return;
 		case R.id.cancel:
 			dismiss();
+			return;
 		default:
+			// if not a built in function, defer to the game definition
+			gameDef.onClick(v);
 			return;
 		}
+		
+		// handle built in add/subtract functions
 		if(amount != 0) {
 			String startExp = scoreEdit.getText().toString();
 			if(startExp.isEmpty()) {
@@ -95,25 +104,14 @@ public class AddScoreDialog extends Dialog implements View.OnClickListener,TextV
 
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		if(actionId == EditorInfo.IME_ACTION_DONE || actionId == KeyEvent.KEYCODE_ENTER) {
-			finish();
+			scoreIt();
 			return true;
 		}
 		return false;
 	}
 	
-	private void finish() {
-		String startExp = scoreEdit.getText().toString();
-		Long addScore = Long.getLong(startExp);
-		if(startExp != null && !startExp.isEmpty() && addScore == null) {
-			try {
-				addScore = Math.round(mathEval.evaluate(startExp));
-			} catch(Exception e) {
-				Log.d(DEBUG_TAG, "Failed to get a valid value "+e);
-				Toast.makeText(this.getContext(), R.string.number_parse_failed, Toast.LENGTH_LONG).show();
-				return; //failed, we can't add a score.
-			}
-		}
-		playerData.addScoreAndContext(addScore, contextEdit.getText().toString());
+	private void scoreIt() {
+		player.addScoreAndContext(gameDef.calculateScore(this), gameDef.getContext(this));
 		dismiss();
 	}
 }

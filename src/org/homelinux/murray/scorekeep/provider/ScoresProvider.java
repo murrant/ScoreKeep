@@ -6,8 +6,8 @@ package org.homelinux.murray.scorekeep.provider;
 import java.util.Random;
 import java.util.StringTokenizer;
 
-import org.homelinux.murray.scorekeep.GameTypes;
 import org.homelinux.murray.scorekeep.R;
+import org.homelinux.murray.scorekeep.games.GameDefs;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -159,7 +159,7 @@ public final class ScoresProvider extends ContentProvider {
 				throw new IllegalArgumentException("Key "+Game.COLUMN_NAME_PLAYER_IDS+" required in ContentValues for URI: "+uri);
 			}
 			if(!values.containsKey(Game.COLUMN_NAME_TYPE)) {
-				values.put(Game.COLUMN_NAME_TYPE, GameTypes.DEFAULT.id);
+				values.put(Game.COLUMN_NAME_TYPE, GameDefs.DEFAULT.id);
 			}
 			if(!values.containsKey(Game.COLUMN_NAME_DESCRIPTION)) {
 				values.put(Game.COLUMN_NAME_DESCRIPTION, getContext().getString(R.string.game));

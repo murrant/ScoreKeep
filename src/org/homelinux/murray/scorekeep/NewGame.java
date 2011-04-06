@@ -1,6 +1,8 @@
 package org.homelinux.murray.scorekeep;
 
 import org.homelinux.murray.scorekeep.R;
+import org.homelinux.murray.scorekeep.games.GameDefinition;
+import org.homelinux.murray.scorekeep.games.GameDefs;
 import org.homelinux.murray.scorekeep.provider.Game;
 import org.homelinux.murray.scorekeep.provider.Player;
 import org.homelinux.murray.scorekeep.provider.ScoresProvider;
@@ -36,7 +38,7 @@ public class NewGame extends Activity {
 		setContentView(R.layout.new_game);
 
 		gameTypes = (Spinner) findViewById(R.id.game_type_list);
-		ArrayAdapter<GameTypes.Type> aa = new ArrayAdapter<GameTypes.Type>(this, R.layout.item_game_type, android.R.id.text1, GameTypes.TYPES);
+		ArrayAdapter<GameDefinition> aa = new ArrayAdapter<GameDefinition>(this, R.layout.item_game_type, android.R.id.text1, GameDefs.TYPES);
 		gameTypes.setAdapter(aa);
 
 		Cursor c = managedQuery(Player.CONTENT_URI, null, null, null, null);
@@ -67,7 +69,7 @@ public class NewGame extends Activity {
 				return false;
 			}
 
-			GameTypes.Type gameType = GameTypes.TYPES.get(gameTypes.getSelectedItemPosition());
+			GameDefinition gameType = GameDefs.TYPES.get(gameTypes.getSelectedItemPosition());
 			Uri newGameUri = newGame(gameType, players);
 			intent.setData(newGameUri);  //set data uri for the new game
 			startActivity(intent);
@@ -106,7 +108,7 @@ public class NewGame extends Activity {
 		return result;
 	}
 
-	private Uri newGame(GameTypes.Type game, long[] player_ids) {
+	private Uri newGame(GameDefinition game, long[] player_ids) {
 		ContentValues content = new ContentValues();
 		content.put(Game.COLUMN_NAME_TYPE, game.id);
 		content.put(Game.COLUMN_NAME_DESCRIPTION, game.name);
