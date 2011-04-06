@@ -109,6 +109,8 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 		// add to total
 
 		appContext.getContentResolver().notifyChange(uri, null);
+		game.notifyDataSetChanged();
+		
 		return total;
 	}
 	
@@ -152,6 +154,6 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 		scoreContext = "";
 		scores.clear();
 		cr.delete(Score.CONTENT_URI, where, null);
-		// must notify...
+		// must notify after complete
 	}
 }
