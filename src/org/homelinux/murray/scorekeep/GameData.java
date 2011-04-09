@@ -7,6 +7,7 @@ import org.homelinux.murray.scorekeep.provider.Game;
 import org.homelinux.murray.scorekeep.provider.ScoresProvider;
 
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -25,6 +26,7 @@ public final class GameData extends BaseAdapter implements ListAdapter {
 	final long starting_score = 0;  //TODO support alternate starting scores
 	private ArrayList<PlayerData> players = new ArrayList<PlayerData>();
 	private final LayoutInflater mInflater;
+	private ContentValues extra = new ContentValues();
 
 	/**
 	 * Load game data from the database with all players.
@@ -135,4 +137,14 @@ public final class GameData extends BaseAdapter implements ListAdapter {
 		}
 		notifyDataSetChanged();
 	}
-}
+	
+	public void putExtra(String key, Integer value) { extra.put(key, value); }
+	public void putExtra(String key, Boolean value) { extra.put(key, value); }
+	public void putExrra(String key, String value) {extra.put(key, value); }
+	public void putExrra(String key, Long value) {extra.put(key, value); }
+	public Object getExtra(String key) { return extra.get(key); };
+	public Integer getExtraAsInteger(String key) { return extra.getAsInteger(key); }
+	public Boolean getExtraAsBoolean(String key) { return extra.getAsBoolean(key); }
+	public String getExtraAsString(String key) { return extra.getAsString(key); }
+	public Long getExtraAsLong(String key) { return extra.getAsLong(key); }
+	}
