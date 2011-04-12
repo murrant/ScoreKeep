@@ -11,6 +11,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,9 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 public final class GameData extends BaseAdapter implements ListAdapter {
+	private static final String DEBUG_TAG = "ScoreKeep:GameData";
 	final long id;
-	final GameDefinition game_type;
+	final GameDefinition gameDef;
 	final String description;
 	final long starting_score = 0;  //TODO support alternate starting scores
 	private ArrayList<PlayerData> players = new ArrayList<PlayerData>();
@@ -40,7 +42,8 @@ public final class GameData extends BaseAdapter implements ListAdapter {
 		Cursor gameCursor = context.getContentResolver().query(gameUri, null, null, null, null);
 		gameCursor.moveToFirst();
 		int gameType = gameCursor.getInt(gameCursor.getColumnIndex(Game.COLUMN_NAME_TYPE));
-		game_type = GameDefs.getGameDef(gameType);
+		Log.d(DEBUG_TAG, "Game Type ID:"+gameType);
+		gameDef = GameDefs.getGameDef(gameType);
 		description = gameCursor.getString(gameCursor.getColumnIndex(Game.COLUMN_NAME_DESCRIPTION));
 		String playerIdsString = gameCursor.getString(gameCursor.getColumnIndex(Game.COLUMN_NAME_PLAYER_IDS));
 		
@@ -140,8 +143,8 @@ public final class GameData extends BaseAdapter implements ListAdapter {
 	
 	public void putExtra(String key, Integer value) { extra.put(key, value); }
 	public void putExtra(String key, Boolean value) { extra.put(key, value); }
-	public void putExrra(String key, String value) {extra.put(key, value); }
-	public void putExrra(String key, Long value) {extra.put(key, value); }
+	public void putExtra(String key, String value) {extra.put(key, value); }
+	public void putExtra(String key, Long value) {extra.put(key, value); }
 	public Object getExtra(String key) { return extra.get(key); };
 	public Integer getExtraAsInteger(String key) { return extra.getAsInteger(key); }
 	public Boolean getExtraAsBoolean(String key) { return extra.getAsBoolean(key); }

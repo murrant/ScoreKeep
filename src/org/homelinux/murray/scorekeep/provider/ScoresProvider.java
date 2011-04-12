@@ -159,7 +159,7 @@ public final class ScoresProvider extends ContentProvider {
 				throw new IllegalArgumentException("Key "+Game.COLUMN_NAME_PLAYER_IDS+" required in ContentValues for URI: "+uri);
 			}
 			if(!values.containsKey(Game.COLUMN_NAME_TYPE)) {
-				values.put(Game.COLUMN_NAME_TYPE, GameDefs.DEFAULT.id);
+				values.put(Game.COLUMN_NAME_TYPE, GameDefs.DEFAULT);
 			}
 			if(!values.containsKey(Game.COLUMN_NAME_DESCRIPTION)) {
 				values.put(Game.COLUMN_NAME_DESCRIPTION, getContext().getString(R.string.game));

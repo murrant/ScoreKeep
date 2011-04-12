@@ -8,6 +8,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,9 +25,10 @@ public class AddScoreDialog extends Dialog implements View.OnClickListener,TextV
 	public AddScoreDialog(Context parent, PlayerData playerData) {
 		super(parent);
 		player = playerData;
-		gameDef = playerData.game.game_type;
-		//TODO support alternate dialogs
-		setContentView(playerData.game.game_type.resource);
+		gameDef = playerData.game.gameDef;
+		Log.d(DEBUG_TAG, "GameDef is null:"+(gameDef==null));
+		Log.d(DEBUG_TAG, "Resource id: "+gameDef.getDialogResource());
+		setContentView(gameDef.getDialogResource());
 		setTitle(playerData.name+" - "+parent.getText(R.string.add_score));
 		
 		//generic elements
@@ -39,13 +41,13 @@ public class AddScoreDialog extends Dialog implements View.OnClickListener,TextV
 		Button ok = (Button) findViewById(R.id.ok);
 		Button cancel = (Button) findViewById(R.id.cancel);
 		
-		scoreEdit.setOnEditorActionListener(this);
-		contextEdit.setOnEditorActionListener(this);
+		if(scoreEdit!=null) scoreEdit.setOnEditorActionListener(this);
+		if(contextEdit!=null) contextEdit.setOnEditorActionListener(this);
 		
-		minusFive.setOnClickListener(this);
-		minusOne.setOnClickListener(this);
-		plusOne.setOnClickListener(this);
-		plusFive.setOnClickListener(this);
+		if(minusFive!=null) minusFive.setOnClickListener(this);
+		if(minusOne!=null) minusOne.setOnClickListener(this);
+		if(plusOne!=null) plusOne.setOnClickListener(this);
+		if(plusFive!=null) plusFive.setOnClickListener(this);
 		
 		ok.setOnClickListener(this);
 		cancel.setOnClickListener(this);
@@ -53,6 +55,13 @@ public class AddScoreDialog extends Dialog implements View.OnClickListener,TextV
 
 
 	public void onClick(View v) {
+		Log.d(DEBUG_TAG,  "View Class "+v.getClass().getName());
+		ViewParent vp = v.getParent();
+		while(vp!=null) {
+			Log.d(DEBUG_TAG,  "ViewParent Class "+vp.getClass().getName());
+			vp = vp.getParent();
+		}
+		
 		int amount = 0;
 		switch(v.getId()) {
 		case R.id.minus_5:
@@ -68,8 +77,9 @@ public class AddScoreDialog extends Dialog implements View.OnClickListener,TextV
 			amount = 5;
 			break;
 		case R.id.ok:
-			scoreIt();
-			return;
+			ScoreData score = gameDef.getScore(this, player);
+			if(score == null) return;
+			player.addScoreAndContext(score);
 		case R.id.cancel:
 			dismiss();
 			return;
@@ -80,7 +90,7 @@ public class AddScoreDialog extends Dialog implements View.OnClickListener,TextV
 		}
 		
 		// handle built in add/subtract functions
-		if(amount != 0) {
+		if(scoreEdit!=null && amount!=0) {
 			String startExp = scoreEdit.getText().toString();
 			if(startExp.isEmpty()) {
 				scoreEdit.setText(Integer.toString(amount));
@@ -96,22 +106,17 @@ public class AddScoreDialog extends Dialog implements View.OnClickListener,TextV
 				}
 				scoreEdit.setText(Long.toString(curNum + amount));
 			}
-			return;
 		}
-		
 	}
 
 
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		if(actionId == EditorInfo.IME_ACTION_DONE || actionId == KeyEvent.KEYCODE_ENTER) {
-			scoreIt();
+			ScoreData score = gameDef.getScore(this, player);
+			if(score == null) return false;
+			player.addScoreAndContext(score);
 			return true;
 		}
 		return false;
-	}
-	
-	private void scoreIt() {
-		player.addScoreAndContext(gameDef.calculateScore(this), gameDef.getContext(this));
-		dismiss();
 	}
 }

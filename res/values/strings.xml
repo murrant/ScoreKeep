@@ -33,4 +33,23 @@
     <string name="reset_scores">Reset Scores</string>
     <string name="reset_scores_short">Reset</string>
     <string name="score_round">Score Round</string>
+    <string name="bid">Bid</string>
+    <string name="bidder_made_bid">Bidder made bid?</string>
+    <string name="tricks_taken">tricks taken</string>
+    <string-array name="gamedef_fivehundred_bidtype">
+        <item>Spades</item>
+        <item>Clubs</item>
+        <item>Diamonds</item>
+        <item>Hearts</item>
+        <item>No Trump</item>
+        <item>Nello</item>
+        <item>Double Nello</item>
+    </string-array>
+    <string-array name="gamedef_fivehundred_bidamount">
+    	<item></item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
 </resources>

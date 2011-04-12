@@ -110,7 +110,8 @@ public class NewGame extends Activity {
 
 	private Uri newGame(GameDefinition game, long[] player_ids) {
 		ContentValues content = new ContentValues();
-		content.put(Game.COLUMN_NAME_TYPE, game.id);
+		Log.d(DEBUG_TAG, "New Game: "+game.getClass().getName());
+		content.put(Game.COLUMN_NAME_TYPE, game.getGameId());
 		content.put(Game.COLUMN_NAME_DESCRIPTION, game.name);
 		content.put(Game.COLUMN_NAME_PLAYER_IDS, ScoresProvider.serializePlayers(player_ids));
 		Uri result = getContentResolver().insert(Game.CONTENT_URI, content);

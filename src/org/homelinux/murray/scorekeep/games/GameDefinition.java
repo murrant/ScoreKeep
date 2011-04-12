@@ -1,6 +1,10 @@
 package org.homelinux.murray.scorekeep.games;
 
+import org.homelinux.murray.scorekeep.PlayerData;
+import org.homelinux.murray.scorekeep.ScoreData;
+
 import android.app.Dialog;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -12,16 +16,20 @@ import android.view.View;
  *
  */
 public abstract class GameDefinition implements Comparable<GameDefinition>, View.OnClickListener {
+	private static final String DEBUG_TAG = "ScoreKeep:GameDefinition";
+	/**
+	 * Must be defined and unique for each type.
+	 */
+	private final int id;
 	public final String name;
-	public final int id;
 	public final boolean enabled;
-	public final int resource;
+	private final int resource;
 	
 	public GameDefinition(int id, String name, int resource, boolean enabled) {
 		this.name = name;
-		this.id = id;
 		this.enabled = enabled;
 		this.resource = resource;
+		this.id = id;
 	}
 	
 	public String toString() {
@@ -29,7 +37,7 @@ public abstract class GameDefinition implements Comparable<GameDefinition>, View
 	}
 
 	public int compareTo(GameDefinition another) {
-		return id - another.id;
+		return id - another.getGameId();
 	}
 	
 	protected static long parseScore(String mathExp) throws NumberFormatException, ArithmeticException {
@@ -40,7 +48,18 @@ public abstract class GameDefinition implements Comparable<GameDefinition>, View
 		return score;
 	}
 	
+	public int getDialogResource() {
+		Log.d(DEBUG_TAG, "Using super class implementation of getDialogResource");
+		return resource;
+	}
+	
+	public int getGameId() {
+		return id;
+	}
+	
 	//TODO the dialog argument seems wrong
-	public abstract Long calculateScore(Dialog dialog);
-	public abstract String getContext(Dialog dialog);
+	/**
+	 * returns null if it could not validate the dialog, it should also display a toast with the problem
+	 */
+	public abstract ScoreData getScore(Dialog dialog, PlayerData player);
 }

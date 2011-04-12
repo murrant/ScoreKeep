@@ -1,6 +1,7 @@
 package org.homelinux.murray.scorekeep;
 
 import java.util.ArrayList;
+
 import org.homelinux.murray.scorekeep.provider.Player;
 import org.homelinux.murray.scorekeep.provider.Score;
 
@@ -18,10 +19,10 @@ import android.view.View;
 
 public final class PlayerData implements View.OnClickListener, DialogInterface.OnClickListener {
 	private static final String DEBUG_TAG = "ScoreKeep:PlayerData";
-	final long id;
-	final String name;
-	final long color;
-	final GameData game;
+	public final long id;
+	public final String name;
+	public final long color;
+	public final GameData game;
 	private long total;
 	private String scoreContext = null;
 	private final ArrayList<ScoreData> scores = new ArrayList<ScoreData>();
@@ -76,36 +77,40 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 	}
 
 	public long addScore(long score) {
-		return addScoreAndContext(score, null);
+		return addScoreAndContext(new ScoreData(score, null));
 	}
 	
 	public void addContext(String context) {
-		addScoreAndContext(null,context);
+		addScoreAndContext(new ScoreData(null, context));
 	}
 	
-	public long addScoreAndContext(Long score, String context) {
+	public ScoreData getLastScore() {
+		return scores.get(scores.size()-1);
+	}
+	
+	public long addScoreAndContext(ScoreData sd) {
 		// insert to the DB
 		ContentValues values = new ContentValues();
 		values.put(Score.COLUMN_NAME_GAME_ID, game.id);
 		values.put(Score.COLUMN_NAME_PLAYER_ID, id);
-		if(score==null&&(context==null||context.isEmpty())) {
+		if(sd.score==null && sd.context==null) {
 			Log.d(DEBUG_TAG, "Score and Context are null, WTH?");
 			return total;
 		}
-		if(score != null) {
-			values.put(Score.COLUMN_NAME_SCORE, score.longValue());
-			total += score;
+		if(sd.score != null) {
+			values.put(Score.COLUMN_NAME_SCORE, sd.score.longValue());
+			total += sd.score;
 		}
-		if(context != null&&!context.isEmpty()) {
-			values.put(Score.COLUMN_NAME_CONTEXT, context);
-			scoreContext = context;
+		if(sd.context != null) {
+			values.put(Score.COLUMN_NAME_CONTEXT, sd.context);
+			scoreContext = sd.context;
 		}
 		Long now = Long.valueOf(System.currentTimeMillis());
 		values.put(Score.COLUMN_NAME_CREATE_DATE, now);
 		
 		Uri uri = appContext.getContentResolver().insert(Score.CONTENT_URI, values);
 		// add to history
-		scores.add(new ScoreData(ContentUris.parseId(uri), score, context, now));
+		scores.add(new ScoreData(ContentUris.parseId(uri), sd.score, sd.context, now));
 		// add to total
 
 		appContext.getContentResolver().notifyChange(uri, null);

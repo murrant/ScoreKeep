@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent" android:orientation="vertical">
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+        <EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:inputType="number" android:layout_weight="1" android:id="@+id/score_edit"></EditText>
+        <TextView android:layout_width="wrap_content" android:id="@+id/textView1" android:layout_height="wrap_content" android:text="@string/tricks_taken" android:layout_weight="1"></TextView>
+    </LinearLayout>
+    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout2" android:layout_width="match_parent">
+        <Button android:id="@+id/ok" android:text="@android:string/ok" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1"></Button>
+        <Button android:id="@+id/cancel" android:text="@android:string/cancel" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1"></Button>
+    </LinearLayout>
+ </LinearLayout>
