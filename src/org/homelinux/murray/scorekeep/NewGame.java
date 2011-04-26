@@ -15,10 +15,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.app.AlertDialog;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -104,7 +106,26 @@ public class NewGame extends Activity {
 		ContentValues content = new ContentValues();
 		content.put(Player.COLUMN_NAME_NAME, name);
 		Uri result = getContentResolver().insert(Player.CONTENT_URI, content);
-		Log.d(DEBUG_TAG, "Add player result Uri: "+result.toString());
+		
+		//register a listener to select the user once the listview gets updated.
+		final long targetId = ContentUris.parseId(result);
+		list.getAdapter().registerDataSetObserver(new DataSetObserver() {
+			public void onChanged() {
+				// find the new user and select it
+				int count = list.getCount();
+				for(int i = 0; i<count; i++) {
+					long itemId = list.getItemIdAtPosition(i);
+					if(itemId == targetId) {
+						Log.d(DEBUG_TAG, "Player "+itemId+" selected");
+						list.setItemChecked(i, true);
+						list.getAdapter().unregisterDataSetObserver(this);
+						return;
+					}
+				}		
+			}
+		});
+
+		Log.d(DEBUG_TAG, "Added player Uri: "+result.toString());
 		return result;
 	}
 
