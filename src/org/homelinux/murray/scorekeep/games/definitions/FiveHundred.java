@@ -12,8 +12,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@SuppressWarnings("unused")
 public class FiveHundred extends BiddingGame {
-	@SuppressWarnings("unused")
 	private static final String DEBUG_TAG = "ScoreKeep:FiveHundred";
 	public FiveHundred() {
 		super(GameDefs.FIVE_HUNDRED, "Five Hundred", R.layout.scoredialog_fivehundred_bid, R.layout.scoredialog_fivehundred_score, true);

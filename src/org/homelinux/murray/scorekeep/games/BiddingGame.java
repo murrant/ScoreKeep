@@ -1,8 +1,5 @@
 package org.homelinux.murray.scorekeep.games;
 
-import android.app.Dialog;
-import android.view.View;
-
 public abstract class BiddingGame extends GameDefinition {
 	private final int bidResource;
 	private final int scoreResource;

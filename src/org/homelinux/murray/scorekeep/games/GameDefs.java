@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import org.homelinux.murray.scorekeep.PlayerData;
 import org.homelinux.murray.scorekeep.games.definitions.*;
-
-import android.app.Dialog;
-import android.view.View;
 
 public final class GameDefs {
 	public static final int DEFAULT = 0;
