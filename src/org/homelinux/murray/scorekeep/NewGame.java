@@ -25,11 +25,14 @@ import android.app.AlertDialog;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 public class NewGame extends Activity {
 	private static final String DEBUG_TAG = "ScoreKeep:NewGame";
+    private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
+    private final static int[] TO = new int[]{android.R.id.text1};
 	private ListView list;
 	private Spinner gameTypes;
 
@@ -45,10 +48,8 @@ public class NewGame extends Activity {
 
 		Cursor c = managedQuery(Player.CONTENT_URI, null, null, null, null);
 		list = (ListView) findViewById(R.id.new_game_players_list);
-		PlayerAdapter adapter = new PlayerAdapter(this, c);
-		list.setAdapter(adapter);
-		list.setItemsCanFocus(false);
-		list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		
+		list.setAdapter(new SimpleCursorAdapter(this, android.R.layout.simple_list_item_multiple_choice, c, FROM, TO));
 	}
 
 	@Override
