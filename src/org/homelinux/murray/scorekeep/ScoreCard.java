@@ -12,61 +12,61 @@ import android.widget.TextView;
 
 
 public class ScoreCard extends Activity {
-    @SuppressWarnings("unused")
-    private static final String DEBUG_TAG = "ScoreKeep:ScoreCard";
-    private GameData game;
-    private GridView grid;
+	@SuppressWarnings("unused")
+	private static final String DEBUG_TAG = "ScoreKeep:ScoreCard";
+	private GameData game;
+	private GridView grid;
 
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.score_card);
-	Uri dataUri = getIntent().getData();
-	// If there is no data associated with the Intent, bring up new game dialog
-	if (dataUri == null) {
-	    startActivity(new Intent(this, NewGame.class));
-	    finish(); // remove this activity
-	    return;
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.score_card);
+		Uri dataUri = getIntent().getData();
+		// If there is no data associated with the Intent, bring up new game dialog
+		if (dataUri == null) {
+			startActivity(new Intent(this, NewGame.class));
+			finish(); // remove this activity
+			return;
+		}
+
+		// load the game data
+		game = new GameData(this, dataUri);
+		
+		grid = (GridView) findViewById(R.id.score_card_grid);
+		TextView desc = (TextView) findViewById(R.id.game_desc_title);
+		desc.setText(game.description);
+		
+		grid.setAdapter(game);
+
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.score_card_menu, menu);
+		return true;
 	}
 
-	// load the game data
-	game = new GameData(this, dataUri);
-
-	grid = (GridView) findViewById(R.id.score_card_grid);
-	TextView desc = (TextView) findViewById(R.id.game_desc_title);
-	desc.setText(game.description);
-
-	grid.setAdapter(game);
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-	MenuInflater inflater = getMenuInflater();
-	inflater.inflate(R.menu.score_card_menu, menu);
-	return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {		
-	// Handle item selection
-	switch (item.getItemId()) {
-	case R.id.score_round:
-	    game.flipView(0, grid);
-	    return true;
-	case R.id.new_game:
-	    startActivity(new Intent(this, NewGame.class));
-	    finish(); // remove this activity
-	    return true;
-	case R.id.change_players:
-	    //TODO add/remove/reorder players
-	    return false;
-	case R.id.reset_scores:
-	    game.resetScores();
-	    return true;
-	default:
-	    return super.onOptionsItemSelected(item);
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {		
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.score_round:
+		    	game.flipView(0, grid);
+			return true;
+		case R.id.new_game:
+			startActivity(new Intent(this, NewGame.class));
+			finish(); // remove this activity
+			return true;
+		case R.id.change_players:
+			//TODO add/remove/reorder players
+			return false;
+		case R.id.reset_scores:
+			game.resetScores();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
-    }
 }

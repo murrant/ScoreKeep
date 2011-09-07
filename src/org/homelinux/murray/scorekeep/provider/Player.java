@@ -4,9 +4,9 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class Player implements BaseColumns {
-    //static only
-    private Player() {}
-
+	//static only
+	private Player() {}
+	
     /**
      * The table name offered by this provider
      */
@@ -46,8 +46,8 @@ public class Player implements BaseColumns {
      * incoming URIs or to construct an Intent.
      */
     public static final Uri CONTENT_ID_URI_PATTERN
-    = Uri.parse(ScoresProvider.SCHEME + ScoresProvider.AUTHORITY + "/" + PATH_PLAYER_ID + "#");
-
+        = Uri.parse(ScoresProvider.SCHEME + ScoresProvider.AUTHORITY + "/" + PATH_PLAYER_ID + "#");
+    
     /**
      * 0-relative position of the ID segment in the path part of a ID URI
      */
@@ -61,14 +61,14 @@ public class Player implements BaseColumns {
      * Column name for the player's name
      * <P>Type: TEXT</P>
      */
-    public static final String COLUMN_NAME_NAME = "name";
+	public static final String COLUMN_NAME_NAME = "name";
 
     /**
      * Column name of the player's color
      * <P>Type: INTEGER (long of color)</P>
      */
-    public static final String COLUMN_NAME_COLOR = "color";
-
+	public static final String COLUMN_NAME_COLOR = "color";
+	
     /*
      * MIME type definitions
      */

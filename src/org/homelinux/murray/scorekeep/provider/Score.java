@@ -4,9 +4,9 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class Score implements BaseColumns {
-    //static only
-    private Score() {}
-
+	//static only
+	private Score() {}
+	
     /**
      * The table name offered by this provider
      */
@@ -46,8 +46,8 @@ public class Score implements BaseColumns {
      * incoming URIs or to construct an Intent.
      */
     public static final Uri CONTENT_ID_URI_PATTERN
-    = Uri.parse(ScoresProvider.SCHEME + ScoresProvider.AUTHORITY + "/" + PATH_SCORE_ID + "#");
-
+        = Uri.parse(ScoresProvider.SCHEME + ScoresProvider.AUTHORITY + "/" + PATH_SCORE_ID + "#");
+    
     /**
      * 0-relative position of the ID segment in the path part of a ID URI
      */
@@ -62,13 +62,13 @@ public class Score implements BaseColumns {
      * Column name for the game id
      * <P>Type: INTEGER (long row id of the game)</P>
      */
-    public static final String COLUMN_NAME_GAME_ID = "game_id";
+	public static final String COLUMN_NAME_GAME_ID = "game_id";
 
     /**
      * Column name of the player id
      * <P>Type: INTEGER (long row id of the player)</P>
      */
-    public static final String COLUMN_NAME_PLAYER_ID = "player_id";
+	public static final String COLUMN_NAME_PLAYER_ID = "player_id";
 
     /**
      * Column name for the creation timestamp
@@ -80,14 +80,14 @@ public class Score implements BaseColumns {
      * Column name for the score
      * <P>Type: INTEGER (long of the score, may be negative)</P>
      */
-    public static final String COLUMN_NAME_SCORE = "score";
-
+	public static final String COLUMN_NAME_SCORE = "score";
+	
     /**
      * Column name for the score context
      * <P>Type: TEXT</P>
      */
-    public static final String COLUMN_NAME_CONTEXT = "context";
-
+	public static final String COLUMN_NAME_CONTEXT = "context";
+    
     /*
      * MIME type definitions
      */
