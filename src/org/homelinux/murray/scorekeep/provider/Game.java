@@ -4,9 +4,9 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class Game implements BaseColumns {
-	//static only
-	private Game() {}
-	
+    //static only
+    private Game() {}
+
     /**
      * The table name offered by this provider
      */
@@ -46,8 +46,8 @@ public class Game implements BaseColumns {
      * incoming URIs or to construct an Intent.
      */
     public static final Uri CONTENT_ID_URI_PATTERN
-        = Uri.parse(ScoresProvider.SCHEME + ScoresProvider.AUTHORITY + "/" + PATH_GAME_ID + "#");
-    
+    = Uri.parse(ScoresProvider.SCHEME + ScoresProvider.AUTHORITY + "/" + PATH_GAME_ID + "#");
+
     /**
      * 0-relative position of the ID segment in the path part of a ID URI
      */
@@ -61,8 +61,8 @@ public class Game implements BaseColumns {
      * Column name for the game description
      * <P>Type: TEXT</P>
      */
-	public static final String COLUMN_NAME_DESCRIPTION = "description";
-	
+    public static final String COLUMN_NAME_DESCRIPTION = "description";
+
     /**
      * Column name for the game type id.  This is from a pre-defined list.
      * <P>Type: INTEGER</P>
@@ -73,7 +73,7 @@ public class Game implements BaseColumns {
      * Column name of the player ids
      * <P>Type: TEXT (comma seperated longs)</P>
      */
-	public static final String COLUMN_NAME_PLAYER_IDS = "player_ids";
+    public static final String COLUMN_NAME_PLAYER_IDS = "player_ids";
 
     /**
      * Column name for the creation timestamp
@@ -86,7 +86,7 @@ public class Game implements BaseColumns {
      * <P>Type: INTEGER (long from System.curentTimeMillis())</P>
      */
     public static final String COLUMN_NAME_MODIFICATION_DATE = "modified";
-    
+
     /*
      * MIME type definitions
      */
