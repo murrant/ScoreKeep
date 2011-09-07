@@ -15,6 +15,7 @@ public class ScoreCard extends Activity {
 	@SuppressWarnings("unused")
 	private static final String DEBUG_TAG = "ScoreKeep:ScoreCard";
 	private GameData game;
+	private GridView grid;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -32,11 +33,12 @@ public class ScoreCard extends Activity {
 		// load the game data
 		game = new GameData(this, dataUri);
 		
-		GridView grid = (GridView) findViewById(R.id.score_card_grid);
+		grid = (GridView) findViewById(R.id.score_card_grid);
 		TextView desc = (TextView) findViewById(R.id.game_desc_title);
 		desc.setText(game.description);
 		
 		grid.setAdapter(game);
+
 	}
 	
 	@Override
@@ -51,7 +53,8 @@ public class ScoreCard extends Activity {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.score_round:
-			return false;
+		    	game.flipView(0, grid);
+			return true;
 		case R.id.new_game:
 			startActivity(new Intent(this, NewGame.class));
 			finish(); // remove this activity
