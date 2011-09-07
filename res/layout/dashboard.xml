@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.homelinux.murray.scorekeep.ui.DashboardLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+	
+    <Button android:id="@+id/home_btn_new"
+    style="@style/DashboardButton"
+        android:drawableTop="@drawable/ic_menu_add" android:text="@string/new_game"/>
+    <Button android:id="@+id/home_btn_history"
+    style="@style/DashboardButton"
+        android:drawableTop="@drawable/ic_menu_invite" android:text="@string/history"/>
+    <Button android:id="@+id/home_btn_players"
+    style="@style/DashboardButton"
+        android:drawableTop="@drawable/ic_menu_friendslist" android:text="@string/view_players"/>
+</org.homelinux.murray.scorekeep.ui.DashboardLayout>
