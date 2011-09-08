@@ -6,11 +6,14 @@
 	
     <Button android:id="@+id/home_btn_new"
     style="@style/DashboardButton"
-        android:drawableTop="@drawable/ic_menu_add" android:text="@string/new_game"/>
+        android:drawableTop="@drawable/ic_menu_add" android:text="@string/new_game_short"/>
     <Button android:id="@+id/home_btn_history"
     style="@style/DashboardButton"
-        android:drawableTop="@drawable/ic_menu_invite" android:text="@string/history"/>
+        android:drawableTop="@drawable/ic_menu_recent_history" android:text="@string/view_history_short"/>
     <Button android:id="@+id/home_btn_players"
     style="@style/DashboardButton"
-        android:drawableTop="@drawable/ic_menu_friendslist" android:text="@string/view_players"/>
+        android:drawableTop="@drawable/ic_menu_allfriends" android:text="@string/view_players_short"/>
+    <Button android:id="@+id/home_btn_settings"
+    style="@style/DashboardButton"
+        android:drawableTop="@drawable/ic_menu_preferences" android:text="@string/settings"/>
 </org.homelinux.murray.scorekeep.ui.DashboardLayout>

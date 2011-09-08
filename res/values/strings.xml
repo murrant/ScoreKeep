@@ -4,7 +4,7 @@
     <string name="game_description">Game: </string>
     <string name="new_game">New Game</string>
     <string name="new_game_short">New</string>
-    <string name="view_players">View/Edit Players</string>
+    <string name="view_players">View Players</string>
     <string name="view_players_short">Players</string>
     <string name="add_player">Add Player</string>
     <string name="add_player_short">Add</string>
@@ -52,5 +52,8 @@
         <item>9</item>
         <item>10</item>
     </string-array>
-        <string name="history">View Previous Games</string>
+        <string name="settings">Settings</string>
+        <string name="view_history_short">Resume</string>
+        <string name="view_history">Previous Games</string>
+        <string name="settings_wakelock">Keep screen on</string>
 </resources>

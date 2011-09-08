@@ -38,6 +38,11 @@ public class HomeActivity extends Activity {
 		startActivity(new Intent(HomeActivity.this, PlayerList.class));
 	    }
 	});
-    }
 
+	findViewById(R.id.home_btn_settings).setOnClickListener(new View.OnClickListener() {
+	    public void onClick(View view) {
+		startActivity(new Intent(HomeActivity.this, Settings.class));
+	    }
+	});
+    }
 }
