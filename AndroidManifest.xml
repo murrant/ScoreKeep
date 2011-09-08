@@ -17,6 +17,7 @@
 		<activity android:name="PlayerList"></activity>
 		<provider android:name=".provider.ScoresProvider"
 			android:authorities="org.homelinux.murray.scoresprovider"></provider>
+		<activity android:name="Settings"></activity>
 
     </application>
 </manifest>

@@ -2,11 +2,13 @@ package org.homelinux.murray.scorekeep;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -36,9 +38,14 @@ public class ScoreCard extends Activity {
 		grid = (GridView) findViewById(R.id.score_card_grid);
 		TextView desc = (TextView) findViewById(R.id.game_desc_title);
 		desc.setText(game.description);
-		
+
 		grid.setAdapter(game);
 
+		// check if wake lock should be enabled and enable it
+		SharedPreferences settings = getSharedPreferences(Settings.PREFS_NAME, 0);
+		if (settings.getBoolean(Settings.KEY_SCREEN_ON, false)) {
+		    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		}
 	}
 	
 	@Override
