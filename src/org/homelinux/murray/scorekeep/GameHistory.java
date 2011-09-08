@@ -1,17 +1,17 @@
 package org.homelinux.murray.scorekeep;
 
-import org.homelinux.murray.scorekeep.R;
 import org.homelinux.murray.scorekeep.provider.Game;
+
 import android.app.ListActivity;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MenuInflater;
-import android.view.View;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
@@ -58,12 +58,6 @@ public class GameHistory extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {		
 		// Handle item selection
 		switch (item.getItemId()) {
-		case R.id.glmenu_new_game:
-			startActivity(new Intent(this, NewGame.class));
-			return true;
-		case R.id.glmenu_view_players:
-			startActivity(new Intent(this, PlayerList.class));
-			return true;
 		case R.id.glmenu_clear_history:
 			int rows = getContentResolver().delete(Game.CONTENT_URI, null, null);
 			if(rows>0) {

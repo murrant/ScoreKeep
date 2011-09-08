@@ -16,7 +16,7 @@
     <string name="clear_history_short">Clear</string>
     <string name="no_players">No players, Press Menu-&gt;New to create player.</string>
     <string name="game">Game</string>
-    <string name="no_games">No games.\n\nPress Menu-&gt;New to create game.</string>
+    <string name="no_games">No games.\n\nGo back to create a new game.</string>
     <string name="new_player">New Player</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
@@ -56,4 +56,7 @@
         <string name="view_history_short">Resume</string>
         <string name="view_history">Previous Games</string>
         <string name="settings_keepscreenon">Keep screen on</string>
+        <string name="about">About ScoreKeep</string>
+        <string name="about_short">About</string>
+        <string name="about_dialog_text">\u00A9 2011 Tony Murray</string>
 </resources>

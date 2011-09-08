@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/new_game" android:titleCondensed="@string/new_game_short" android:showAsAction="ifRoom|withText" android:icon="@drawable/ic_menu_add" android:id="@+id/glmenu_new_game"></item>
-    <item android:title="@string/view_players" android:titleCondensed="@string/view_players_short" android:showAsAction="ifRoom|withText" android:icon="@drawable/ic_menu_friendslist" android:id="@+id/glmenu_view_players"></item>
-    <item android:title="@string/clear_history" android:titleCondensed="@string/clear_history_short" android:icon="@drawable/ic_menu_delete" android:id="@+id/glmenu_clear_history"></item>
+    <item android:title="@string/clear_history" android:titleCondensed="@string/clear_history_short" android:icon="@drawable/ic_menu_delete" android:id="@+id/glmenu_clear_history" android:showAsAction="never"></item>
 </menu>
