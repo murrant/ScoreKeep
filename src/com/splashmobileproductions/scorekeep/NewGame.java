@@ -15,33 +15,36 @@
  */
 package com.splashmobileproductions.scorekeep;
 
-import com.splashmobileproductions.scorekeep.games.GameDefinition;
-import com.splashmobileproductions.scorekeep.games.GameDefs;
-import com.splashmobileproductions.scorekeep.provider.Game;
-import com.splashmobileproductions.scorekeep.provider.Player;
-import com.splashmobileproductions.scorekeep.provider.ScoresProvider;
+import java.util.AbstractList;
+import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MenuInflater;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Intent;
-import android.content.DialogInterface;
-import android.database.Cursor;
-import android.database.DataSetObserver;
-import android.app.AlertDialog;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.splashmobileproductions.scorekeep.games.GameDefinition;
+import com.splashmobileproductions.scorekeep.games.GameDefs;
+import com.splashmobileproductions.scorekeep.provider.Game;
+import com.splashmobileproductions.scorekeep.provider.Player;
+import com.splashmobileproductions.scorekeep.provider.ScoresProvider;
 
 public class NewGame extends Activity {
 	private static final String DEBUG_TAG = "ScoreKeep:NewGame";
@@ -118,6 +121,10 @@ public class NewGame extends Activity {
 	}
 
 	private Uri addPlayer(String name) {
+		//store the selected Ids first
+		final List<Long> selectedIds = asList(list.getCheckedItemIds());
+		
+		// add the player to the Content Provider
 		ContentValues content = new ContentValues();
 		content.put(Player.COLUMN_NAME_NAME, name);
 		Uri result = getContentResolver().insert(Player.CONTENT_URI, content);
@@ -130,13 +137,10 @@ public class NewGame extends Activity {
 				int count = list.getCount();
 				for(int i = 0; i<count; i++) {
 					long itemId = list.getItemIdAtPosition(i);
-					if(itemId == targetId) {
-						Log.d(DEBUG_TAG, "Player "+itemId+" selected");
-						list.setItemChecked(i, true);
-						list.getAdapter().unregisterDataSetObserver(this);
-						return;
-					}
-				}		
+					boolean isChecked = (itemId == targetId || selectedIds.contains(itemId));
+					list.setItemChecked(i, isChecked);
+				}
+				list.getAdapter().unregisterDataSetObserver(this);
 			}
 		});
 
@@ -154,4 +158,19 @@ public class NewGame extends Activity {
 		Log.d(DEBUG_TAG, "New Game result Uri: "+result.toString());
 		return result;
 	}
+	
+	private static List<Long> asList(final long[] l) {
+	    return new AbstractList<Long>() {
+	        public Long get(int i) {return l[i];}
+	        // throws NPE if val == null
+	        public Long set(int i, Long val) {
+	            Long oldVal = l[i];
+	            l[i] = val;
+	            return oldVal;
+	        }
+	        public int size() { return l.length;}
+	    };
+	}
+
+
 }
