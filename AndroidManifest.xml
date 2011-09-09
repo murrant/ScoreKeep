@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="1" android:versionName="1.0"
-	package="org.homelinux.murray.scorekeep">
+	android:versionCode="1" android:versionName="1.0" package="com.splashmobileproductions.scorekeep">
 	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="11" />
 
-	<application android:icon="@drawable/icon" android:label="@string/app_name">
+	<application android:icon="@drawable/icon" android:label="@string/app_name" android:hardwareAccelerated="false">
 		<activity android:name="HomeActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"></action>
@@ -15,8 +14,7 @@
 		<activity android:name="NewGame" android:noHistory="true"></activity>
 		<activity android:name="ScoreCard"></activity>
 		<activity android:name="PlayerList"></activity>
-		<provider android:name=".provider.ScoresProvider"
-			android:authorities="org.homelinux.murray.scoresprovider"></provider>
+		<provider android:authorities="com.splashmobileproductions.scoresprovider" android:name=".provider.ScoresProvider"></provider>
 		<activity android:name="Settings"></activity>
 
     </application>
