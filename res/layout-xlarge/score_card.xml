@@ -4,6 +4,6 @@
 	android:orientation="vertical">
 	<TextView android:layout_height="wrap_content"
 		android:layout_width="match_parent" android:text="Game Description"
-		android:gravity="center_horizontal" android:id="@+id/game_desc_title" android:textSize="24sp"></TextView>
+		android:gravity="center_horizontal" android:id="@+id/game_desc_title" android:textSize="24sp" android:visibility="gone"></TextView>
 	<GridView android:layout_width="match_parent" android:id="@+id/score_card_grid" android:layout_height="match_parent" android:horizontalSpacing="16sp" android:numColumns="auto_fit"></GridView>
 </LinearLayout>
