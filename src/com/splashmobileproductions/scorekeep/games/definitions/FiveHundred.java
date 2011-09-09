@@ -1,3 +1,7 @@
+/**
+ *  Copyright 2011 Tony Murray <murraytony@gmail.com>
+ */
+
 package com.splashmobileproductions.scorekeep.games.definitions;
 
 import com.splashmobileproductions.scorekeep.R;
