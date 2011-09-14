@@ -15,7 +15,6 @@
  */
 package com.splashmobileproductions.scorekeep;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,15 +22,17 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuInflater;
+import android.support.v4.view.MenuItem;
 import android.text.SpannableString;
 import android.text.util.Linkify;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-public class HomeActivity extends Activity {
+
+public class HomeActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
@@ -44,13 +45,11 @@ public class HomeActivity extends Activity {
 	    }
 	});
 
-
 	findViewById(R.id.home_btn_history).setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View view) {
 		startActivity(new Intent(HomeActivity.this, GameHistory.class));
 	    }
 	});
-
 
 	findViewById(R.id.home_btn_players).setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View view) {
@@ -67,7 +66,7 @@ public class HomeActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-	MenuInflater inflater = getMenuInflater();
+	MenuInflater inflater = (MenuInflater) getMenuInflater();
 	inflater.inflate(R.menu.home_menu, menu);
 	return true;
     }
