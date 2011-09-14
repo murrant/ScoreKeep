@@ -24,10 +24,10 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.Menu;
-import android.support.v4.view.MenuInflater;
 import android.support.v4.view.MenuItem;
 import android.text.SpannableString;
 import android.text.util.Linkify;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -66,7 +66,7 @@ public class HomeActivity extends FragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-	MenuInflater inflater = (MenuInflater) getMenuInflater();
+	MenuInflater inflater = getMenuInflater();
 	inflater.inflate(R.menu.home_menu, menu);
 	return true;
     }
