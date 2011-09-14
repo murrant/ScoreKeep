@@ -35,7 +35,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 public final class GameData extends BaseAdapter implements ListAdapter {
     private static final String DEBUG_TAG = "ScoreKeep:GameData";
@@ -96,25 +95,16 @@ public final class GameData extends BaseAdapter implements ListAdapter {
 	return IGNORE_ITEM_VIEW_TYPE;
     }
 
-    public void flipView(int position, ViewGroup parent) {
-	Log.d(DEBUG_TAG, "Flipping "+position+" in "+parent);
-	ViewHolder vh = (ViewHolder) parent.getChildAt(position).getTag();
-	vh.switcher.showNext();
-    }
-
     public View getView(int position, View convertView, ViewGroup parent) {
 	ViewHolder holder = null;
 	if (convertView == null) {
 	    convertView = mInflater.inflate(R.layout.badge, null);
 	    holder = new ViewHolder();
-	    holder.switcher = (ViewSwitcher)convertView.findViewById(R.id.view_flipper);
 	    holder.name = (TextView)convertView.findViewById(R.id.badge_name);
 	    holder.score = (TextView)convertView.findViewById(R.id.badge_score);
 	    holder.context = (TextView)convertView.findViewById(R.id.badge_context);
 	    holder.addButton = (Button) convertView.findViewById(R.id.badge_add);
 	    holder.historyButton = (Button) convertView.findViewById(R.id.badge_history);
-	    holder.scoreLayout = mInflater.inflate(gameDef.getDialogResource(), null);
-	    holder.switcher.addView(holder.scoreLayout);
 	    convertView.setTag(holder);
 	} else {
 	    holder = (ViewHolder)convertView.getTag();
@@ -130,15 +120,13 @@ public final class GameData extends BaseAdapter implements ListAdapter {
 	return convertView;
     }
 
-    public static class ViewHolder {
-	ViewSwitcher switcher;
-	View scoreLayout;
-	TextView name;
-	TextView score;
-	TextView context;
-	Button addButton;
-	Button historyButton;
-    }
+	public static class ViewHolder {
+		TextView name;
+		TextView score;
+		TextView context;
+		Button addButton;
+		Button historyButton;
+	}
 
     public int getViewTypeCount() {
 	return 1;

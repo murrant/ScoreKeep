@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -32,7 +33,6 @@ public class ScoreCard extends Activity {
 	@SuppressWarnings("unused")
 	private static final String DEBUG_TAG = "ScoreKeep:ScoreCard";
 	private GameData game;
-	private GridView grid;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -50,9 +50,10 @@ public class ScoreCard extends Activity {
 		// load the game data
 		game = new GameData(this, dataUri);
 		
-		grid = (GridView) findViewById(R.id.score_card_grid);
+		GridView grid = (GridView) findViewById(R.id.score_card_grid);
 		TextView desc = (TextView) findViewById(R.id.game_desc_title);
 		desc.setText(game.description);
+		desc.setVisibility(View.GONE);  //TODO hide until gametypes are supported
 
 		grid.setAdapter(game);
 
@@ -75,8 +76,7 @@ public class ScoreCard extends Activity {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.score_round:
-		    	game.flipView(0, grid);
-			return true;
+			return false;
 		case R.id.new_game:
 			startActivity(new Intent(this, NewGame.class));
 			finish(); // remove this activity
