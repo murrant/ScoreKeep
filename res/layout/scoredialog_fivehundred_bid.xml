@@ -9,6 +9,6 @@
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout2">
         <Button android:id="@+id/ok" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/bid" android:layout_weight="1"></Button>
-        <Button android:id="@+id/cancel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cancel" android:layout_weight="1"></Button>
+        <Button android:id="@+id/cancel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@android:string/cancel" android:layout_weight="1"></Button>
     </LinearLayout>
 </LinearLayout>
