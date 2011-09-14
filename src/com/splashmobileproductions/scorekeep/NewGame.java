@@ -100,14 +100,14 @@ public class NewGame extends Activity {
 			final EditText input = new EditText(this);
 			input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 			alert.setView(input);
-			alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					String value = input.getText().toString().trim();
 					addPlayer(value);
 
 				}
 			});
-			alert.setNegativeButton(R.string.cancel,
+			alert.setNegativeButton(android.R.string.cancel,
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.cancel();
