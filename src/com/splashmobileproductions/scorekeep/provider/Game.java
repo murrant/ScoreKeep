@@ -119,5 +119,5 @@ public class Game implements BaseColumns {
     /**
      * The default sort order for this table, most recently played games on top
      */
-    public static final String DEFAULT_SORT_ORDER = COLUMN_NAME_MODIFICATION_DATE+" ASC";
+    public static final String DEFAULT_SORT_ORDER = COLUMN_NAME_MODIFICATION_DATE+" DESC";
 }

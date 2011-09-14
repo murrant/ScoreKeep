@@ -48,7 +48,7 @@ public final class ScoresProvider extends ContentProvider {
 	public static final Uri CONTENT_URI= Uri.parse(SCHEME+AUTHORITY);
 
 	private static final String DB_NAME = "games.db";
-	private static final int DB_VERSION = 4;
+	private static final int DB_VERSION = 5;
 	
 	// Constants for the Uri Matcher
 	private static final int GAME = 1;
