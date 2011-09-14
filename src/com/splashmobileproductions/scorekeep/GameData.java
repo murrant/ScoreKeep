@@ -104,19 +104,19 @@ public final class GameData extends BaseAdapter implements ListAdapter {
 	    holder.score = (TextView)convertView.findViewById(R.id.badge_score);
 	    holder.context = (TextView)convertView.findViewById(R.id.badge_context);
 	    holder.addButton = (Button) convertView.findViewById(R.id.badge_add);
-	    holder.historyButton = (Button) convertView.findViewById(R.id.badge_history);
 	    convertView.setTag(holder);
 	} else {
 	    holder = (ViewHolder)convertView.getTag();
 	}
 	PlayerData pl = players.get(position);
 	holder.name.setText(pl.name);
+	convertView.setBackgroundColor((int) pl.color);
 	holder.score.setText(Long.toString(pl.getTotal()));
 	if(pl.getCurrentContext() != null) {
 	    holder.context.setText(pl.getCurrentContext());
 	}
 	holder.addButton.setOnClickListener(pl);
-	holder.historyButton.setOnClickListener(pl);
+	holder.name.setOnClickListener(pl);
 	return convertView;
     }
 
@@ -125,7 +125,6 @@ public final class GameData extends BaseAdapter implements ListAdapter {
 		TextView score;
 		TextView context;
 		Button addButton;
-		Button historyButton;
 	}
 
     public int getViewTypeCount() {

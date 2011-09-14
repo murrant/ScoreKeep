@@ -148,17 +148,20 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 		case R.id.badge_add:
 			(new AddScoreDialog(v.getContext(), this)).show();
 			return;
-		case R.id.badge_history:
+		case R.id.badge_name:
 			Context context = v.getContext();
 			Log.d(DEBUG_TAG, "Score History button clicked.");
 			final AlertDialog.Builder alert = new AlertDialog.Builder(context);
-			
+
 			HistoryAdapter ha = new HistoryAdapter(context, scores);
-			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			alert.setCustomTitle(inflater.inflate(R.layout.score_history_item, null));
+
+			// add a column header.
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			alert.setCustomTitle(inflater.inflate(R.layout.score_history_header, null));
+
 			alert.setAdapter(ha, this);
 			alert.show();
-			
+
 		}
 	}
 

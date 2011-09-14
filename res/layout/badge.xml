@@ -3,17 +3,14 @@
 	android:layout_width="match_parent" android:layout_height="wrap_content"
 	android:id="@+id/view_flipper">
 	<RelativeLayout android:layout_width="match_parent"
-		android:layout_height="match_parent" android:id="@+id/badge_layout">
-		<Button android:layout_alignParentLeft="true"
-			android:layout_height="wrap_content" android:layout_width="wrap_content"
-			android:id="@+id/badge_history" android:textSize="30sp" android:text=" = "></Button>
+		android:layout_height="match_parent" android:id="@+id/badge_layout" android:paddingTop="4dp" android:paddingLeft="4dp">
 		<TextView android:layout_alignParentTop="true"
 			android:layout_height="wrap_content" android:layout_width="wrap_content"
 			android:id="@+id/badge_name" android:layout_toRightOf="@+id/badge_history"
 			android:text="Name" android:textSize="24sp"></TextView>
 		<Button android:layout_alignParentRight="true"
 			android:layout_height="wrap_content" android:layout_width="wrap_content"
-			android:id="@+id/badge_add" android:textSize="30sp" android:text=" + "></Button>
+			android:id="@+id/badge_add" android:textSize="30sp" android:text=" ± "></Button>
 		<TextView android:layout_alignParentTop="true"
 			android:layout_height="wrap_content" android:layout_width="wrap_content"
 			android:id="@+id/badge_score" android:layout_toLeftOf="@+id/badge_add"
