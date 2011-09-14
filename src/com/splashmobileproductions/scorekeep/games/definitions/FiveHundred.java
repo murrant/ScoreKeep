@@ -58,7 +58,7 @@ public class FiveHundred extends BiddingGame {
 			Spinner tp = (Spinner) dlg.findViewById(R.id.score_bid_type);
 			String type = tp.getSelectedItem().toString();
 			
-			if(amount.isEmpty() && !type.endsWith("Nello")) {
+			if(amount.trim().equals("") && !type.endsWith("Nello")) {
 				Toast.makeText(dlg.getContext(), "You must choose a bid ammount", Toast.LENGTH_LONG);
 				return null;
 			}

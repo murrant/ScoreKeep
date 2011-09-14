@@ -57,7 +57,7 @@ public abstract class GameDefinition implements Comparable<GameDefinition>, View
 	
 	protected static long parseScore(String mathExp) throws NumberFormatException, ArithmeticException {
 		Long score = Long.getLong(mathExp);
-		if(mathExp != null && !mathExp.isEmpty() && score == null) {
+		if(mathExp != null && !mathExp.trim().equals("") && score == null) {
 			score = Math.round(new MathEval().evaluate(mathExp));
 		}
 		return score;
