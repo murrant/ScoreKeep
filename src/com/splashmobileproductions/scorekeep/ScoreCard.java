@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -53,7 +52,6 @@ public class ScoreCard extends Activity {
 		GridView grid = (GridView) findViewById(R.id.score_card_grid);
 		TextView desc = (TextView) findViewById(R.id.game_desc_title);
 		desc.setText(game.description);
-		desc.setVisibility(View.GONE);  //TODO hide until gametypes are supported
 
 		grid.setAdapter(game);
 
