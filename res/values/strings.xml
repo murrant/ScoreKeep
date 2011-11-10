@@ -59,4 +59,6 @@
         <string name="about_dialog_text">\u00A9 2011 Tony Murray</string>
         <string name="score_history">Score History</string>
         <string name="settings_keepscreenon_summary">Prevents your device from going to sleep while you are on the scoring screen.</string>
+        <string name="clear_players">Clear Players</string>
+        <string name="app_tagline">You\'ll never need a pen and paper again!</string>
 </resources>

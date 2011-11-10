@@ -49,7 +49,7 @@ public class ScoreCard extends Activity {
 
 		// load the game data
 		game = new GameData(this, dataUri);
-		
+
 		GridView grid = (GridView) findViewById(R.id.score_card_grid);
 		TextView desc = (TextView) findViewById(R.id.game_desc_title);
 		desc.setText(game.description);
@@ -59,7 +59,7 @@ public class ScoreCard extends Activity {
 		// check if wake lock should be enabled and enable it
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		if (settings.getBoolean(SettingsFragment.KEY_SCREEN_ON, false)) {
-		    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		}
 	}
 	
@@ -85,6 +85,12 @@ public class ScoreCard extends Activity {
 			return false;
 		case R.id.reset_scores:
 			game.resetScores();
+			return true;
+		case android.R.id.home:
+			// app icon in Action Bar clicked; go home
+			Intent homeIntent = new Intent(this, HomeActivity.class);
+			homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(homeIntent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

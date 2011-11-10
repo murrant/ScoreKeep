@@ -15,9 +15,12 @@
  */
 package com.splashmobileproductions.scorekeep;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBar;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+import android.widget.FrameLayout;
 
 
 public class HomeActivity extends FragmentActivity {
@@ -25,6 +28,19 @@ public class HomeActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_layout);
+		
+		FrameLayout fragmentFrame = (FrameLayout) findViewById(R.id.home_fragment_frame);
+		
+		if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+				== Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+			// on a xlarge screen device ...
+			getLayoutInflater().inflate(R.layout.app_logo, fragmentFrame);
+		} else {
+			// on a non-xlarge screen device (phone, etc)
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.add(R.id.home_fragment_frame, new HomeFragment());
+			ft.commit();
+		}
 		
 		ActionBar ab = this.getSupportActionBar();
 		if(ab==null) {

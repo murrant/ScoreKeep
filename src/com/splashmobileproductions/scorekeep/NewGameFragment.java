@@ -115,6 +115,12 @@ public class NewGameFragment extends FragmentActivity {
 			});
 			alert.show();
 			return true;
+		case android.R.id.home:
+			// app icon in Action Bar clicked; go home
+			Intent homeIntent = new Intent(this, HomeActivity.class);
+			homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(homeIntent);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

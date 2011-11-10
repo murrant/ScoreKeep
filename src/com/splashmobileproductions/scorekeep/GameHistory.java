@@ -20,6 +20,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
@@ -66,6 +68,10 @@ public class GameHistory extends ListFragment {
 				Uri gameUri = ContentUris.withAppendedId(Game.CONTENT_ID_URI_BASE, id);
 				intent.setData(gameUri);  //set data uri for the new game
 				startActivity(intent);
+				
+				//TODO don't like this...  would almost rather leave it on the stack.
+				//clear the back stack
+				((FragmentActivity) getActivity()).getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			}
 		});
 	}
@@ -90,6 +96,4 @@ public class GameHistory extends ListFragment {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
-
 }
