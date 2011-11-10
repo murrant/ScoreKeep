@@ -23,6 +23,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
 import android.text.SpannableString;
@@ -33,8 +36,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 public class HomeFragment extends Fragment {
+	private GameHistory historyFragment;
+	private SettingsFragment settingsFragment;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,50 +53,65 @@ public class HomeFragment extends Fragment {
     Context context = getActivity().getApplicationContext();
 
 	// Attach event handlers
-    final Intent newGameIntent = new Intent(context, NewGame.class);
+    final Intent newGameIntent = new Intent(context, NewGameFragment.class);
 	view.findViewById(R.id.home_btn_new).setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View view) { startActivity(newGameIntent); }
 	});
-	final Intent gameHistoryIntent = new Intent(context, GameHistory.class);
+	//final Intent gameHistoryIntent = new Intent(context, GameHistory.class);
 	view.findViewById(R.id.home_btn_history).setOnClickListener(new View.OnClickListener() {
-	    public void onClick(View view) { startActivity(gameHistoryIntent); }
+	    public void onClick(View view) {
+	    	//startActivity(gameHistoryIntent);
+	    	if (historyFragment == null) historyFragment = new GameHistory();
+	    	changeFragments(historyFragment);
+	    }
 	});
 	final Intent playerListIntent = new Intent(context, PlayerList.class);
 	view.findViewById(R.id.home_btn_players).setOnClickListener(new View.OnClickListener() {
 	    public void onClick(View view) { startActivity(playerListIntent); }
 	});
-	final Intent settingsIntent = new Intent(context, Settings.class);
 	view.findViewById(R.id.home_btn_settings).setOnClickListener(new View.OnClickListener() {
-	    public void onClick(View view) { startActivity(settingsIntent); }
+	    public void onClick(View view) {
+	    	if (settingsFragment == null) settingsFragment = new SettingsFragment();
+	    	changeFragments((Fragment) settingsFragment);
+	    }
 	});
 
 	return view;
     }
     
-    
+    private void changeFragments(Fragment target) {
+    	FragmentManager fragmentManager = ((FragmentActivity) getActivity()).getSupportFragmentManager();
+    	FragmentTransaction ft = fragmentManager.beginTransaction();
+    	ft.replace(R.id.home_fragment_frame, target);
+    	ft.addToBackStack(null);
+    	ft.commit();
+
+    	// clear the background image
+    	getActivity().findViewById(R.id.home_fragment_frame).setBackgroundColor(0);
+    }
     
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     	inflater.inflate(R.menu.home_menu, menu);
-    	menu.findItem(R.id.home_menu_new).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {		
-	// Handle item selection
-	switch (item.getItemId()) {
-	case R.id.home_menu_new:
-	    startActivity(new Intent(getActivity().getApplicationContext(), NewGame.class));
-	    return true;
-	case R.id.home_menu_about:
-	    //show about dialog
-	    try {
-	    	AboutDialogBuilder.create(getActivity().getApplicationContext()).show();
-	    } catch (NameNotFoundException nnfe) {}
-	default:
-	    return super.onOptionsItemSelected(item);
-	}
+    	// Handle item selection
+    	switch (item.getItemId()) {
+    	case R.id.home_menu_new:
+    		startActivity(new Intent(getActivity().getApplicationContext(), NewGameFragment.class));
+    		return true;
+    	case R.id.home_menu_about:
+    		//show about dialog
+    		try {
+    			AboutDialogBuilder.create(getActivity().getApplicationContext()).show();
+    		} catch (NameNotFoundException nnfe) {}
+    	default:
+    		return super.onOptionsItemSelected(item);
+    	}
     }
+    
     
     public static class AboutDialogBuilder {
 	    public static AlertDialog create( Context context ) throws NameNotFoundException {

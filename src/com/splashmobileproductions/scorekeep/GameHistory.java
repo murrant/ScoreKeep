@@ -15,41 +15,50 @@
  */
 package com.splashmobileproductions.scorekeep;
 
-import com.splashmobileproductions.scorekeep.provider.Game;
-
-import android.app.ListActivity;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.v4.app.ListFragment;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.splashmobileproductions.scorekeep.provider.Game;
 
-public class GameHistory extends ListActivity {
+
+public class GameHistory extends ListFragment {
 	@SuppressWarnings("unused")
 	private static final String DEBUG_TAG = "ScoreKeep:GameHistory";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.games_list);
+		setHasOptionsMenu(true);
 
 		/* Android 3.0...
 		CursorLoader loader = new CursorLoader(this, Game.CONTENT_URI, null, null, null, null);
 		Cursor cursor = loader.loadInBackground();
-		*/
-		
-		Cursor cursor = managedQuery(Game.CONTENT_URI, null, null, null, null);
-		
-		GamesListAdapter gla = new GamesListAdapter(this,cursor);
+		 */
+
+		Cursor cursor = getActivity().managedQuery(Game.CONTENT_URI, null, null, null, null);
+		GamesListAdapter gla = new GamesListAdapter(getActivity(),cursor);
 		setListAdapter(gla);
-		
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.games_list, container, false);
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// Open games on click
 		getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {  
 			public void onItemClick(AdapterView<?> listView, View item, int position, long id) {
@@ -59,14 +68,11 @@ public class GameHistory extends ListActivity {
 				startActivity(intent);
 			}
 		});
-		
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.games_list_menu, menu);
-		return true;
 	}
 
 	@Override
@@ -74,9 +80,9 @@ public class GameHistory extends ListActivity {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.glmenu_clear_history:
-			int rows = getContentResolver().delete(Game.CONTENT_URI, null, null);
+			int rows = getActivity().getContentResolver().delete(Game.CONTENT_URI, null, null);
 			if(rows>0) {
-				Toast.makeText(getApplicationContext(), rows+" games deleted!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity().getApplicationContext(), rows+" games deleted!", Toast.LENGTH_SHORT).show();
 				return true;
 			}
 			return false;
@@ -84,6 +90,6 @@ public class GameHistory extends ListActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
-	
+
+
 }

@@ -3,11 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-        <fragment android:name="com.splashmobileproductions.scorekeep.HomeFragment"
-            android:id="@+id/list"
-            android:layout_weight="1"
+
+    <FrameLayout
+        android:id="@+id/home_fragment_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+        <fragment
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:name="com.splashmobileproductions.scorekeep.HomeFragment" >
+
             <!-- Preview: layout=@layout/dashboard -->
         </fragment>
+    </FrameLayout>
+
 </LinearLayout>

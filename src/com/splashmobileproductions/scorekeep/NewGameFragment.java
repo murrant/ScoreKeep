@@ -18,7 +18,6 @@ package com.splashmobileproductions.scorekeep;
 import java.util.AbstractList;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -28,11 +27,12 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Menu;
+import android.support.v4.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.support.v4.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -46,8 +46,8 @@ import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.Player;
 import com.splashmobileproductions.scorekeep.provider.ScoresProvider;
 
-public class NewGame extends Activity {
-	private static final String DEBUG_TAG = "ScoreKeep:NewGame";
+public class NewGameFragment extends FragmentActivity {
+	private static final String DEBUG_TAG = "ScoreKeep:NewGameFragment";
     private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
     private final static int[] TO = new int[]{android.R.id.text1};
 	private ListView list;

@@ -11,12 +11,11 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name="GameHistory"></activity>
-		<activity android:name="NewGame" android:noHistory="true" android:theme="@style/Theme.Sherlock"></activity>
+		<activity android:name="NewGameFragment" android:noHistory="true" android:theme="@style/Theme.Sherlock"></activity>
 		<activity android:name="ScoreCard"></activity>
 		<activity android:name="PlayerList"></activity>
 		<provider android:authorities="com.splashmobileproductions.scoresprovider" android:name=".provider.ScoresProvider"></provider>
-		<activity android:name="Settings"></activity>
+		<activity android:name=".SettingsFragment"></activity>
 
     </application>
 </manifest>

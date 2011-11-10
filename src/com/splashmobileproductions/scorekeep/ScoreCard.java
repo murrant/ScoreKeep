@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,7 +42,7 @@ public class ScoreCard extends Activity {
 		Uri dataUri = getIntent().getData();
 		// If there is no data associated with the Intent, bring up new game dialog
 		if (dataUri == null) {
-			startActivity(new Intent(this, NewGame.class));
+			startActivity(new Intent(this, NewGameFragment.class));
 			finish(); // remove this activity
 			return;
 		}
@@ -56,8 +57,8 @@ public class ScoreCard extends Activity {
 		grid.setAdapter(game);
 
 		// check if wake lock should be enabled and enable it
-		SharedPreferences settings = getSharedPreferences(Settings.PREFS_NAME, 0);
-		if (settings.getBoolean(Settings.KEY_SCREEN_ON, false)) {
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		if (settings.getBoolean(SettingsFragment.KEY_SCREEN_ON, false)) {
 		    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		}
 	}
@@ -76,7 +77,7 @@ public class ScoreCard extends Activity {
 		case R.id.score_round:
 			return false;
 		case R.id.new_game:
-			startActivity(new Intent(this, NewGame.class));
+			startActivity(new Intent(this, NewGameFragment.class));
 			finish(); // remove this activity
 			return true;
 		case R.id.change_players:
