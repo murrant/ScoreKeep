@@ -15,22 +15,22 @@
  */
 package com.splashmobileproductions.scorekeep;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.ActionBar;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 
 
-public class HomeActivity extends FragmentActivity {
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
+public class HomeActivity extends SherlockFragmentActivity {
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_layout);
-		
+
 		FrameLayout fragmentFrame = (FrameLayout) findViewById(R.id.home_fragment_frame);
-		
+
 		if ((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
 				== Configuration.SCREENLAYOUT_SIZE_XLARGE) {
 			// on a xlarge screen device ...
@@ -41,10 +41,5 @@ public class HomeActivity extends FragmentActivity {
 			ft.add(R.id.home_fragment_frame, new HomeFragment());
 			ft.commit();
 		}
-		
-		ActionBar ab = this.getSupportActionBar();
-		if(ab==null) {
-			android.util.Log.d("HomeActivity", "Could not access the ActionBar");
-		}
-    }
+	}
 }

@@ -34,16 +34,26 @@ public class Generic extends GameDefinition {
 	@Override
 	public ScoreData getScore(Dialog dlg, PlayerData player) {
 		TextView scoreView = (TextView) dlg.findViewById(R.id.score_edit);
+		TextView contextView = (TextView) dlg.findViewById(R.id.context_edit);		
+		String scoreInput = scoreView.getText().toString();
+		String context = contextView.getText().toString();				
+
 		Long score = null;
+		// if there no score, but a context.  Leave score null and return
+		if(scoreInput.isEmpty() && !context.isEmpty()) {	
+			return new ScoreData(score, context);
+		}
+		
 		try {
-			score = parseScore(scoreView.getText().toString());
+			score = parseScore(scoreInput);
 		} catch(Exception e) {
 			Toast.makeText(dlg.getContext(), R.string.number_parse_failed, Toast.LENGTH_LONG).show();
 			return null;
 		}
+
 		
-		TextView contextView = (TextView) dlg.findViewById(R.id.context_edit);
-		String context = contextView.getText().toString();		
+
+
 		
 		return new ScoreData(score, context);
 	}

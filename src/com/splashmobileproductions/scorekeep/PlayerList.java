@@ -15,22 +15,33 @@
  */
 package com.splashmobileproductions.scorekeep;
 
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
+
+import android.support.v4.app.DialogFragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.Player;
+import com.splashmobileproductions.scorekeep.provider.Score;
 
-public class PlayerList extends ListFragment {
+public class PlayerList extends SherlockListFragment implements OnClickListener {
 	private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
 	private final static int[] TO = new int[]{android.R.id.text1};
 
@@ -63,14 +74,50 @@ public class PlayerList extends ListFragment {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.plmenu_new:
-			final Intent addPlayerIntent = new Intent(getActivity(), AddPlayerDialog.class);
-			startActivity(addPlayerIntent);
+			//TODO: combine with code in NewGameFragment and move to a common location
+			final AlertDialog.Builder alert = new AlertDialog.Builder(this.getActivity());
+			alert.setTitle(R.string.new_player);
+			final EditText input = new EditText(this.getActivity());
+			input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+			alert.setView(input);
+			alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					String name = input.getText().toString().trim();
+					// add the player to the Content Provider
+					ContentValues content = new ContentValues();
+					content.put(Player.COLUMN_NAME_NAME, name);
+					PlayerList.this.getActivity().getContentResolver().insert(Player.CONTENT_URI, content);
+
+				}
+			});
+			alert.setNegativeButton(android.R.string.cancel,
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					dialog.cancel();
+				}
+			});
+			alert.show();
 			return true;
 		case R.id.plmenu_clear:
 			//put up big warning, then nuke all players and all games
-			return false;
+			DialogFragment df = Utility.createYesNoDialog(this, R.string.dialog_delete_everything);
+			df.show(getFragmentManager(), "dialog");
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onClick(DialogInterface dialog, int which) {
+		if(DialogInterface.BUTTON_POSITIVE == which) {
+			ContentResolver cr = getActivity().getContentResolver();
+			int dgms = cr.delete(Game.CONTENT_URI, null, null);
+			cr.delete(Score.CONTENT_URI, null, null);
+			int dpls = cr.delete(Player.CONTENT_URI, null, null);
+			if(dpls>0) {
+				Toast.makeText(getActivity().getApplicationContext(), dpls+" players and "+dgms+" games deleted!", Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 }

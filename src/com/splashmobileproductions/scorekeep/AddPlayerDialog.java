@@ -22,6 +22,8 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.splashmobileproductions.scorekeep.provider.Player;
@@ -32,26 +34,38 @@ public class AddPlayerDialog extends Activity {
 		super.onCreate(savedInstanceState);
 
 
-		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle(R.string.new_player);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
+		builder.setTitle(R.string.new_player);
 		final EditText input = new EditText(this);
 		input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-		alert.setView(input);
-		alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		builder.setView(input);
+		builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString().trim();
 				addPlayer(value);
 				finish();
 			}
 		});
-		alert.setNegativeButton(android.R.string.cancel,
+		builder.setNegativeButton(android.R.string.cancel,
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				dialog.cancel();
 				finish();
 			}
 		});
-		alert.show();
+		
+		final AlertDialog dialog = builder.create();
+		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+		    @Override
+		    public void onFocusChange(View v, boolean hasFocus) {
+		        if (hasFocus) {
+		            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		        }
+		    }
+		});
+		
+		dialog.show();
+		//input.requestFocus();
 	}
 
 	private Uri addPlayer(String name) {

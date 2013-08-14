@@ -15,59 +15,64 @@
  */
 package com.splashmobileproductions.scorekeep;
 
-import android.app.Activity;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.TextView;
 
-
-public class ScoreCard extends Activity {
-	@SuppressWarnings("unused")
-	private static final String DEBUG_TAG = "ScoreKeep:ScoreCard";
+public class ScoreCardFragment extends SherlockFragment {
 	private GameData game;
+	private Uri dataUri;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.score_card);
-		Uri dataUri = getIntent().getData();
-		// If there is no data associated with the Intent, bring up new game dialog
-		if (dataUri == null) {
-			startActivity(new Intent(this, NewGameFragment.class));
-			finish(); // remove this activity
-			return;
-		}
+		setHasOptionsMenu(true);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.score_card, container, false);
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		Intent launchingIntent = getActivity().getIntent();
+		dataUri = launchingIntent.getData();
+		Log.d("ScoreCardFragment", dataUri.toString());
 
 		// load the game data
-		game = new GameData(this, dataUri);
+		game = new GameData(getActivity(), dataUri);
 
-		GridView grid = (GridView) findViewById(R.id.score_card_grid);
-		TextView desc = (TextView) findViewById(R.id.game_desc_title);
+		GridView grid = (GridView) view.findViewById(R.id.score_card_grid);
+		TextView desc = (TextView) view.findViewById(R.id.game_desc_title);
 		desc.setText(game.description);
-
 		grid.setAdapter(game);
 
 		// check if wake lock should be enabled and enable it
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 		if (settings.getBoolean(SettingsFragment.KEY_SCREEN_ON, false)) {
-			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		}
+			getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		}	
 	}
-	
+
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.score_card_menu, menu);
-		return true;
 	}
 
 	@Override
@@ -77,8 +82,8 @@ public class ScoreCard extends Activity {
 		case R.id.score_round:
 			return false;
 		case R.id.new_game:
-			startActivity(new Intent(this, NewGameFragment.class));
-			finish(); // remove this activity
+			startActivity(new Intent(getActivity(), NewGameFragment.class));
+			getActivity().finish(); // remove this activity
 			return true;
 		case R.id.change_players:
 			//TODO add/remove/reorder players
@@ -88,7 +93,7 @@ public class ScoreCard extends Activity {
 			return true;
 		case android.R.id.home:
 			// app icon in Action Bar clicked; go home
-			Intent homeIntent = new Intent(this, HomeActivity.class);
+			Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
 			homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(homeIntent);
 			return true;

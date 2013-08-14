@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent" android:layout_height="wrap_content"
-	android:id="@+id/view_flipper">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/badge_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffffff" 
+    android:padding="4dp">
+    
 	<RelativeLayout android:layout_width="match_parent"
-		android:layout_height="match_parent" android:id="@+id/badge_layout" android:paddingTop="4dp" android:paddingLeft="4dp">
+		android:layout_height="match_parent" android:id="@+id/badge_layout_inside" android:background="#ff000000">
 		<TextView android:layout_alignParentTop="true"
 			android:layout_height="wrap_content" android:layout_width="wrap_content"
 			android:id="@+id/badge_name" android:layout_toRightOf="@+id/badge_history"
@@ -15,9 +19,16 @@
 			android:layout_height="wrap_content" android:layout_width="wrap_content"
 			android:id="@+id/badge_score" android:layout_toLeftOf="@+id/badge_add"
 			android:textSize="24sp" android:text="0"></TextView>
-		<TextView android:layout_height="wrap_content"
-			android:layout_width="wrap_content" android:id="@+id/badge_context"
-			android:layout_below="@+id/badge_score"
-			android:layout_centerHorizontal="true"></TextView>
+
+		<TextView
+		    android:id="@+id/badge_context"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_below="@+id/badge_score"
+		    android:layout_centerHorizontal="true"
+		    android:text=" "
+		    android:textSize="16sp" >
+
+</TextView>
 	</RelativeLayout>
-</ViewSwitcher>
+</RelativeLayout>

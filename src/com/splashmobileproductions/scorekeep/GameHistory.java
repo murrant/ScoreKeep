@@ -15,6 +15,7 @@
  */
 package com.splashmobileproductions.scorekeep;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,20 +23,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ListFragment;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.splashmobileproductions.scorekeep.provider.Game;
+import com.splashmobileproductions.scorekeep.provider.Score;
 
 
-public class GameHistory extends ListFragment {
+public class GameHistory extends SherlockListFragment {
 	@SuppressWarnings("unused")
 	private static final String DEBUG_TAG = "ScoreKeep:GameHistory";
 
@@ -64,7 +66,7 @@ public class GameHistory extends ListFragment {
 		// Open games on click
 		getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {  
 			public void onItemClick(AdapterView<?> listView, View item, int position, long id) {
-				Intent intent = new Intent(listView.getContext(), ScoreCard.class);
+				Intent intent = new Intent(listView.getContext(), ScoreCardActivity.class);
 				Uri gameUri = ContentUris.withAppendedId(Game.CONTENT_ID_URI_BASE, id);
 				intent.setData(gameUri);  //set data uri for the new game
 				startActivity(intent);
@@ -86,7 +88,9 @@ public class GameHistory extends ListFragment {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.glmenu_clear_history:
-			int rows = getActivity().getContentResolver().delete(Game.CONTENT_URI, null, null);
+			ContentResolver cr = getActivity().getContentResolver();
+			int rows = cr.delete(Game.CONTENT_URI, null, null);
+			cr.delete(Score.CONTENT_URI, null, null);
 			if(rows>0) {
 				Toast.makeText(getActivity().getApplicationContext(), rows+" games deleted!", Toast.LENGTH_SHORT).show();
 				return true;

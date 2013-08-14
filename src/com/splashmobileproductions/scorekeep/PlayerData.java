@@ -116,7 +116,7 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
 			values.put(Score.COLUMN_NAME_SCORE, sd.score.longValue());
 			total += sd.score;
 		}
-		if(sd.context != null) {
+		if(sd.context != null && !sd.context.isEmpty()) {
 			values.put(Score.COLUMN_NAME_CONTEXT, sd.context);
 			scoreContext = sd.context;
 		}

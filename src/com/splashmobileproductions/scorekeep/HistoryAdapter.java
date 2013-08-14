@@ -54,8 +54,8 @@ public class HistoryAdapter extends ArrayAdapter<ScoreData> {
         } else {
         	holder.context.setText("");
         }
-        holder.score.setBackgroundColor(android.R.color.black);
-        holder.score.setTextColor(android.R.color.black);
+        //holder.score.setBackgroundColor(android.R.color.black);
+        //holder.score.setTextColor(android.R.color.black);
         return convertView;
 	}
 	

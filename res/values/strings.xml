@@ -61,4 +61,5 @@
         <string name="settings_keepscreenon_summary">Prevents your device from going to sleep while you are on the scoring screen.</string>
         <string name="clear_players">Clear Players</string>
         <string name="app_tagline">You\'ll never need a pen and paper again!</string>
+        <string name="dialog_delete_everything">Delete all players and games?</string>
 </resources>

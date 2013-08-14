@@ -15,6 +15,11 @@
  */
 package com.splashmobileproductions.scorekeep;
 
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -26,17 +31,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
 import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends SherlockFragment {
 	private GameHistory historyFragment;
 	private SettingsFragment settingsFragment;
 	private PlayerList playerListFragment;

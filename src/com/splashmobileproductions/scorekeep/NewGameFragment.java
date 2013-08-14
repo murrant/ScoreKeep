@@ -15,9 +15,6 @@
  */
 package com.splashmobileproductions.scorekeep;
 
-import java.util.AbstractList;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -27,12 +24,8 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.InputType;
 import android.util.Log;
-import android.support.v4.view.Menu;
-import android.view.MenuInflater;
-import android.support.v4.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -40,13 +33,17 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.splashmobileproductions.scorekeep.games.GameDefinition;
 import com.splashmobileproductions.scorekeep.games.GameDefs;
 import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.Player;
 import com.splashmobileproductions.scorekeep.provider.ScoresProvider;
 
-public class NewGameFragment extends FragmentActivity {
+public class NewGameFragment extends SherlockFragmentActivity {
 	private static final String DEBUG_TAG = "ScoreKeep:NewGameFragment";
     private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
     private final static int[] TO = new int[]{android.R.id.text1};
@@ -71,7 +68,7 @@ public class NewGameFragment extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.new_game_menu, menu);
 		return true;
 	}
@@ -81,7 +78,7 @@ public class NewGameFragment extends FragmentActivity {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.start_game:
-			Intent intent = new Intent(this, ScoreCard.class);
+			Intent intent = new Intent(this, ScoreCardActivity.class);
 
 			long[] players = list.getCheckedItemIds();
 			if(players.length < 1) {
@@ -127,9 +124,6 @@ public class NewGameFragment extends FragmentActivity {
 	}
 
 	private Uri addPlayer(String name) {
-		//store the selected Ids first
-		final List<Long> selectedIds = asList(list.getCheckedItemIds());
-		
 		// add the player to the Content Provider
 		ContentValues content = new ContentValues();
 		content.put(Player.COLUMN_NAME_NAME, name);
@@ -140,13 +134,17 @@ public class NewGameFragment extends FragmentActivity {
 		list.getAdapter().registerDataSetObserver(new DataSetObserver() {
 			public void onChanged() {
 				// find the new user and select it
-				int count = list.getCount();
+				int count = list.getCount()+1;
+				// BUG: the count seems to be off by one.
 				for(int i = 0; i<count; i++) {
 					long itemId = list.getItemIdAtPosition(i);
-					boolean isChecked = (itemId == targetId || selectedIds.contains(itemId));
-					list.setItemChecked(i, isChecked);
+					boolean isChecked = (itemId == targetId); // remove and only change check when needed
+					if(isChecked) {
+						list.setItemChecked(i, isChecked);
+						list.getAdapter().unregisterDataSetObserver(this);
+					}
 				}
-				list.getAdapter().unregisterDataSetObserver(this);
+				
 			}
 		});
 
@@ -164,7 +162,7 @@ public class NewGameFragment extends FragmentActivity {
 		Log.d(DEBUG_TAG, "New Game result Uri: "+result.toString());
 		return result;
 	}
-	
+	/* TODO: remove?
 	private static List<Long> asList(final long[] l) {
 	    return new AbstractList<Long>() {
 	        public Long get(int i) {return l[i];}
@@ -177,6 +175,6 @@ public class NewGameFragment extends FragmentActivity {
 	        public int size() { return l.length;}
 	    };
 	}
-
+*/
 
 }

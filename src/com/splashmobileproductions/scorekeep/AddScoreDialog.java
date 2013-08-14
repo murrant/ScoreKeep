@@ -107,7 +107,7 @@ public class AddScoreDialog extends Dialog implements View.OnClickListener,TextV
 		// handle built in add/subtract functions
 		if(scoreEdit!=null && amount!=0) {
 			String startExp = scoreEdit.getText().toString();
-			if(startExp.trim().equals("")) {
+			if(startExp.trim().isEmpty()) {
 				scoreEdit.setText(Integer.toString(amount));
 			} else {
 				Long curNum = Long.getLong(startExp);
