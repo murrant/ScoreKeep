@@ -15,13 +15,12 @@
  */
 package com.splashmobileproductions.scorekeep;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-public class ScoreCardActivity extends SherlockFragmentActivity {
+public class ScoreCardActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

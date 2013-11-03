@@ -15,15 +15,16 @@
  */
 package com.splashmobileproductions.scorekeep;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 
+
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 
 
-public class HomeActivity extends SherlockFragmentActivity {
+public class HomeActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,7 +38,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 			getLayoutInflater().inflate(R.layout.app_logo, fragmentFrame);
 		} else {
 			// on a non-xlarge screen device (phone, etc)
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			ft.add(R.id.home_fragment_frame, new HomeFragment());
 			ft.commit();
 		}

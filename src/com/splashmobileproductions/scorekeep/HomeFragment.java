@@ -15,31 +15,29 @@
  */
 package com.splashmobileproductions.scorekeep;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+
 
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
-
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class HomeFragment extends SherlockFragment {
+public class HomeFragment extends Fragment {
 	private GameHistory historyFragment;
 	private SettingsFragment settingsFragment;
 	private PlayerList playerListFragment;
@@ -86,7 +84,7 @@ public class HomeFragment extends SherlockFragment {
 	}
 
 	private void changeFragments(Fragment target) {
-		FragmentManager fragmentManager = ((FragmentActivity) getActivity()).getSupportFragmentManager();
+		FragmentManager fragmentManager = getActivity().getFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
 		ft.replace(R.id.home_fragment_frame, target);
 		ft.addToBackStack(null);

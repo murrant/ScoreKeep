@@ -15,29 +15,28 @@
  */
 package com.splashmobileproductions.scorekeep;
 
+import android.app.FragmentManager;
+import android.app.ListFragment;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.Score;
 
 
-public class GameHistory extends SherlockListFragment {
+public class GameHistory extends ListFragment {
 	@SuppressWarnings("unused")
 	private static final String DEBUG_TAG = "ScoreKeep:GameHistory";
 
@@ -73,7 +72,7 @@ public class GameHistory extends SherlockListFragment {
 				
 				//TODO don't like this...  would almost rather leave it on the stack.
 				//clear the back stack
-				((FragmentActivity) getActivity()).getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+				getActivity().getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			}
 		});
 	}

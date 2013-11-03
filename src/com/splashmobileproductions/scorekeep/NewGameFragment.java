@@ -15,6 +15,7 @@
  */
 package com.splashmobileproductions.scorekeep;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -26,6 +27,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -33,17 +37,13 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.splashmobileproductions.scorekeep.games.GameDefinition;
 import com.splashmobileproductions.scorekeep.games.GameDefs;
 import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.Player;
 import com.splashmobileproductions.scorekeep.provider.ScoresProvider;
 
-public class NewGameFragment extends SherlockFragmentActivity {
+public class NewGameFragment extends Activity {
 	private static final String DEBUG_TAG = "ScoreKeep:NewGameFragment";
     private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
     private final static int[] TO = new int[]{android.R.id.text1};
@@ -68,7 +68,7 @@ public class NewGameFragment extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getSupportMenuInflater();
+		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.new_game_menu, menu);
 		return true;
 	}

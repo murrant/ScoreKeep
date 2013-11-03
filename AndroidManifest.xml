@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="1" package="com.splashmobileproductions.scorekeep" android:versionName="0.1">
-	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="14"/>
+	android:versionCode="1" package="com.splashmobileproductions.scorekeep" android:versionName="0.2">
+	<uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18"/>
 
-	<application android:icon="@drawable/icon" android:label="@string/app_name" android:hardwareAccelerated="true">
-		<activity android:name="HomeActivity" android:label="@string/app_name" android:theme="@style/Theme.Sherlock">
+	<application android:icon="@drawable/icon" android:label="@string/app_name" android:hardwareAccelerated="true" android:allowBackup="true">
+		<activity android:name="HomeActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name="NewGameFragment" android:noHistory="true" android:theme="@style/Theme.Sherlock"></activity>
-		<activity android:name="ScoreCardActivity" android:theme="@style/Theme.Sherlock"></activity>
+		<activity android:name="NewGameFragment" android:noHistory="true"></activity>
+		<activity android:name="ScoreCardActivity"></activity>
 		<provider android:authorities="com.splashmobileproductions.scoresprovider" android:name=".provider.ScoresProvider"></provider>
 		<activity android:name="AddPlayerDialog" android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 
