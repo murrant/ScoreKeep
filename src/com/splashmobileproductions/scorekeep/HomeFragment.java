@@ -1,5 +1,5 @@
 /**
- *  Copyright 2011 Tony Murray <murraytony@gmail.com>
+ *  Copyright 2011-2013 Tony Murray <murraytony@gmail.com>
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,6 +39,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class HomeFragment extends Fragment {
+    private static final String DEBUG_TAG = "ScoreKeep:HomeFragment";
 	private GameHistory historyFragment;
 	private SettingsFragment settingsFragment;
 	private PlayerList playerListFragment;
@@ -97,7 +99,9 @@ public class HomeFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.home_menu, menu);
+        //Log.d(DEBUG_TAG, "Creating menu");
+        menu.clear();
+        inflater.inflate(R.menu.home_menu, menu);
 	}
 
 	@Override
