@@ -114,7 +114,7 @@ public class HomeFragment extends Fragment {
 		case R.id.home_menu_about:
 			//show about dialog
 			try {
-				AboutDialogBuilder.create(getActivity().getApplicationContext()).show();
+				AboutDialogBuilder.create(getActivity()).show();
 			} catch (NameNotFoundException nnfe) {}
 		default:
 			return super.onOptionsItemSelected(item);
