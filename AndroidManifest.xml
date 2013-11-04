@@ -13,6 +13,7 @@
 		</activity>
 		<activity android:name="NewGameFragment" android:noHistory="true"></activity>
 		<activity android:name="ScoreCardActivity"></activity>
+        <activity android:name="GameHistoryActivity"></activity>
 		<provider android:authorities="com.splashmobileproductions.scoresprovider" android:name=".provider.ScoresProvider"></provider>
 		<activity android:name="AddPlayerDialog" android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 
