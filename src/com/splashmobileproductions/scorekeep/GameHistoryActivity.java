@@ -24,4 +24,9 @@ public class GameHistoryActivity extends Activity {
         setContentView(R.layout.game_history_activity);
         getActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+    }
 }

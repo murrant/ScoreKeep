@@ -59,12 +59,18 @@ public class HomeFragment extends Fragment {
 		// Attach event handlers
 		final Intent newGameIntent = new Intent(getActivity().getApplicationContext(), NewGameActivity.class);
 		view.findViewById(R.id.home_btn_new).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) { startActivity(newGameIntent); }
+			public void onClick(View view) {
+                startActivity(newGameIntent);
+                HomeFragment.this.getActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+            }
 		});
 
         final Intent historyIntent = new Intent(getActivity().getApplicationContext(), GameHistoryActivity.class);
         view.findViewById(R.id.home_btn_history).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) { startActivity(historyIntent); }
+            public void onClick(View view) {
+                startActivity(historyIntent);
+                HomeFragment.this.getActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+            }
         });
 /*
 		view.findViewById(R.id.home_btn_players).setOnClickListener(new View.OnClickListener() {
@@ -99,6 +105,7 @@ public class HomeFragment extends Fragment {
             return true;
 		case R.id.home_menu_new:
 			startActivity(new Intent(getActivity().getApplicationContext(), NewGameActivity.class));
+            getActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
 			return true;
 		case R.id.home_menu_about:
 			//show about dialog

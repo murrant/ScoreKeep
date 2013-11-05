@@ -98,6 +98,7 @@ public class NewGameFragment extends Fragment {
 			Uri newGameUri = newGame(gameType, players);
 			intent.setData(newGameUri);  //set data uri for the new game
 			startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
 			return true;
 		case R.id.add_player:
 			final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());

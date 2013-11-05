@@ -82,6 +82,7 @@ public class ScoreCardFragment extends Fragment {
 			return false;
 		case R.id.new_game:
 			startActivity(new Intent(getActivity(), NewGameActivity.class));
+            getActivity().overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
 			getActivity().finish(); // remove this activity
 			return true;
 		case R.id.change_players:

@@ -34,4 +34,9 @@ public class ScoreCardActivity extends Activity {
 			finish(); // end the parent activity before we start a new game.
 		}
 	}
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+    }
 }

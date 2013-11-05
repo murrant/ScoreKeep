@@ -69,10 +69,7 @@ public class GameHistory extends ListFragment {
 				Uri gameUri = ContentUris.withAppendedId(Game.CONTENT_ID_URI_BASE, id);
 				intent.setData(gameUri);  //set data uri for the new game
 				startActivity(intent);
-				
-				//TODO don't like this...  would almost rather leave it on the stack.
-				//clear the back stack
-				getActivity().getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
 			}
 		});
 	}
