@@ -50,16 +50,24 @@
         <item>9</item>
         <item>10</item>
     </string-array>
-        <string name="settings">Settings</string>
-        <string name="resume_game_short">Resume</string>
-        <string name="resume_game">Resume Game</string>
-        <string name="settings_keepscreenon">Prevent the device from sleeping</string>
-        <string name="about">About ScoreKeep</string>
-        <string name="about_short">About</string>
-        <string name="about_dialog_text">\u00A9 2011-2013 Tony Murray</string>
-        <string name="score_history">Score History</string>
-        <string name="settings_keepscreenon_summary">Prevents your device from going to sleep while you are on the scoring screen.</string>
-        <string name="clear_players">Clear Players</string>
-        <string name="app_tagline">You\'ll never need a pen and paper again!</string>
-        <string name="dialog_delete_everything">Delete all players and games?</string>
+    <string-array name="drawer_items">
+        <item>New Game</item>
+        <item>Resume Game</item>
+        <item>Players</item>
+        <item>Settings</item>
+    </string-array>
+    <string name="settings">Settings</string>
+    <string name="resume_game_short">Resume</string>
+    <string name="resume_game">Resume Game</string>
+    <string name="settings_keepscreenon">Prevent the device from sleeping</string>
+    <string name="about">About ScoreKeep</string>
+    <string name="about_short">About</string>
+    <string name="about_dialog_text">\u00A9 2011-2013 Tony Murray</string>
+    <string name="score_history">Score History</string>
+    <string name="settings_keepscreenon_summary">Prevents your device from going to sleep while you are on the scoring screen.</string>
+    <string name="clear_players">Clear Players</string>
+    <string name="app_tagline">You\'ll never need a pen and paper again!</string>
+    <string name="dialog_delete_everything">Delete all players and games?</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>
