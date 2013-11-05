@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ScoreKeep.iml" filepath="$PROJECT_DIR$/ScoreKeep.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ActionBarSherlock/library/library.iml" filepath="$PROJECT_DIR$/../ActionBarSherlock/library/library.iml" />
     </modules>
   </component>
 </project>

@@ -1,5 +1,8 @@
 /bin
 /gen
 games.db
-/com_actionbarsherlock_src
 /out
+/build
+/.gradle
+/ScoreKeep.apk
+/local.properties
