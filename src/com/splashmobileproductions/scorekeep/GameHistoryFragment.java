@@ -36,9 +36,9 @@ import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.Score;
 
 
-public class GameHistory extends ListFragment {
+public class GameHistoryFragment extends ListFragment {
 	@SuppressWarnings("unused")
-	private static final String DEBUG_TAG = "ScoreKeep:GameHistory";
+	private static final String DEBUG_TAG = "ScoreKeep:GameHistoryFragment";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

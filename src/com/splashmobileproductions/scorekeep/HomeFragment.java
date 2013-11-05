@@ -19,19 +19,14 @@ package com.splashmobileproductions.scorekeep;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
 import android.text.SpannableString;
 import android.text.util.Linkify;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,7 +37,7 @@ import android.widget.TextView;
 
 public class HomeFragment extends Fragment {
     private static final String DEBUG_TAG = "ScoreKeep:HomeFragment";
-	private GameHistory historyFragment;
+	private GameHistoryFragment historyFragment;
 	private SettingsFragment settingsFragment;
 	private PlayerList playerListFragment;
 

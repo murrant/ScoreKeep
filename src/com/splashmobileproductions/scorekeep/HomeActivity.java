@@ -18,31 +18,19 @@ package com.splashmobileproductions.scorekeep;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.text.SpannableString;
-import android.text.util.Linkify;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 
 public class HomeActivity extends Activity {
@@ -141,7 +129,7 @@ public class HomeActivity extends Activity {
         } else if(pos == 1) {
             fragment = new NewGameFragment();
         } else if(pos == 2) {
-            fragment = new GameHistory();
+            fragment = new GameHistoryFragment();
         } else if(pos == 3) {
             fragment = new PlayerList();
         } else if( pos == 4) {
