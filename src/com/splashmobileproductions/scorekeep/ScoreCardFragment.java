@@ -1,5 +1,5 @@
 /**
- *  Copyright 2011 Tony Murray <murraytony@gmail.com>
+ *  Copyright 2011-2013 Tony Murray <murraytony@gmail.com>
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ public class ScoreCardFragment extends Fragment {
 		case R.id.score_round:
 			return false;
 		case R.id.new_game:
-			startActivity(new Intent(getActivity(), NewGameFragment.class));
+			startActivity(new Intent(getActivity(), NewGameActivity.class));
 			getActivity().finish(); // remove this activity
 			return true;
 		case R.id.change_players:
@@ -89,12 +89,6 @@ public class ScoreCardFragment extends Fragment {
 			return false;
 		case R.id.reset_scores:
 			game.resetScores();
-			return true;
-		case android.R.id.home:
-			// app icon in Action Bar clicked; go home
-			Intent homeIntent = new Intent(getActivity(), HomeActivity.class);
-			homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(homeIntent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

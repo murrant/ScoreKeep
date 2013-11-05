@@ -51,6 +51,7 @@
         <item>10</item>
     </string-array>
     <string-array name="drawer_items">
+        <item>Home</item>
         <item>New Game</item>
         <item>Resume Game</item>
         <item>Players</item>

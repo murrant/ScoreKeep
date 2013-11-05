@@ -1,5 +1,5 @@
 /**
- *  Copyright 2011 Tony Murray <murraytony@gmail.com>
+ *  Copyright 2011-2013 Tony Murray <murraytony@gmail.com>
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,13 +25,13 @@ public class ScoreCardActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.score_card_activity);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		Uri dataUri = getIntent().getData();
 		// If there is no data associated with the Intent, bring up new game dialog
 		if (dataUri == null) {
 			startActivity(new Intent(this, NewGameFragment.class));
 			finish(); // end the parent activity before we start a new game.
-			return;
 		}
 	}
 }

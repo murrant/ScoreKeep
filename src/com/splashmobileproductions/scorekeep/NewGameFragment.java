@@ -1,5 +1,5 @@
 /**
- *  Copyright 2011 Tony Murray <murraytony@gmail.com>
+ *  Copyright 2011-2013 Tony Murray <murraytony@gmail.com>
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
  */
 package com.splashmobileproductions.scorekeep;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -27,9 +27,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -43,46 +46,51 @@ import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.Player;
 import com.splashmobileproductions.scorekeep.provider.ScoresProvider;
 
-public class NewGameFragment extends Activity {
+public class NewGameFragment extends Fragment {
 	private static final String DEBUG_TAG = "ScoreKeep:NewGameFragment";
     private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
     private final static int[] TO = new int[]{android.R.id.text1};
 	private ListView list;
 	private Spinner gameTypes;
 
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.new_game);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
-		gameTypes = (Spinner) findViewById(R.id.game_type_list);
-		ArrayAdapter<GameDefinition> aa = new ArrayAdapter<GameDefinition>(this, R.layout.item_game_type, android.R.id.text1, GameDefs.TYPES);
-		gameTypes.setAdapter(aa);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		Cursor c = managedQuery(Player.CONTENT_URI, null, null, null, null);
-		list = (ListView) findViewById(R.id.new_game_players_list);
-		
-		list.setAdapter(new SimpleCursorAdapter(this, android.R.layout.simple_list_item_multiple_choice, c, FROM, TO));
-	}
+        View view = inflater.inflate(R.layout.new_game, container, false);
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.new_game_menu, menu);
-		return true;
-	}
+        gameTypes = (Spinner) view.findViewById(R.id.game_type_list);
+        ArrayAdapter<GameDefinition> aa = new ArrayAdapter<GameDefinition>(getActivity(), R.layout.item_game_type, android.R.id.text1, GameDefs.TYPES);
+        gameTypes.setAdapter(aa);
+
+        Cursor c = getActivity().managedQuery(Player.CONTENT_URI, null, null, null, null);
+        list = (ListView) view.findViewById(R.id.new_game_players_list);
+
+        list.setAdapter(new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, c, FROM, TO));
+        return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.new_game_menu, menu);
+    }
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.start_game:
-			Intent intent = new Intent(this, ScoreCardActivity.class);
+			Intent intent = new Intent(getActivity(), ScoreCardActivity.class);
 
 			long[] players = list.getCheckedItemIds();
 			if(players.length < 1) {
-				Toast.makeText(this,R.string.no_players_selected,Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(),R.string.no_players_selected,Toast.LENGTH_SHORT).show();
 				return false;
 			}
 
@@ -92,9 +100,9 @@ public class NewGameFragment extends Activity {
 			startActivity(intent);
 			return true;
 		case R.id.add_player:
-			final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+			final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
 			alert.setTitle(R.string.new_player);
-			final EditText input = new EditText(this);
+			final EditText input = new EditText(getActivity());
 			input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 			alert.setView(input);
 			alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -112,12 +120,6 @@ public class NewGameFragment extends Activity {
 			});
 			alert.show();
 			return true;
-		case android.R.id.home:
-			// app icon in Action Bar clicked; go home
-			Intent homeIntent = new Intent(this, HomeActivity.class);
-			homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(homeIntent);
-			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -127,7 +129,7 @@ public class NewGameFragment extends Activity {
 		// add the player to the Content Provider
 		ContentValues content = new ContentValues();
 		content.put(Player.COLUMN_NAME_NAME, name);
-		Uri result = getContentResolver().insert(Player.CONTENT_URI, content);
+		Uri result = getActivity().getContentResolver().insert(Player.CONTENT_URI, content);
 		
 		//register a listener to select the user once the listview gets updated.
 		final long targetId = ContentUris.parseId(result);
@@ -158,7 +160,7 @@ public class NewGameFragment extends Activity {
 		content.put(Game.COLUMN_NAME_TYPE, game.getGameId());
 		content.put(Game.COLUMN_NAME_DESCRIPTION, game.name);
 		content.put(Game.COLUMN_NAME_PLAYER_IDS, ScoresProvider.serializePlayers(player_ids));
-		Uri result = getContentResolver().insert(Game.CONTENT_URI, content);
+		Uri result = getActivity().getContentResolver().insert(Game.CONTENT_URI, content);
 		Log.d(DEBUG_TAG, "New Game result Uri: "+result.toString());
 		return result;
 	}

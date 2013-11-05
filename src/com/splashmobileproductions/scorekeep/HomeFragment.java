@@ -27,6 +27,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.util.Log;
@@ -55,7 +57,7 @@ public class HomeFragment extends Fragment {
 		View view = inflater.inflate(R.layout.home_layout, container, false);
 
 		// Attach event handlers
-		final Intent newGameIntent = new Intent(getActivity().getApplicationContext(), NewGameFragment.class);
+		final Intent newGameIntent = new Intent(getActivity().getApplicationContext(), NewGameActivity.class);
 		view.findViewById(R.id.home_btn_new).setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) { startActivity(newGameIntent); }
 		});
@@ -90,11 +92,13 @@ public class HomeFragment extends Fragment {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {		
+    public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
 		switch (item.getItemId()) {
+        case android.R.id.home:
+            return true;
 		case R.id.home_menu_new:
-			startActivity(new Intent(getActivity().getApplicationContext(), NewGameFragment.class));
+			startActivity(new Intent(getActivity().getApplicationContext(), NewGameActivity.class));
 			return true;
 		case R.id.home_menu_about:
 			//show about dialog

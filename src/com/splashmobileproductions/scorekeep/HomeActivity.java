@@ -98,15 +98,19 @@ public class HomeActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if (savedInstanceState == null) {
-            selectItem(0);
+            getFragmentManager().beginTransaction().replace(R.id.content_frame, new HomeFragment()).commit();
+            mDrawerList.setItemChecked(0, true);
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.home_menu, menu);
-        return true;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // The action bar home/up action should open or close the drawer.
+        // ActionBarDrawerToggle will take care of this.
+        if(mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /* Called whenever we call invalidateOptionsMenu() */
@@ -114,28 +118,13 @@ public class HomeActivity extends Activity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        menu.findItem(R.id.home_menu_about).setVisible(!drawerOpen);
+        for (int i=0; i<menu.size(); i++) {
+            menu.getItem(i).setVisible(!drawerOpen);
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.home_menu_new:
-                startActivity(new Intent(this, NewGameFragment.class));
-                return true;
-            case R.id.home_menu_about:
-                //show about dialog
-                try {
-                    AboutDialogBuilder.create(this).show();
-                } catch (PackageManager.NameNotFoundException nnfe) {}
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    /* The click listner for ListView in the navigation drawer */
+    /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -148,18 +137,22 @@ public class HomeActivity extends Activity {
         Fragment fragment = null;
 
         if(pos == 0) {
-            //fragment = new NewGameFragment();
+            fragment = new HomeFragment();
         } else if(pos == 1) {
-            fragment = new GameHistory();
+            fragment = new NewGameFragment();
         } else if(pos == 2) {
+            fragment = new GameHistory();
+        } else if(pos == 3) {
             fragment = new PlayerList();
-        } else if( pos == 3) {
+        } else if( pos == 4) {
             fragment = new SettingsFragment();
         }
 
         if(fragment != null) {
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, fragment);
+            ft.addToBackStack(mDrawerItems[pos]);
+            ft.commit();
 
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(pos, true);
@@ -170,7 +163,11 @@ public class HomeActivity extends Activity {
 
     @Override
     public void setTitle(CharSequence title) {
-        mTitle = title;
+        if(title == mDrawerItems[0]) {
+            mTitle = getString(R.string.app_name);
+        } else {
+            mTitle = title;
+        }
         getActionBar().setTitle(mTitle);
     }
 
@@ -187,32 +184,4 @@ public class HomeActivity extends Activity {
         // Pass any configuration change to the drawer toggles
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
-
-    public static class AboutDialogBuilder {
-        public static AlertDialog create( Context context ) throws PackageManager.NameNotFoundException {
-            // Try to load the a package matching the name of our own package
-            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            String versionInfo = pInfo.versionName;
-
-            String aboutTitle = String.format("About %s", context.getString(R.string.app_name));
-            String versionString = String.format("Version: %s", versionInfo);
-            String aboutText = context.getString(R.string.about_dialog_text);
-
-            // Set up the TextView
-            final TextView message = new TextView(context);
-            // We'll use a spannable string to be able to make links clickable
-            final SpannableString s = new SpannableString(aboutText);
-
-            // Set some padding
-            message.setPadding(5, 5, 5, 5);
-            // Set up the final string
-            message.setText(versionString + "\n\n" + s);
-            // Now linkify the text
-            Linkify.addLinks(message, Linkify.ALL);
-
-            return new AlertDialog.Builder(context).setTitle(aboutTitle).setCancelable(true).setIcon(R.drawable.icon).setPositiveButton(
-                    context.getString(android.R.string.ok), null).setView(message).create();
-        }
-    }
-
 }

@@ -18,10 +18,15 @@ package com.splashmobileproductions.scorekeep;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class GameHistoryActivity extends Activity {
+public class NewGameActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_history_activity);
+        setContentView(R.layout.new_game_activity);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
     }
 }
