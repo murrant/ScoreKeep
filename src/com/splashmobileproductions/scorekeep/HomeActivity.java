@@ -20,11 +20,13 @@ package com.splashmobileproductions.scorekeep;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +36,8 @@ import android.widget.ListView;
 
 
 public class HomeActivity extends Activity {
+    @SuppressWarnings("unused")
+    private static final String DEBUG_TAG = "ScoreKeep:HomeActivity";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -85,20 +89,39 @@ public class HomeActivity extends Activity {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+        // set the home fragment as the initial displayed fragment and don't put it on the back stack
         if (savedInstanceState == null) {
+            // install the home fragment into the view, and mark it as selected in the drawer
             getFragmentManager().beginTransaction().replace(R.id.content_frame, new HomeFragment()).commit();
             mDrawerList.setItemChecked(0, true);
         }
+    }
+
+    @SuppressWarnings("NullableProblems")
+    @Override
+    public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
+        //Set the logo to open the drawer
+        //TODO: find a better spot to configure the clickable logo
+        if(parent != null) {
+            View logo = parent.findViewById(R.id.home_logo);
+            if(logo != null) {
+                logo.setClickable(true);
+                logo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mDrawerLayout.openDrawer(mDrawerList);
+                    }
+                });
+            }
+        }
+        return super.onCreateView(parent, name, context, attrs);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // The action bar home/up action should open or close the drawer.
         // ActionBarDrawerToggle will take care of this.
-        if(mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     /* Called whenever we call invalidateOptionsMenu() */
