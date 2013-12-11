@@ -33,6 +33,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -110,7 +111,6 @@ public class NewGameFragment extends Fragment {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					String value = input.getText().toString().trim();
 					addPlayer(value);
-
 				}
 			});
 			alert.setNegativeButton(android.R.string.cancel,
@@ -119,7 +119,9 @@ public class NewGameFragment extends Fragment {
 					dialog.cancel();
 				}
 			});
-			alert.show();
+            final AlertDialog dialog = alert.create();
+            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            dialog.show();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

@@ -31,6 +31,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -95,7 +96,9 @@ public class PlayerList extends ListFragment implements OnClickListener {
 					dialog.cancel();
 				}
 			});
-			alert.show();
+            final AlertDialog dialog = alert.create();
+            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            dialog.show();
 			return true;
 		case R.id.plmenu_clear:
 			//put up big warning, then nuke all players and all games
