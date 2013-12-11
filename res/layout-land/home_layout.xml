@@ -16,8 +16,9 @@
             android:layout_height="fill_parent"
             android:id="@+id/imageView"
             android:layout_gravity="center"
-            android:src="@drawable/icon"
-            android:importantForAccessibility="no" />
+            android:src="@drawable/bg"
+            android:importantForAccessibility="no"
+            android:layout_margin="20dp" />
     </LinearLayout>
 
     <LinearLayout
