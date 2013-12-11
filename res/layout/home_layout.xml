@@ -9,7 +9,7 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1">
+        android:layout_weight="4">
 
         <ImageView
             android:layout_width="fill_parent"
@@ -18,14 +18,17 @@
             android:layout_gravity="center"
             android:src="@drawable/bg"
             android:importantForAccessibility="no"
-            android:layout_margin="20dp" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="5dp" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
+        android:layout_weight="5"
         android:layout_gravity="center_horizontal"
         android:gravity="center_vertical">
 
@@ -41,7 +44,7 @@
             android:drawableLeft="@drawable/ic_menu_add"
             android:drawablePadding="4dp"
             android:singleLine="false"
-            android:padding="20dp" />
+            android:padding="18dp" />
 
         <Button
             android:layout_width="fill_parent"
@@ -54,7 +57,7 @@
             android:textSize="28sp"
             android:drawableLeft="@drawable/ic_menu_recent_history"
             android:drawablePadding="4dp"
-            android:padding="20dp" />
+            android:padding="18dp" />
     </LinearLayout>
 
 </LinearLayout>
