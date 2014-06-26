@@ -32,9 +32,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 public final class GameData extends BaseAdapter implements ListAdapter {
     private static final String DEBUG_TAG = "ScoreKeep:GameData";
@@ -50,7 +50,7 @@ public final class GameData extends BaseAdapter implements ListAdapter {
      * Load game data from the database with all players.
      * 
      * @param context The calling activitie's context
-     * @param gameId The unique Id of the desired game
+     * @param gameUri The unique Id of the desired game
      */
     public GameData(Context context, Uri gameUri) {
 	id = ContentUris.parseId(gameUri);
@@ -103,7 +103,7 @@ public final class GameData extends BaseAdapter implements ListAdapter {
 	    holder.name = (TextView)convertView.findViewById(R.id.badge_name);
 	    holder.score = (TextView)convertView.findViewById(R.id.badge_score);
 	    holder.context = (TextView)convertView.findViewById(R.id.badge_context);
-	    holder.addButton = (Button) convertView.findViewById(R.id.badge_add);
+	    holder.addButton = (ImageView) convertView.findViewById(R.id.badge_add);
 	    convertView.setTag(holder);
 	} else {
 	    holder = (ViewHolder)convertView.getTag();
@@ -124,7 +124,7 @@ public final class GameData extends BaseAdapter implements ListAdapter {
 		TextView name;
 		TextView score;
 		TextView context;
-		Button addButton;
+		ImageView addButton;
 	}
 
     public int getViewTypeCount() {
