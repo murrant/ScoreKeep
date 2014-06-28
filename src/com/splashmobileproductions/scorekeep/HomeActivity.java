@@ -26,10 +26,13 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.transition.Scene;
+import android.transition.TransitionManager;
 import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -38,161 +41,33 @@ import android.widget.ListView;
 public class HomeActivity extends Activity {
     @SuppressWarnings("unused")
     private static final String DEBUG_TAG = "ScoreKeep:HomeActivity";
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private String[] mDrawerItems;
-
-    private CharSequence mDrawerTitle;
-    private CharSequence mTitle;
+    ViewGroup mSceneRoot;
+    Scene mCurrentScene;
+    TransitionManager mTransitionManager;
+    Scene mEmptyScene,mHistoryScene;
 
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.sk_home_empty);
+        View container = (View) findViewById(R.id.home_container);
+        mSceneRoot = (ViewGroup) container.getParent();
+        mEmptyScene = Scene.getSceneForLayout(mSceneRoot, R.layout.sk_home_empty, this);
+        mHistoryScene = Scene.getSceneForLayout(mSceneRoot, R.layout.sk_home, this);
 
-        mTitle = mDrawerTitle = getTitle();
-        mDrawerItems = getResources().getStringArray(R.array.drawer_items);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        // set a custom shadow that overlays the main content when the drawer opens
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
-        // set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mDrawerItems));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-        // enable ActionBar app icon to behave as action to toggle nav drawer
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the sliding drawer and the action bar app icon
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description for accessibility */
-                R.string.drawer_close  /* "close drawer" description for accessibility */
-        ) {
-            public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        // set the home fragment as the initial displayed fragment and don't put it on the back stack
-        if (savedInstanceState == null) {
-            // install the home fragment into the view, and mark it as selected in the drawer
-            getFragmentManager().beginTransaction().replace(R.id.content_frame, new HomeFragment()).commit();
-            mDrawerList.setItemChecked(0, true);
-        }
+        mTransitionManager = new TransitionManager();
+        mCurrentScene = mEmptyScene;
     }
 
-    @SuppressWarnings("NullableProblems")
-    @Override
-    public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-        //Set the logo to open the drawer
-        //TODO: find a better spot to configure the clickable logo
-        if(parent != null) {
-            View logo = parent.findViewById(R.id.home_logo);
-            if(logo != null) {
-                logo.setClickable(true);
-                logo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mDrawerLayout.openDrawer(mDrawerList);
-                    }
-                });
-            }
-        }
-        return super.onCreateView(parent, name, context, attrs);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
-        // ActionBarDrawerToggle will take care of this.
-        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
-    }
-
-    /* Called whenever we call invalidateOptionsMenu() */
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        for (int i=0; i<menu.size(); i++) {
-            menu.getItem(i).setVisible(!drawerOpen);
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    /* The click listener for ListView in the navigation drawer */
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
-    private void selectItem(int pos) {
-        // update the main content by replacing fragments
-        Fragment fragment = null;
-
-        if(pos == 0) {
-            fragment = new HomeFragment();
-        } else if(pos == 1) {
-            fragment = new NewGameFragment();
-        } else if(pos == 2) {
-            fragment = new GameHistoryFragment();
-        } else if(pos == 3) {
-            fragment = new PlayerList();
-        } else if( pos == 4) {
-            fragment = new SettingsFragment();
-        }
-
-        if(fragment != null) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, fragment);
-            ft.addToBackStack(mDrawerItems[pos]);
-            ft.commit();
-
-            // update selected item and title, then close the drawer
-            mDrawerList.setItemChecked(pos, true);
-            setTitle(mDrawerItems[pos]);
-            mDrawerLayout.closeDrawer(mDrawerList);
-        }
-    }
-
-    @Override
-    public void setTitle(CharSequence title) {
-        if(title == mDrawerItems[0]) {
-            mTitle = getString(R.string.app_name);
+        if(mCurrentScene == mEmptyScene) {
+            mTransitionManager.transitionTo(mHistoryScene);
         } else {
-            mTitle = title;
+            mTransitionManager.transitionTo(mEmptyScene);
         }
-        getActionBar().setTitle(mTitle);
+
+        return false;
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
-    }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggles
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
 }

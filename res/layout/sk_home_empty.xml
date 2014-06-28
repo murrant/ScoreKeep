@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" android:id="@+id/home_container">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="4">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/home_logo"
+            android:layout_gravity="center"
+            android:src="@drawable/bg"
+            android:importantForAccessibility="no"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="5"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/new_game"
+            android:gravity="left|center_vertical"
+            android:id="@+id/home_btn_new"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="12dp"
+            android:textSize="28sp"
+            android:drawableLeft="@drawable/ic_menu_add"
+            android:drawablePadding="4dp"
+            android:singleLine="false"
+            android:padding="18dp" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="G+ Sign-in"
+            android:gravity="left|center_vertical"
+            android:id="@+id/home_btn_gplus"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="12dp"
+            android:textSize="28sp"
+            android:drawableLeft="@drawable/ic_menu_recent_history"
+            android:drawablePadding="4dp"
+            android:padding="18dp" />
+    </LinearLayout>
+
+</LinearLayout>
