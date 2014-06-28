@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.splashmobileproductions.scorekeep;
+package com.splashmobileproductions.scorekeep.controller;
 
 import java.util.List;
 
@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.splashmobileproductions.scorekeep.R;
 
 public class HistoryAdapter extends ArrayAdapter<ScoreData> {
 	private final LayoutInflater mInflater;

@@ -13,10 +13,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.splashmobileproductions.scorekeep;
+package com.splashmobileproductions.scorekeep.controller;
 
 import java.util.ArrayList;
 
+import com.splashmobileproductions.scorekeep.AddScoreDialog;
+import com.splashmobileproductions.scorekeep.R;
 import com.splashmobileproductions.scorekeep.provider.Player;
 import com.splashmobileproductions.scorekeep.provider.Score;
 

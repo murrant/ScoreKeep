@@ -13,10 +13,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.splashmobileproductions.scorekeep;
+package com.splashmobileproductions.scorekeep.controller;
 
 import java.util.ArrayList;
 
+import com.splashmobileproductions.scorekeep.R;
 import com.splashmobileproductions.scorekeep.games.GameDefinition;
 import com.splashmobileproductions.scorekeep.games.GameDefs;
 import com.splashmobileproductions.scorekeep.provider.Game;
@@ -38,10 +39,12 @@ import android.widget.ImageView;
 
 public final class GameData extends BaseAdapter implements ListAdapter {
     private static final String DEBUG_TAG = "ScoreKeep:GameData";
-    final long id;
-    final GameDefinition gameDef;
-    final String description;
-    final long starting_score = 0;  //TODO support alternate starting scores
+
+    public final long id;
+    public final GameDefinition gameDef;
+    public final String description;
+    public final long starting_score = 0;  //TODO support alternate starting scores
+
     private ArrayList<PlayerData> players = new ArrayList<PlayerData>();
     private final LayoutInflater mInflater;
     private ContentValues extra = new ContentValues();

@@ -40,10 +40,12 @@ import android.widget.Toast;
 import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.Player;
 import com.splashmobileproductions.scorekeep.provider.Score;
+import com.splashmobileproductions.scorekeep.util.JobManager;
 
 public class PlayerList extends ListFragment implements OnClickListener {
 	private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
 	private final static int[] TO = new int[]{android.R.id.text1};
+    private JobManager mJobManager;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -112,14 +114,33 @@ public class PlayerList extends ListFragment implements OnClickListener {
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
+
 		if(DialogInterface.BUTTON_POSITIVE == which) {
-			ContentResolver cr = getActivity().getContentResolver();
-			int dgms = cr.delete(Game.CONTENT_URI, null, null);
-			cr.delete(Score.CONTENT_URI, null, null);
-			int dpls = cr.delete(Player.CONTENT_URI, null, null);
-			if(dpls>0) {
-				Toast.makeText(getActivity().getApplicationContext(), dpls+" players and "+dgms+" games deleted!", Toast.LENGTH_SHORT).show();
-			}
+            if(mJobManager == null) {
+                mJobManager = new JobManager();
+            }
+            DeleteAllPlayersJob dapj = new DeleteAllPlayersJob(3000);
+            mJobManager.addJob(dapj);
+
+            Toast.makeText(getActivity().getApplicationContext(), "All players deleted | Undo", Toast.LENGTH_SHORT);
 		}
 	}
+
+    public class DeleteAllPlayersJob extends JobManager.PendingJob {
+        public DeleteAllPlayersJob(int waitTime) {
+            super(waitTime);
+        }
+
+        @Override
+        public void execute() {
+            ContentResolver cr = getActivity().getContentResolver();
+            int dgms = cr.delete(Game.CONTENT_URI, null, null);
+            cr.delete(Score.CONTENT_URI, null, null);
+            int dpls = cr.delete(Player.CONTENT_URI, null, null);
+            if(dpls>0) {
+                Toast.makeText(getActivity().getApplicationContext(), dpls+" players and "+dgms+" games deleted!", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
 }

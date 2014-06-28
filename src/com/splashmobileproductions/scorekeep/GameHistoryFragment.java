@@ -15,7 +15,6 @@
  */
 package com.splashmobileproductions.scorekeep;
 
-import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -32,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.splashmobileproductions.scorekeep.controller.GamesListAdapter;
 import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.Score;
 

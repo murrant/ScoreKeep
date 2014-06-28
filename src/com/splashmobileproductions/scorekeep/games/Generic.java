@@ -17,8 +17,8 @@ package com.splashmobileproductions.scorekeep.games;
 
 import com.splashmobileproductions.scorekeep.R;
 
-import com.splashmobileproductions.scorekeep.PlayerData;
-import com.splashmobileproductions.scorekeep.ScoreData;
+import com.splashmobileproductions.scorekeep.controller.PlayerData;
+import com.splashmobileproductions.scorekeep.controller.ScoreData;
 
 import android.app.Dialog;
 import android.view.View;

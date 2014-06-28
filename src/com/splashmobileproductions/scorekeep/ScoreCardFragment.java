@@ -32,6 +32,8 @@ import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.splashmobileproductions.scorekeep.controller.GameData;
+
 public class ScoreCardFragment extends Fragment {
 	private GameData game;
 	private Uri dataUri;

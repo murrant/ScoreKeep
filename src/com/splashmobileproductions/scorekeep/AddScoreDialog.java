@@ -15,6 +15,8 @@
  */
 package com.splashmobileproductions.scorekeep;
 
+import com.splashmobileproductions.scorekeep.controller.PlayerData;
+import com.splashmobileproductions.scorekeep.controller.ScoreData;
 import com.splashmobileproductions.scorekeep.games.GameDefinition;
 import com.splashmobileproductions.scorekeep.games.MathEval;
 

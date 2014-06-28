@@ -5,8 +5,8 @@ package com.splashmobileproductions.scorekeep.games.definitions;
 
 import com.splashmobileproductions.scorekeep.R;
 
-import com.splashmobileproductions.scorekeep.PlayerData;
-import com.splashmobileproductions.scorekeep.ScoreData;
+import com.splashmobileproductions.scorekeep.controller.PlayerData;
+import com.splashmobileproductions.scorekeep.controller.ScoreData;
 import com.splashmobileproductions.scorekeep.games.GameDefinition;
 import com.splashmobileproductions.scorekeep.games.GameDefs;
 
