@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_base_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ImageView
+        android:id="@+id/home_logo"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="20dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/bg" />
+
+    <Button
+        android:id="@+id/home_btn_new"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/home_logo"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="20dp"
+        android:drawablePadding="4dp"
+        android:drawableStart="@drawable/ic_menu_add"
+        android:gravity="left|center_vertical"
+        android:padding="18dp"
+        android:singleLine="false"
+        android:text="@string/new_game"
+        android:textSize="28sp" />
+
+    <Button
+        android:id="@+id/home_btn_gplus"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/home_btn_new"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_menu_recent_history"
+        android:drawablePadding="4dp"
+        android:gravity="left|center_vertical"
+        android:onClick="gotoHistoryHomeScreen"
+        android:padding="18dp"
+        android:text="Change Scene"
+        android:textSize="28sp" />
+
+    <FrameLayout
+        android:id="@+id/home_history_frame"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="1dp"></FrameLayout>
+</RelativeLayout>

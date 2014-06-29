@@ -16,57 +16,122 @@
 package com.splashmobileproductions.scorekeep;
 
 
-
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.res.Configuration;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
+import android.text.SpannableString;
+import android.text.util.Linkify;
 import android.transition.Scene;
+import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
-import android.util.AttributeSet;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class HomeActivity extends Activity {
     @SuppressWarnings("unused")
     private static final String DEBUG_TAG = "ScoreKeep:HomeActivity";
-    ViewGroup mSceneRoot;
-    Scene mCurrentScene;
     TransitionManager mTransitionManager;
-    Scene mEmptyScene,mHistoryScene;
+    Scene mDefaultScene, mHistoryScene;
 
     @Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.sk_home_empty);
-        View container = (View) findViewById(R.id.home_container);
-        mSceneRoot = (ViewGroup) container.getParent();
-        mEmptyScene = Scene.getSceneForLayout(mSceneRoot, R.layout.sk_home_empty, this);
-        mHistoryScene = Scene.getSceneForLayout(mSceneRoot, R.layout.sk_home, this);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.sk_home_default);
+        GameHistoryFragment mGameFragment;
 
-        mTransitionManager = new TransitionManager();
-        mCurrentScene = mEmptyScene;
+        //set up transitions
+        ViewGroup container = (ViewGroup) findViewById(R.id.home_base_layout).getParent();
+        mDefaultScene = Scene.getSceneForLayout(container, R.layout.sk_home_default, this);
+        mHistoryScene = Scene.getSceneForLayout(container, R.layout.sk_home, this);
+        TransitionInflater transitionInflater = TransitionInflater.from(this);
+        mTransitionManager = transitionInflater.inflateTransitionManager(R.transition.transition_manager, container);
+
+
+        if (savedInstanceState == null) {
+            //TODO: check if we should bring in the history list
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void gotoDefaultHomeScreen(View view) {
+        mTransitionManager.transitionTo(mDefaultScene);
+    }
+
+    public void gotoHistoryHomeScreen(View view) {
+        Fragment gamesListFragment = getFragmentManager().findFragmentById(R.layout.games_list);
+        if (gamesListFragment == null) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+//            ft.setCustomAnimations(R.animator.game_history_animator, 0);
+            ft.add(R.id.home_history_frame, new GameHistoryFragment()).commit();
+        }
+
+        mTransitionManager.transitionTo(mHistoryScene);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(mCurrentScene == mEmptyScene) {
-            mTransitionManager.transitionTo(mHistoryScene);
-        } else {
-            mTransitionManager.transitionTo(mEmptyScene);
+        // Handle item selection
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                return true;
+            case R.id.home_menu_new:
+                startActivity(new Intent(getApplicationContext(), NewGameActivity.class));
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+                return true;
+            case R.id.home_menu_about:
+                //show about dialog
+                try {
+                    AboutDialogBuilder.create(this).show();
+                } catch (PackageManager.NameNotFoundException nnfe) {
+                }
+            default:
+                return super.onOptionsItemSelected(item);
         }
+    }
 
-        return false;
+    public static class AboutDialogBuilder {
+        public static AlertDialog create(Context context) throws PackageManager.NameNotFoundException {
+            // Try to load the a package matching the name of our own package
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            String versionInfo = pInfo.versionName;
+
+            String aboutTitle = String.format("About %s", context.getString(R.string.app_name));
+            String versionString = String.format("Version: %s", versionInfo);
+            String aboutText = context.getString(R.string.about_dialog_text);
+
+            // Set up the TextView
+            final TextView message = new TextView(context);
+            // We'll use a spannable string to be able to make links clickable
+            final SpannableString s = new SpannableString(aboutText);
+
+            // Set some padding
+            message.setPadding(5, 5, 5, 5);
+            // Set up the final string
+            message.setText(versionString + "\n\n" + s);
+            // Now linkify the text
+            Linkify.addLinks(message, Linkify.ALL);
+
+            return new AlertDialog.Builder(context).setTitle(aboutTitle).setCancelable(true).setIcon(R.drawable.icon).setPositiveButton(
+                    context.getString(android.R.string.ok), null).setView(message).create();
+        }
     }
 
 
