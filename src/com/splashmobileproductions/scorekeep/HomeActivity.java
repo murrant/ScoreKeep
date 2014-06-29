@@ -31,7 +31,6 @@ import android.transition.Scene;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,9 +66,14 @@ public class HomeActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.home_menu, menu);
+        menu.clear();
+        getMenuInflater().inflate(R.menu.home_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void newGame(View view) {
+        Intent intent = new Intent(this, NewGameActivity.class);
+        startActivity(intent);
     }
 
     public void gotoDefaultHomeScreen(View view) {
@@ -92,9 +96,8 @@ public class HomeActivity extends Activity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 return true;
-            case R.id.home_menu_new:
-                startActivity(new Intent(getApplicationContext(), NewGameActivity.class));
-                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+            case R.id.home_menu_manage_players:
+                startActivity(new Intent(this, PlayerListActivity.class));
                 return true;
             case R.id.home_menu_about:
                 //show about dialog

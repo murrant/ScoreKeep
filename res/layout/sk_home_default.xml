@@ -23,9 +23,11 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
         android:drawablePadding="4dp"
-        android:drawableStart="@drawable/ic_menu_add"
+        android:drawableStart="@drawable/ic_menu_play_clip"
         android:gravity="left|center_vertical"
+        android:onClick="newGame"
         android:padding="18dp"
         android:singleLine="false"
         android:text="@string/new_game"
@@ -40,6 +42,7 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
         android:drawableLeft="@drawable/ic_menu_recent_history"
         android:drawablePadding="4dp"
         android:gravity="left|center_vertical"
@@ -53,5 +56,5 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="1dp"></FrameLayout>
+        android:layout_marginTop="1dp" />
 </RelativeLayout>

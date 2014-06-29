@@ -98,11 +98,11 @@ public class HomeFragment extends Fragment {
 		switch (item.getItemId()) {
         case android.R.id.home:
             return true;
-		case R.id.home_menu_new:
-			startActivity(new Intent(getActivity().getApplicationContext(), NewGameActivity.class));
-            getActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
-			return true;
-		case R.id.home_menu_about:
+//		case R.id.home_menu_new:
+//			startActivity(new Intent(getActivity().getApplicationContext(), NewGameActivity.class));
+//            getActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+//			return true;
+            case R.id.home_menu_about:
 			//show about dialog
 			try {
 				AboutDialogBuilder.create(getActivity()).show();
