@@ -34,6 +34,7 @@ import android.transition.Scene;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -83,10 +84,35 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
 
         getLoaderManager().initLoader(PLAYER_LOADER, null, this);
 
+        View cb = view.findViewById(R.id.new_game_close_button);
+        cb.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+
+        View apb = view.findViewById(R.id.new_game_add_player_button);
+        apb.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                addPlayer();
+            }
+        });
+
+        View sgb = view.findViewById(R.id.new_game_go_button);
+        sgb.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startNewGame();
+            }
+        });
+
+
+
         return view;
     }
 
-    public void startNewGame(View view) {
+    public void startNewGame() {
         Intent intent = new Intent(getActivity(), ScoreCardActivity.class);
 
         long[] players = mPlayerList.getCheckedItemIds();
@@ -95,13 +121,14 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
             return;
         }
 
-        GameDefinition gameType = GameDefs.TYPES.get(gameTypes.getSelectedItemPosition());
+        GameDefinition gameType = GameDefs.TYPES.get(GameDefs.DEFAULT);
         Uri newGameUri = newGame(gameType, players);
         intent.setData(newGameUri);  //set data uri for the new game
+        dismiss();
         startActivity(intent);
     }
 
-    public void addPlayer(View view) {
+    public void addPlayer() {
         final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle(R.string.new_player);
         final EditText input = new EditText(getActivity());

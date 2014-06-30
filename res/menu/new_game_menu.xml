@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/add_player" android:titleCondensed="@string/add_player_short" android:showAsAction="ifRoom|withText" android:id="@+id/add_player" android:icon="@drawable/ic_menu_invite"></item>
-    <item android:title="@string/start_game" android:titleCondensed="@string/start_game_short" android:showAsAction="ifRoom|withText" android:id="@+id/start_game" android:icon="@drawable/ic_menu_play_clip"></item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/new_game_add_player_button"
+        android:icon="@drawable/ic_menu_invite"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/add_player"
+        android:titleCondensed="@string/add_player_short"></item>
+    <item
+        android:id="@+id/start_game"
+        android:icon="@drawable/ic_menu_play_clip"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/start_game"
+        android:titleCondensed="@string/start_game_short"></item>
 </menu>
