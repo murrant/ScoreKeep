@@ -15,26 +15,28 @@
  */
 package com.splashmobileproductions.scorekeep;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Fragment;
+import android.app.DialogFragment;
+import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.transition.Scene;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -47,139 +49,143 @@ import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.Player;
 import com.splashmobileproductions.scorekeep.provider.ScoresProvider;
 
-public class NewGameFragment extends Fragment {
-	private static final String DEBUG_TAG = "ScoreKeep:NewGameFragment";
+public class NewGameFragment extends DialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String DEBUG_TAG = "ScoreKeep:NewGameFragment";
+    private static final int PLAYER_LOADER = 0;
     private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
     private final static int[] TO = new int[]{android.R.id.text1};
-	private ListView list;
-	private Spinner gameTypes;
+    private SimpleCursorAdapter mPlayerAdapter;
+    private ListView mPlayerList;
+    private Spinner gameTypes;
+    private Scene mListScene;
 
+    @SuppressLint("Override")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
+
+    @SuppressLint("Override")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        View view = inflater.inflate(R.layout.sk_new_game_dialog, container, false);
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
-        View view = inflater.inflate(R.layout.new_game, container, false);
+//        mListScene = Scene.getSceneForLayout(container, R.layout.sk_new_game_dialog, getActivity());
+        mPlayerAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, null, FROM, TO, 0);
+        mPlayerList = (ListView) view.findViewById(R.id.new_game_players_list);
+        mPlayerList.setAdapter(mPlayerAdapter);
 
-        gameTypes = (Spinner) view.findViewById(R.id.game_type_list);
-        ArrayAdapter<GameDefinition> aa = new ArrayAdapter<GameDefinition>(getActivity(), R.layout.item_game_type, android.R.id.text1, GameDefs.TYPES);
-        gameTypes.setAdapter(aa);
+//        gameTypes = (Spinner) view.findViewById(R.id.game_type_list);
+//        ArrayAdapter<GameDefinition> aa = new ArrayAdapter<GameDefinition>(getActivity(), R.layout.item_game_type, android.R.id.text1, GameDefs.TYPES);
+//        gameTypes.setAdapter(aa);
 
-        Cursor c = getActivity().managedQuery(Player.CONTENT_URI, null, null, null, null);
-        list = (ListView) view.findViewById(R.id.new_game_players_list);
+        getLoaderManager().initLoader(PLAYER_LOADER, null, this);
 
-        list.setAdapter(new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, c, FROM, TO));
         return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.new_game_menu, menu);
+    public void startNewGame(View view) {
+        Intent intent = new Intent(getActivity(), ScoreCardActivity.class);
+
+        long[] players = mPlayerList.getCheckedItemIds();
+        if (players.length < 1) {
+            Toast.makeText(getActivity(), R.string.no_players_selected, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        GameDefinition gameType = GameDefs.TYPES.get(gameTypes.getSelectedItemPosition());
+        Uri newGameUri = newGame(gameType, players);
+        intent.setData(newGameUri);  //set data uri for the new game
+        startActivity(intent);
     }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.start_game:
-			Intent intent = new Intent(getActivity(), ScoreCardActivity.class);
+    public void addPlayer(View view) {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle(R.string.new_player);
+        final EditText input = new EditText(getActivity());
+        input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        alert.setView(input);
+        alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String value = input.getText().toString().trim();
+                addPlayer(value);
+            }
+        });
+        alert.setNegativeButton(android.R.string.cancel,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
+                    }
+                }
+        );
+        final AlertDialog dialog = alert.create();
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        dialog.show();
+    }
 
-			long[] players = list.getCheckedItemIds();
-			if(players.length < 1) {
-				Toast.makeText(getActivity(),R.string.no_players_selected,Toast.LENGTH_SHORT).show();
-				return false;
-			}
+    private Uri addPlayer(String name) {
+        // add the player to the Content Provider
+        ContentValues content = new ContentValues();
+        content.put(Player.COLUMN_NAME_NAME, name);
+        Uri result = getActivity().getContentResolver().insert(Player.CONTENT_URI, content);
 
-			GameDefinition gameType = GameDefs.TYPES.get(gameTypes.getSelectedItemPosition());
-			Uri newGameUri = newGame(gameType, players);
-			intent.setData(newGameUri);  //set data uri for the new game
-			startActivity(intent);
-            getActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
-			return true;
-		case R.id.add_player:
-			final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-			alert.setTitle(R.string.new_player);
-			final EditText input = new EditText(getActivity());
-			input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-			alert.setView(input);
-			alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					String value = input.getText().toString().trim();
-					addPlayer(value);
-				}
-			});
-			alert.setNegativeButton(android.R.string.cancel,
-					new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					dialog.cancel();
-				}
-			});
-            final AlertDialog dialog = alert.create();
-            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-            dialog.show();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
+        //register a listener to select the user once the listview gets updated.
+        final long targetId = ContentUris.parseId(result);
+        mPlayerList.getAdapter().registerDataSetObserver(new DataSetObserver() {
+            public void onChanged() {
+                // find the new user and select it
+                int count = mPlayerList.getCount() + 1;
+                // BUG: the count seems to be off by one.
+                for (int i = 0; i < count; i++) {
+                    long itemId = mPlayerList.getItemIdAtPosition(i);
+                    boolean isChecked = (itemId == targetId); // remove and only change check when needed
+                    if (isChecked) {
+                        mPlayerList.setItemChecked(i, isChecked);
+                        mPlayerList.getAdapter().unregisterDataSetObserver(this);
+                    }
+                }
 
-	private Uri addPlayer(String name) {
-		// add the player to the Content Provider
-		ContentValues content = new ContentValues();
-		content.put(Player.COLUMN_NAME_NAME, name);
-		Uri result = getActivity().getContentResolver().insert(Player.CONTENT_URI, content);
-		
-		//register a listener to select the user once the listview gets updated.
-		final long targetId = ContentUris.parseId(result);
-		list.getAdapter().registerDataSetObserver(new DataSetObserver() {
-			public void onChanged() {
-				// find the new user and select it
-				int count = list.getCount()+1;
-				// BUG: the count seems to be off by one.
-				for(int i = 0; i<count; i++) {
-					long itemId = list.getItemIdAtPosition(i);
-					boolean isChecked = (itemId == targetId); // remove and only change check when needed
-					if(isChecked) {
-						list.setItemChecked(i, isChecked);
-						list.getAdapter().unregisterDataSetObserver(this);
-					}
-				}
-				
-			}
-		});
+            }
+        });
 
-		Log.d(DEBUG_TAG, "Added player Uri: "+result.toString());
-		return result;
-	}
+//        TransitionManager.go(mListScene);
+        Log.d(DEBUG_TAG, "Added player Uri: " + result.toString());
+        return result;
+    }
 
-	private Uri newGame(GameDefinition game, long[] player_ids) {
-		ContentValues content = new ContentValues();
-		Log.d(DEBUG_TAG, "New Game: "+game.getClass().getName());
-		content.put(Game.COLUMN_NAME_TYPE, game.getGameId());
-		content.put(Game.COLUMN_NAME_DESCRIPTION, game.name);
-		content.put(Game.COLUMN_NAME_PLAYER_IDS, ScoresProvider.serializePlayers(player_ids));
-		Uri result = getActivity().getContentResolver().insert(Game.CONTENT_URI, content);
-		Log.d(DEBUG_TAG, "New Game result Uri: "+result.toString());
-		return result;
-	}
-	/* TODO: remove?
-	private static List<Long> asList(final long[] l) {
-	    return new AbstractList<Long>() {
-	        public Long get(int i) {return l[i];}
-	        // throws NPE if val == null
-	        public Long set(int i, Long val) {
-	            Long oldVal = l[i];
-	            l[i] = val;
-	            return oldVal;
-	        }
-	        public int size() { return l.length;}
-	    };
-	}
-*/
+    private Uri newGame(GameDefinition game, long[] player_ids) {
+        ContentValues content = new ContentValues();
+        Log.d(DEBUG_TAG, "New Game: " + game.getClass().getName());
+        content.put(Game.COLUMN_NAME_TYPE, game.getGameId());
+        content.put(Game.COLUMN_NAME_DESCRIPTION, game.name);
+        content.put(Game.COLUMN_NAME_PLAYER_IDS, ScoresProvider.serializePlayers(player_ids));
+        Uri result = getActivity().getContentResolver().insert(Game.CONTENT_URI, content);
+        Log.d(DEBUG_TAG, "New Game result Uri: " + result.toString());
+        return result;
+    }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle) {
+        switch (loaderID) {
+            case PLAYER_LOADER:
+                return new CursorLoader(getActivity(), Player.CONTENT_URI, null, null, null, null);
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        if (cursor.getCount() > 0) {
+            //TransitionManager.go(mListScene);
+        }
+        mPlayerAdapter.changeCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        mPlayerAdapter.changeCursor(null);
+    }
 }

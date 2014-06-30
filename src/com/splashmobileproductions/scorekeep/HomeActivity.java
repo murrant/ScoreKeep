@@ -72,8 +72,8 @@ public class HomeActivity extends Activity {
     }
 
     public void newGame(View view) {
-        Intent intent = new Intent(this, NewGameActivity.class);
-        startActivity(intent);
+        NewGameFragment newGameFragment = new NewGameFragment();
+        newGameFragment.show(getFragmentManager(), "sk_new_game_dialog");
     }
 
     public void gotoDefaultHomeScreen(View view) {
