@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.transition.Scene;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.splashmobileproductions.scorekeep.games.GameDefinition;
@@ -57,7 +57,6 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
     private final static int[] TO = new int[]{android.R.id.text1};
     private SimpleCursorAdapter mPlayerAdapter;
     private ListView mPlayerList;
-    private Spinner gameTypes;
     private Scene mListScene;
 
     @SuppressLint("Override")
@@ -70,20 +69,34 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
     @SuppressLint("Override")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.sk_new_game_dialog, container, false);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
-//        mListScene = Scene.getSceneForLayout(container, R.layout.sk_new_game_dialog, getActivity());
-        mPlayerAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, null, FROM, TO, 0);
-        mPlayerList = (ListView) view.findViewById(R.id.new_game_players_list);
-        mPlayerList.setAdapter(mPlayerAdapter);
+        View defaultLayout = inflater.inflate(R.layout.sk_new_game_dialog_default, container, false);
+        initButtons(defaultLayout);
 
-//        gameTypes = (Spinner) view.findViewById(R.id.game_type_list);
-//        ArrayAdapter<GameDefinition> aa = new ArrayAdapter<GameDefinition>(getActivity(), R.layout.item_game_type, android.R.id.text1, GameDefs.TYPES);
-//        gameTypes.setAdapter(aa);
+        mPlayerAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, null, FROM, TO, 0);
+
+        return defaultLayout;
+    }
+
+    @SuppressLint("Override")
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        Window window = getDialog().getWindow();
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+
+        ViewGroup sceneRoot = (ViewGroup) getDialog().findViewById(R.id.new_game_layout).getParent();
+        mListScene = Scene.getSceneForLayout(sceneRoot, R.layout.sk_new_game_dialog, getActivity());
 
         getLoaderManager().initLoader(PLAYER_LOADER, null, this);
+    }
 
+    private void initButtons(View view) {
         View cb = view.findViewById(R.id.new_game_close_button);
         cb.setOnClickListener(new OnClickListener() {
             @Override
@@ -95,7 +108,7 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
         View apb = view.findViewById(R.id.new_game_add_player_button);
         apb.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                addPlayer();
+                showAddPlayerDialog();
             }
         });
 
@@ -106,10 +119,18 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
                 startNewGame();
             }
         });
+    }
 
+    public void showPlayerList() {
+        if (mPlayerList == null) {
+            String gameName = ((EditText) getDialog().findViewById(R.id.new_game_text)).getText().toString();
+            TransitionManager.go(mListScene);
+            ((EditText) getDialog().findViewById(R.id.new_game_text)).setText(gameName);
+            mPlayerList = (ListView) getDialog().findViewById(R.id.new_game_players_list);
+            mPlayerList.setAdapter(mPlayerAdapter);
+            initButtons(getDialog().findViewById(R.id.new_game_layout));
 
-
-        return view;
+        }
     }
 
     public void startNewGame() {
@@ -122,13 +143,14 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
         }
 
         GameDefinition gameType = GameDefs.TYPES.get(GameDefs.DEFAULT);
+        gameType.setName(((EditText) getDialog().findViewById(R.id.new_game_text)).getText().toString());
         Uri newGameUri = newGame(gameType, players);
         intent.setData(newGameUri);  //set data uri for the new game
         dismiss();
         startActivity(intent);
     }
 
-    public void addPlayer() {
+    public void showAddPlayerDialog() {
         final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setTitle(R.string.new_player);
         final EditText input = new EditText(getActivity());
@@ -158,6 +180,8 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
         content.put(Player.COLUMN_NAME_NAME, name);
         Uri result = getActivity().getContentResolver().insert(Player.CONTENT_URI, content);
 
+        showPlayerList();
+
         //register a listener to select the user once the listview gets updated.
         final long targetId = ContentUris.parseId(result);
         mPlayerList.getAdapter().registerDataSetObserver(new DataSetObserver() {
@@ -177,7 +201,6 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
             }
         });
 
-//        TransitionManager.go(mListScene);
         Log.d(DEBUG_TAG, "Added player Uri: " + result.toString());
         return result;
     }
@@ -206,7 +229,7 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         if (cursor.getCount() > 0) {
-            //TransitionManager.go(mListScene);
+            showPlayerList();
         }
         mPlayerAdapter.changeCursor(cursor);
     }

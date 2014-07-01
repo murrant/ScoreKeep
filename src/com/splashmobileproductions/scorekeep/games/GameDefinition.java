@@ -15,12 +15,12 @@
  */
 package com.splashmobileproductions.scorekeep.games;
 
-import com.splashmobileproductions.scorekeep.controller.PlayerData;
-import com.splashmobileproductions.scorekeep.controller.ScoreData;
-
 import android.app.Dialog;
 import android.util.Log;
 import android.view.View;
+
+import com.splashmobileproductions.scorekeep.controller.PlayerData;
+import com.splashmobileproductions.scorekeep.controller.ScoreData;
 
 /**
  * Used to implement games.
@@ -32,36 +32,40 @@ import android.view.View;
  */
 public abstract class GameDefinition implements Comparable<GameDefinition>, View.OnClickListener {
 	private static final String DEBUG_TAG = "ScoreKeep:GameDefinition";
-	/**
+    public final boolean enabled;
+    /**
 	 * Must be defined and unique for each type.
 	 */
 	private final int id;
-	public final String name;
-	public final boolean enabled;
 	private final int resource;
-	
-	public GameDefinition(int id, String name, int resource, boolean enabled) {
+    public String name;
+
+    public GameDefinition(int id, String name, int resource, boolean enabled) {
 		this.name = name;
 		this.enabled = enabled;
 		this.resource = resource;
 		this.id = id;
 	}
-	
-	public String toString() {
-		return name;
-	}
 
-	public int compareTo(GameDefinition another) {
-		return id - another.getGameId();
-	}
-	
-	protected static long parseScore(String mathExp) throws NumberFormatException, ArithmeticException {
-		Long score = Long.getLong(mathExp);
-		if(mathExp != null && !mathExp.trim().equals("") && score == null) {
-			score = Math.round(new MathEval().evaluate(mathExp));
-		}
-		return score;
-	}
+    protected static long parseScore(String mathExp) throws NumberFormatException, ArithmeticException {
+        Long score = Long.getLong(mathExp);
+        if (mathExp != null && !mathExp.trim().equals("") && score == null) {
+            score = Math.round(new MathEval().evaluate(mathExp));
+        }
+        return score;
+    }
+
+    public String toString() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int compareTo(GameDefinition another) {
+        return id - another.getGameId();
+    }
 	
 	public int getDialogResource() {
 		Log.d(DEBUG_TAG, "Using super class implementation of getDialogResource");

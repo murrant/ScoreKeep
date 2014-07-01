@@ -62,7 +62,8 @@ public class ScoreCardFragment extends Fragment {
 		GridView grid = (GridView) view.findViewById(R.id.score_card_grid);
 		TextView desc = (TextView) view.findViewById(R.id.game_desc_title);
 		desc.setText(game.description);
-		grid.setAdapter(game);
+        getActivity().setTitle(game.description);
+        grid.setAdapter(game);
 
 		// check if wake lock should be enabled and enable it
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
