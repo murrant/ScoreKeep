@@ -15,10 +15,14 @@
  */
 package com.splashmobileproductions.scorekeep;
 
+import android.annotation.SuppressLint;
 import android.app.ListFragment;
+import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,72 +35,94 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.splashmobileproductions.scorekeep.controller.GamesListAdapter;
+import com.splashmobileproductions.scorekeep.controller.GameAdapter;
 import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.Score;
 
 
-public class GameHistoryFragment extends ListFragment {
-	@SuppressWarnings("unused")
-	private static final String DEBUG_TAG = "ScoreKeep:GameHistoryFragment";
+public class GameHistoryFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    @SuppressWarnings("unused")
+    private static final String DEBUG_TAG = "ScoreKeep:GameHistoryFragment";
+    private static final int GAME_LOADER = 1;
+    GameAdapter mGameListAdapter;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
-		/* Android 3.0...
-		CursorLoader loader = new CursorLoader(this, Game.CONTENT_URI, null, null, null, null);
-		Cursor cursor = loader.loadInBackground();
-		 */
+        mGameListAdapter = new GameAdapter(getActivity(), null);
+        setListAdapter(mGameListAdapter);
 
-		Cursor cursor = getActivity().managedQuery(Game.CONTENT_URI, null, null, null, null);
-		GamesListAdapter gla = new GamesListAdapter(getActivity(),cursor);
-		setListAdapter(gla);
-	}
+        getLoaderManager().initLoader(GAME_LOADER, null, this);
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.games_list, container, false);
-	}
+    @SuppressLint("Override")
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.games_list, container, false);
+    }
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		// Open games on click
-		getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {  
-			public void onItemClick(AdapterView<?> listView, View item, int position, long id) {
-				Intent intent = new Intent(listView.getContext(), ScoreCardActivity.class);
-				Uri gameUri = ContentUris.withAppendedId(Game.CONTENT_ID_URI_BASE, id);
-				intent.setData(gameUri);  //set data uri for the new game
-				startActivity(intent);
+    @SuppressLint("Override")
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // Open games on click
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> listView, View item, int position, long id) {
+                Intent intent = new Intent(listView.getContext(), ScoreCardActivity.class);
+                Uri gameUri = ContentUris.withAppendedId(Game.CONTENT_ID_URI_BASE, id);
+                intent.setData(gameUri);  //set data uri for the new game
+                startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
-			}
-		});
-	}
+            }
+        });
+    }
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    @SuppressLint("Override")
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         getActivity().onCreateOptionsMenu(menu);
         inflater.inflate(R.menu.games_list_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {		
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.glmenu_clear_history:
-			ContentResolver cr = getActivity().getContentResolver();
-			int rows = cr.delete(Game.CONTENT_URI, null, null);
-			cr.delete(Score.CONTENT_URI, null, null);
-			if(rows>0) {
-				Toast.makeText(getActivity().getApplicationContext(), rows+" games deleted!", Toast.LENGTH_SHORT).show();
-				return true;
-			}
-			return false;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
+    @SuppressLint("Override")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.glmenu_clear_history:
+                ContentResolver cr = getActivity().getContentResolver();
+                int rows = cr.delete(Game.CONTENT_URI, null, null);
+                cr.delete(Score.CONTENT_URI, null, null);
+                if (rows > 0) {
+                    Toast.makeText(getActivity().getApplicationContext(), rows + " games deleted!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle) {
+        switch (loaderID) {
+            case GAME_LOADER:
+                return new CursorLoader(getActivity(), Game.CONTENT_URI, null, null, null, null);
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        mGameListAdapter.changeCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        mGameListAdapter.changeCursor(null);
+    }
 }
