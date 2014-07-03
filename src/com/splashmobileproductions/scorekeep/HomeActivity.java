@@ -28,6 +28,7 @@ import android.content.Loader;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Outline;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.util.Linkify;
@@ -66,7 +67,7 @@ public class HomeActivity extends Activity implements LoaderManager.LoaderCallba
         if (savedInstanceState == null) {
             getLoaderManager().initLoader(GAME_LOADER, null, this);
         }
-
+        setFabOutline();
     }
 
     @Override
@@ -93,7 +94,19 @@ public class HomeActivity extends Activity implements LoaderManager.LoaderCallba
 //            ft.setCustomAnimations(R.animator.game_history_animator, 0);
             ft.add(R.id.home_history_frame, new GameHistoryFragment()).commitAllowingStateLoss();
             mTransitionManager.transitionTo(mHistoryScene);
+
+            setFabOutline();
         }
+    }
+
+    private void setFabOutline() {
+        int size = getResources().getDimensionPixelSize(R.dimen.fab_size);
+        Outline outline = new Outline();
+        outline.setOval(0, 0, size, size);
+        View newButton = findViewById(R.id.home_btn_new);
+        newButton.setOutline(outline);
+        newButton.setClipToOutline(true);
+        newButton.setElevation(R.dimen.fab_elevation);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

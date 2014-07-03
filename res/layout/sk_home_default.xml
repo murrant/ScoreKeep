@@ -14,23 +14,36 @@
         android:importantForAccessibility="no"
         android:src="@drawable/bg" />
 
-    <Button
+    <ImageButton
         android:id="@+id/home_btn_new"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
         android:layout_below="@id/home_logo"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
         android:layout_marginTop="20dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="4dp"
-        android:drawableStart="@drawable/ic_menu_play_clip"
-        android:gravity="left|center_vertical"
+        android:background="@drawable/ripple"
+        android:contentDescription="@string/new_game"
+        android:elevation="4dp"
         android:onClick="newGame"
-        android:padding="18dp"
-        android:singleLine="false"
+        android:src="@drawable/ic_menu_play_clip"
+        android:stateListAnimator="@anim/fab" />
+
+    <TextView
+        android:id="@+id/home_btn_new_text"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/fab_size"
+        android:layout_below="@id/home_logo"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/home_btn_new"
+        android:clickable="true"
+        android:gravity="left|center_vertical"
+        android:maxLines="1"
+        android:onClick="newGame"
         android:text="@string/new_game"
+        android:textAppearance="?android:textAppearanceButton"
         android:textSize="28sp" />
 
     <Button
