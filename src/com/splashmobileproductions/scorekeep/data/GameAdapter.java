@@ -79,6 +79,7 @@ public class GameAdapter extends CursorAdapter implements LoaderManager.LoaderCa
         if (mPlayers.size() == 0) {
             item.setVisibility(View.GONE);
         } else {
+            item.setVisibility(View.VISIBLE);
             String playerIdsString = cursor.getString(cursor.getColumnIndex(Game.COLUMN_NAME_PLAYER_IDS));
             long[] playerIds = ScoresProvider.deserializePlayers(playerIdsString);
             ArrayList<String> playerNames = new ArrayList<String>();
