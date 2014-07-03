@@ -21,16 +21,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.splashmobileproductions.scorekeep.R;
 import com.splashmobileproductions.scorekeep.provider.Game;
 
-import java.text.DateFormat;
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.util.Date;
 
 public class GameAdapter extends CursorAdapter {
+    final PrettyTime mPrettyTime = new PrettyTime();
 
     public GameAdapter(Context context, Cursor c) {
         super(context, c, 0);
@@ -39,37 +40,32 @@ public class GameAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        final LayoutInflater inflater = LayoutInflater.from(context);
-        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.games_list_item, parent, false);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.sk_game_list_item, parent, false);
 
-        setDescription((TextView) ll.getChildAt(0), cursor);
-        setCreationDate((TextView) ll.getChildAt(1), cursor);
-        setModifiedDate((TextView) ll.getChildAt(2), cursor);
+        setDescription((TextView) itemView.findViewById(R.id.gl_desc), cursor);
+        setModifiedDate((TextView) itemView.findViewById(R.id.gl_modified), cursor);
+        setPlayerList((TextView) itemView.findViewById(R.id.gl_players), cursor);
 
-        return ll;
+        return itemView;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        LinearLayout ll = (LinearLayout) view;
-        setDescription((TextView) ll.getChildAt(0), cursor);
-        setCreationDate((TextView) ll.getChildAt(1), cursor);
-        setModifiedDate((TextView) ll.getChildAt(2), cursor);
+        setDescription((TextView) view.findViewById(R.id.gl_desc), cursor);
+        setModifiedDate((TextView) view.findViewById(R.id.gl_modified), cursor);
+        setPlayerList((TextView) view.findViewById(R.id.gl_players), cursor);
     }
 
     private void setDescription(TextView item, Cursor cursor) {
         item.setText(cursor.getString(cursor.getColumnIndex(Game.COLUMN_NAME_DESCRIPTION)));
     }
 
-    private void setCreationDate(TextView item, Cursor cursor) {
-        Date startedDate = new Date(cursor.getLong(cursor.getColumnIndex(Game.COLUMN_NAME_CREATE_DATE)));
-        String startedString = DateFormat.getDateInstance().format(startedDate);
-        item.setText(startedString);
+    private void setPlayerList(TextView item, Cursor cursor) {
+        item.setText("Player list unsupported.");
     }
 
     private void setModifiedDate(TextView item, Cursor cursor) {
         Date playedDate = new Date(cursor.getLong(cursor.getColumnIndex(Game.COLUMN_NAME_MODIFICATION_DATE)));
-        DateFormat dt = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
-        item.setText(dt.format(playedDate));
+        item.setText(mPrettyTime.format(playedDate));
     }
 }
