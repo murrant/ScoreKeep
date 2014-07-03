@@ -46,6 +46,7 @@ public class GameHistoryFragment extends ListFragment implements LoaderManager.L
     private static final int GAME_LOADER = 1;
     GameAdapter mGameListAdapter;
 
+    @SuppressLint("Override")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
