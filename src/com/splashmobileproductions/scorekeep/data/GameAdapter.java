@@ -39,10 +39,11 @@ import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class GameAdapter extends CursorAdapter implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int PLAYER_LOADER = 0;
-    private final PrettyTime mPrettyTime = new PrettyTime();
+    private final PrettyTime mPrettyTime = new PrettyTime(Locale.getDefault());
     private final LongSparseArray<String> mPlayers = new LongSparseArray<String>();
     private Context mContext;
 
