@@ -35,7 +35,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.splashmobileproductions.scorekeep.controller.GameAdapter;
+import com.splashmobileproductions.scorekeep.data.GameAdapter;
 import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.Score;
 

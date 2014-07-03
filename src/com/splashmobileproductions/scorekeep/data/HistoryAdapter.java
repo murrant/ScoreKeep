@@ -13,9 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.splashmobileproductions.scorekeep.controller;
-
-import java.util.List;
+package com.splashmobileproductions.scorekeep.data;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -26,41 +24,43 @@ import android.widget.TextView;
 
 import com.splashmobileproductions.scorekeep.R;
 
-public class HistoryAdapter extends ArrayAdapter<ScoreData> {
-	private final LayoutInflater mInflater;
+import java.util.List;
 
-	public HistoryAdapter(Context context, List<ScoreData> list) {
-		super(context, R.layout.score_history_item, R.id.score, list);
-		mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	}
-	
-	public View getView(int position, View convertView, ViewGroup parent) {
+public class HistoryAdapter extends ArrayAdapter<ScoreData> {
+    private final LayoutInflater mInflater;
+
+    public HistoryAdapter(Context context, List<ScoreData> list) {
+        super(context, R.layout.score_history_item, R.id.score, list);
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.score_history_item, null);
             holder = new ViewHolder();
-            holder.score = (TextView)convertView.findViewById(R.id.score);
-            holder.context = (TextView)convertView.findViewById(R.id.context);
+            holder.score = (TextView) convertView.findViewById(R.id.score);
+            holder.context = (TextView) convertView.findViewById(R.id.context);
             convertView.setTag(holder);
         } else {
-            holder = (ViewHolder)convertView.getTag();
+            holder = (ViewHolder) convertView.getTag();
         }
         ScoreData sd = getItem(position);
-        if(sd.score != null) {
-        	holder.score.setText(sd.score.toString());
+        if (sd.score != null) {
+            holder.score.setText(sd.score.toString());
         } else {
-        	holder.score.setText("");
+            holder.score.setText("");
         }
-        if(sd.context != null) {
-        	holder.context.setText(sd.context);
+        if (sd.context != null) {
+            holder.context.setText(sd.context);
         } else {
-        	holder.context.setText("");
+            holder.context.setText("");
         }
         //holder.score.setBackgroundColor(android.R.color.black);
         //holder.score.setTextColor(android.R.color.black);
         return convertView;
-	}
-	
+    }
+
     public static class ViewHolder {
         TextView score;
         TextView context;

@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.splashmobileproductions.scorekeep.controller;
+package com.splashmobileproductions.scorekeep.data;
 
 import android.app.Activity;
 import android.app.LoaderManager;

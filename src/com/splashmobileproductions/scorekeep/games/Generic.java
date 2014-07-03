@@ -15,50 +15,46 @@
  */
 package com.splashmobileproductions.scorekeep.games;
 
-import com.splashmobileproductions.scorekeep.R;
-
-import com.splashmobileproductions.scorekeep.controller.PlayerData;
-import com.splashmobileproductions.scorekeep.controller.ScoreData;
-
 import android.app.Dialog;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.splashmobileproductions.scorekeep.R;
+import com.splashmobileproductions.scorekeep.data.PlayerData;
+import com.splashmobileproductions.scorekeep.data.ScoreData;
+
 public class Generic extends GameDefinition {
 
-	public Generic() {
-		super(GameDefs.DEFAULT, "Generic", R.layout.add_score_generic, true);
-	}
+    public Generic() {
+        super(GameDefs.DEFAULT, "Generic", R.layout.add_score_generic, true);
+    }
 
-	@Override
-	public ScoreData getScore(Dialog dlg, PlayerData player) {
-		TextView scoreView = (TextView) dlg.findViewById(R.id.score_edit);
-		TextView contextView = (TextView) dlg.findViewById(R.id.context_edit);		
-		String scoreInput = scoreView.getText().toString();
-		String context = contextView.getText().toString();				
+    @Override
+    public ScoreData getScore(Dialog dlg, PlayerData player) {
+        TextView scoreView = (TextView) dlg.findViewById(R.id.score_edit);
+        TextView contextView = (TextView) dlg.findViewById(R.id.context_edit);
+        String scoreInput = scoreView.getText().toString();
+        String context = contextView.getText().toString();
 
-		Long score = null;
-		// if there no score, but a context.  Leave score null and return
-		if(scoreInput.isEmpty() && !context.isEmpty()) {	
-			return new ScoreData(score, context);
-		}
-		
-		try {
-			score = parseScore(scoreInput);
-		} catch(Exception e) {
-			Toast.makeText(dlg.getContext(), R.string.number_parse_failed, Toast.LENGTH_LONG).show();
-			return null;
-		}
+        Long score = null;
+        // if there no score, but a context.  Leave score null and return
+        if (scoreInput.isEmpty() && !context.isEmpty()) {
+            return new ScoreData(score, context);
+        }
 
-		
+        try {
+            score = parseScore(scoreInput);
+        } catch (Exception e) {
+            Toast.makeText(dlg.getContext(), R.string.number_parse_failed, Toast.LENGTH_LONG).show();
+            return null;
+        }
 
 
-		
-		return new ScoreData(score, context);
-	}
+        return new ScoreData(score, context);
+    }
 
-	public void onClick(View v) {
-		// nothing
-	}
+    public void onClick(View v) {
+        // nothing
+    }
 }

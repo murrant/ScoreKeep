@@ -19,33 +19,32 @@ import android.app.Dialog;
 import android.util.Log;
 import android.view.View;
 
-import com.splashmobileproductions.scorekeep.controller.PlayerData;
-import com.splashmobileproductions.scorekeep.controller.ScoreData;
+import com.splashmobileproductions.scorekeep.data.PlayerData;
+import com.splashmobileproductions.scorekeep.data.ScoreData;
 
 /**
  * Used to implement games.
  * An xml resource must be designed and set to the variable resource.
  * There are several id's you can assign to buttons to get generic functionality.
- * 
- * @author Tony Murray <murraytony@gmail.com>
  *
+ * @author Tony Murray <murraytony@gmail.com>
  */
 public abstract class GameDefinition implements Comparable<GameDefinition>, View.OnClickListener {
-	private static final String DEBUG_TAG = "ScoreKeep:GameDefinition";
+    private static final String DEBUG_TAG = "ScoreKeep:GameDefinition";
     public final boolean enabled;
     /**
-	 * Must be defined and unique for each type.
-	 */
-	private final int id;
-	private final int resource;
+     * Must be defined and unique for each type.
+     */
+    private final int id;
+    private final int resource;
     public String name;
 
     public GameDefinition(int id, String name, int resource, boolean enabled) {
-		this.name = name;
-		this.enabled = enabled;
-		this.resource = resource;
-		this.id = id;
-	}
+        this.name = name;
+        this.enabled = enabled;
+        this.resource = resource;
+        this.id = id;
+    }
 
     protected static long parseScore(String mathExp) throws NumberFormatException, ArithmeticException {
         Long score = Long.getLong(mathExp);
@@ -66,19 +65,20 @@ public abstract class GameDefinition implements Comparable<GameDefinition>, View
     public int compareTo(GameDefinition another) {
         return id - another.getGameId();
     }
-	
-	public int getDialogResource() {
-		Log.d(DEBUG_TAG, "Using super class implementation of getDialogResource");
-		return resource;
-	}
-	
-	public int getGameId() {
-		return id;
-	}
-	
-	//TODO the dialog argument seems wrong
-	/**
-	 * returns null if it could not validate the dialog, it should also display a toast with the problem
-	 */
-	public abstract ScoreData getScore(Dialog dialog, PlayerData player);
+
+    public int getDialogResource() {
+        Log.d(DEBUG_TAG, "Using super class implementation of getDialogResource");
+        return resource;
+    }
+
+    public int getGameId() {
+        return id;
+    }
+
+    //TODO the dialog argument seems wrong
+
+    /**
+     * returns null if it could not validate the dialog, it should also display a toast with the problem
+     */
+    public abstract ScoreData getScore(Dialog dialog, PlayerData player);
 }
