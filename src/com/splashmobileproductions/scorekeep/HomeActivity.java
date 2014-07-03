@@ -20,10 +20,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.util.Linkify;
@@ -36,10 +40,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.splashmobileproductions.scorekeep.provider.Game;
 
-public class HomeActivity extends Activity {
+
+public class HomeActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
     @SuppressWarnings("unused")
     private static final String DEBUG_TAG = "ScoreKeep:HomeActivity";
+    private static final int GAME_LOADER = 1;
     TransitionManager mTransitionManager;
     Scene mDefaultScene, mHistoryScene;
 
@@ -56,9 +63,8 @@ public class HomeActivity extends Activity {
         TransitionInflater transitionInflater = TransitionInflater.from(this);
         mTransitionManager = transitionInflater.inflateTransitionManager(R.transition.transition_manager, container);
 
-
         if (savedInstanceState == null) {
-            //TODO: check if we should bring in the history list
+            getLoaderManager().initLoader(GAME_LOADER, null, this);
         }
 
     }
@@ -85,10 +91,9 @@ public class HomeActivity extends Activity {
         if (gamesListFragment == null) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
 //            ft.setCustomAnimations(R.animator.game_history_animator, 0);
-            ft.add(R.id.home_history_frame, new GameHistoryFragment()).commit();
+            ft.add(R.id.home_history_frame, new GameHistoryFragment()).commitAllowingStateLoss();
+            mTransitionManager.transitionTo(mHistoryScene);
         }
-
-        mTransitionManager.transitionTo(mHistoryScene);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -108,6 +113,28 @@ public class HomeActivity extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle) {
+        switch (loaderID) {
+            case GAME_LOADER:
+                return new CursorLoader(this, Game.CONTENT_URI, null, null, null, null);
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        if (cursor.getCount() > 0) {
+            gotoHistoryHomeScreen(null);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+
     }
 
     public static class AboutDialogBuilder {
