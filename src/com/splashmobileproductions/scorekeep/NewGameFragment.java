@@ -135,7 +135,10 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
 
     public void startNewGame() {
         Intent intent = new Intent(getActivity(), ScoreCardActivity.class);
-
+        if (mPlayerList == null) {
+            Toast.makeText(getActivity(), R.string.no_players_add_one, Toast.LENGTH_SHORT).show();
+            return;
+        }
         long[] players = mPlayerList.getCheckedItemIds();
         if (players.length < 1) {
             Toast.makeText(getActivity(), R.string.no_players_selected, Toast.LENGTH_SHORT).show();
