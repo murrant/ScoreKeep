@@ -1,4 +1,10 @@
 <transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
     android:transitionOrdering="sequential">
+    <fade
+        android:duration="200"
+        android:fadingMode="fade_out" />
     <changeBounds android:interpolator="@android:anim/decelerate_interpolator" />
+    <fade
+        android:duration="200"
+        android:fadingMode="fade_in" />
 </transitionSet>

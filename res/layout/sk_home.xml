@@ -36,8 +36,9 @@
         android:layout_marginRight="32dp"
         android:background="@drawable/ripple"
         android:contentDescription="@string/new_game"
-        android:elevation="4dp"
+        android:elevation="@dimen/fab_elevation"
         android:onClick="newGame"
+        android:paddingLeft="2dp"
         android:src="@drawable/ic_menu_play_clip"
         android:stateListAnimator="@anim/fab" />
 
