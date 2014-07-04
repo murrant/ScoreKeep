@@ -6,22 +6,39 @@
 
     <ImageView
         android:id="@+id/home_logo"
-        android:layout_width="fill_parent"
+        android:layout_width="250dp"
         android:layout_height="250dp"
-        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
         android:layout_marginTop="20dp"
         android:importantForAccessibility="no"
         android:src="@drawable/bg" />
 
+    <TextView
+        android:id="@+id/home_btn_new_text"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/fab_size"
+        android:layout_below="@id/home_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/fab_size"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:gravity="left|center_vertical"
+        android:maxLines="1"
+        android:onClick="newGame"
+        android:paddingLeft="64dp"
+        android:text="@string/new_game"
+        android:textAppearance="?android:textAppearanceButton"
+        android:textSize="28sp" />
+
     <ImageButton
         android:id="@+id/home_btn_new"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
+        android:layout_alignLeft="@+id/home_btn_new_text"
         android:layout_below="@id/home_logo"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/ripple"
         android:contentDescription="@string/new_game"
         android:elevation="@dimen/fab_elevation"
@@ -30,40 +47,27 @@
         android:src="@drawable/ic_menu_play_clip"
         android:stateListAnimator="@anim/fab" />
 
-    <TextView
-        android:id="@+id/home_btn_new_text"
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/fab_size"
-        android:layout_below="@id/home_logo"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_toRightOf="@id/home_btn_new"
-        android:clickable="true"
-        android:gravity="left|center_vertical"
-        android:maxLines="1"
-        android:onClick="newGame"
-        android:text="@string/new_game"
-        android:textAppearance="?android:textAppearanceButton"
-        android:textSize="28sp" />
-
-    <Button
-        android:id="@+id/home_btn_gplus"
-        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/home_btn_new"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/swap_layout"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="12dp"
         android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/ic_menu_recent_history"
-        android:drawablePadding="4dp"
+        android:drawableLeft="@drawable/ic_menu_preferences"
         android:gravity="left|center_vertical"
-        android:onClick="gotoHistoryHomeScreen"
-        android:padding="18dp"
-        android:text="Change Scene"
-        android:textSize="28sp" />
+        android:onClick="gotoHistoryHomeScreen" />
 
     <FrameLayout
         android:id="@+id/home_history_frame"
