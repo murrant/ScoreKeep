@@ -25,7 +25,6 @@ public class ScoreCardActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.score_card_activity);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		Uri dataUri = getIntent().getData();
 		// If there is no data associated with the Intent, bring up new game dialog
@@ -35,8 +34,9 @@ public class ScoreCardActivity extends Activity {
 		}
 	}
 
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
-    }
+//    @SuppressLint("Override")
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+//    }
 }
