@@ -46,7 +46,7 @@ import com.splashmobileproductions.scorekeep.provider.Player;
 import com.splashmobileproductions.scorekeep.provider.Score;
 import com.splashmobileproductions.scorekeep.util.JobManager;
 
-public class PlayerList extends ListFragment implements OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class PlayerListFragment extends ListFragment implements OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
     private static final int PLAYER_LOADER = 0;
     private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
 	private final static int[] TO = new int[]{android.R.id.text1};
@@ -99,7 +99,7 @@ public class PlayerList extends ListFragment implements OnClickListener, LoaderM
 					// add the player to the Content Provider
 					ContentValues content = new ContentValues();
 					content.put(Player.COLUMN_NAME_NAME, name);
-					PlayerList.this.getActivity().getContentResolver().insert(Player.CONTENT_URI, content);
+                    PlayerListFragment.this.getActivity().getContentResolver().insert(Player.CONTENT_URI, content);
 
 				}
 			});

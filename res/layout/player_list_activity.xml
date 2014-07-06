@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/score_card_fragment"
-        android:name="com.splashmobileproductions.scorekeep.PlayerList"
+        android:name="com.splashmobileproductions.scorekeep.PlayerListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/players_list">
