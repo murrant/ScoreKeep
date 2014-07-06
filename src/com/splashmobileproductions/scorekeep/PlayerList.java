@@ -15,13 +15,17 @@
  */
 package com.splashmobileproductions.scorekeep;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.ListFragment;
+import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.InputType;
@@ -42,37 +46,44 @@ import com.splashmobileproductions.scorekeep.provider.Player;
 import com.splashmobileproductions.scorekeep.provider.Score;
 import com.splashmobileproductions.scorekeep.util.JobManager;
 
-public class PlayerList extends ListFragment implements OnClickListener {
-	private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
+public class PlayerList extends ListFragment implements OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+    private static final int PLAYER_LOADER = 0;
+    private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
 	private final static int[] TO = new int[]{android.R.id.text1};
     private JobManager mJobManager;
 
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @SuppressLint("Override")
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		Cursor cursor = getActivity().managedQuery(Player.CONTENT_URI, null, null, null, null);
-		setListAdapter(new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, cursor, FROM, TO));
-	}
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getLoaderManager().initLoader(PLAYER_LOADER, null, this);
+    }
+
+    @SuppressLint("Override")
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.players_list, container, false);
 	}
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
+    @SuppressLint("Override")
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
 		ListView list = getListView();
 		list.setItemsCanFocus(false);
 		list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 	}
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    @SuppressLint("Override")
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.player_list_menu, menu);
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {		
+    @SuppressLint("Override")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.plmenu_new:
@@ -119,12 +130,32 @@ public class PlayerList extends ListFragment implements OnClickListener {
             if(mJobManager == null) {
                 mJobManager = new JobManager();
             }
-            DeleteAllPlayersJob dapj = new DeleteAllPlayersJob(3000);
+            DeleteAllPlayersJob dapj = new DeleteAllPlayersJob(5000);
             mJobManager.addJob(dapj);
 
-            Toast.makeText(getActivity().getApplicationContext(), "All players deleted | Undo", Toast.LENGTH_SHORT);
-		}
+            Toast.makeText(getActivity().getApplicationContext(), "All players deleted | Undo", Toast.LENGTH_SHORT).show();
+        }
 	}
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle) {
+        switch (loaderID) {
+            case PLAYER_LOADER:
+                return new CursorLoader(getActivity(), Player.CONTENT_URI, null, null, null, null);
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        setListAdapter(new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, cursor, FROM, TO, 0));
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        setListAdapter(null);
+    }
 
     public class DeleteAllPlayersJob extends JobManager.PendingJob {
         public DeleteAllPlayersJob(int waitTime) {
@@ -134,11 +165,15 @@ public class PlayerList extends ListFragment implements OnClickListener {
         @Override
         public void execute() {
             ContentResolver cr = getActivity().getContentResolver();
-            int dgms = cr.delete(Game.CONTENT_URI, null, null);
+            final int dgms = cr.delete(Game.CONTENT_URI, null, null);
             cr.delete(Score.CONTENT_URI, null, null);
-            int dpls = cr.delete(Player.CONTENT_URI, null, null);
+            final int dpls = cr.delete(Player.CONTENT_URI, null, null);
             if(dpls>0) {
-                Toast.makeText(getActivity().getApplicationContext(), dpls+" players and "+dgms+" games deleted!", Toast.LENGTH_SHORT).show();
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getActivity(), dpls + " players and " + dgms + " games deleted!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
         }
