@@ -130,7 +130,7 @@ public class PlayerListFragment extends ListFragment implements OnClickListener,
             if(mJobManager == null) {
                 mJobManager = new JobManager();
             }
-            DeleteAllPlayersJob dapj = new DeleteAllPlayersJob(5000);
+            DeleteAllPlayersJob dapj = new DeleteAllPlayersJob(3000);
             mJobManager.addJob(dapj);
 
             Toast.makeText(getActivity().getApplicationContext(), "All players deleted | Undo", Toast.LENGTH_SHORT).show();
