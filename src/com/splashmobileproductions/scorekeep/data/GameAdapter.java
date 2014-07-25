@@ -27,6 +27,8 @@ import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
@@ -46,6 +48,7 @@ public class GameAdapter extends CursorAdapter implements LoaderManager.LoaderCa
     private final PrettyTime mPrettyTime = new PrettyTime(Locale.getDefault());
     private final LongSparseArray<String> mPlayers = new LongSparseArray<String>();
     private Activity mActivity;
+    private int mLastPosition = -1;
 
     public GameAdapter(Context context, Cursor c) {
         super(context, c, 0);
@@ -60,6 +63,10 @@ public class GameAdapter extends CursorAdapter implements LoaderManager.LoaderCa
         setDescription((TextView) itemView.findViewById(R.id.gl_desc), cursor);
         setModifiedDate((TextView) itemView.findViewById(R.id.gl_modified), cursor);
         setPlayerList((TextView) itemView.findViewById(R.id.gl_players), cursor);
+
+        Animation animation = AnimationUtils.loadAnimation(context, (cursor.getPosition() > mLastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+        itemView.startAnimation(animation);
+        mLastPosition = cursor.getPosition();
 
         return itemView;
     }
