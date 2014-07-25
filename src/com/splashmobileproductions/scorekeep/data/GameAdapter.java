@@ -45,12 +45,12 @@ public class GameAdapter extends CursorAdapter implements LoaderManager.LoaderCa
     private static final int PLAYER_LOADER = 0;
     private final PrettyTime mPrettyTime = new PrettyTime(Locale.getDefault());
     private final LongSparseArray<String> mPlayers = new LongSparseArray<String>();
-    private Context mContext;
+    private Activity mActivity;
 
     public GameAdapter(Context context, Cursor c) {
         super(context, c, 0);
-        mContext = context;
-        ((Activity) context).getLoaderManager().initLoader(PLAYER_LOADER, null, this);
+        mActivity = (Activity) context;
+        mActivity.getLoaderManager().initLoader(PLAYER_LOADER, null, this);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class GameAdapter extends CursorAdapter implements LoaderManager.LoaderCa
     public Loader<Cursor> onCreateLoader(int loaderID, Bundle bundle) {
         switch (loaderID) {
             case PLAYER_LOADER:
-                return new CursorLoader(mContext, Player.CONTENT_URI, null, null, null, null);
+                return new CursorLoader(mActivity, Player.CONTENT_URI, null, null, null, null);
             default:
                 return null;
         }
@@ -108,10 +108,10 @@ public class GameAdapter extends CursorAdapter implements LoaderManager.LoaderCa
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        cursor.moveToPosition(-1); //reset cursor position, could be a reused cursor
         while (cursor.moveToNext()) {
             mPlayers.put(cursor.getLong(cursor.getColumnIndex(Player._ID)), cursor.getString(cursor.getColumnIndex(Player.COLUMN_NAME_NAME)));
         }
-
     }
 
     @Override

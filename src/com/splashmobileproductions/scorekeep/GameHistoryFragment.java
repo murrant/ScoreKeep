@@ -74,7 +74,6 @@ public class GameHistoryFragment extends ListFragment implements LoaderManager.L
                 Uri gameUri = ContentUris.withAppendedId(Game.CONTENT_ID_URI_BASE, id);
                 intent.setData(gameUri);  //set data uri for the new game
                 startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
             }
         });
     }
