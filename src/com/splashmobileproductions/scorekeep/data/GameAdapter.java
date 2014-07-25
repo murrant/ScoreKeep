@@ -112,6 +112,13 @@ public class GameAdapter extends CursorAdapter implements LoaderManager.LoaderCa
         while (cursor.moveToNext()) {
             mPlayers.put(cursor.getLong(cursor.getColumnIndex(Player._ID)), cursor.getString(cursor.getColumnIndex(Player.COLUMN_NAME_NAME)));
         }
+
+        // notify for redraw if the player names came late
+        mActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                GameAdapter.this.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
