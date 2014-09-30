@@ -24,9 +24,9 @@
         android:editable="true"
         android:inputType="textCapWords"
         android:selectAllOnFocus="true"
-        android:text="@string/new_game"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:hint="@string/game_name_hint" />
 
     <Button
         android:id="@+id/new_game_add_player_button"

@@ -63,7 +63,7 @@
     <string name="settings_keepscreenon">Prevent the device from sleeping</string>
     <string name="about">About ScoreKeep</string>
     <string name="about_short">About</string>
-    <string name="about_dialog_text">\u00A9 2011-2014Tony Murray</string>
+    <string name="about_dialog_text">\u00A9 2011-2014 Tony Murray</string>
     <string name="score_history">Score History</string>
     <string name="settings_keepscreenon_summary">Prevents your device from going to sleep while you are on the scoring screen.</string>
     <string name="clear_players">Clear Players</string>
@@ -73,4 +73,5 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="manage_players">Manage Players</string>
     <string name="no_players_add_one">Please create players first.</string>
+    <string name="game_name_hint">Game Title</string>
 </resources>

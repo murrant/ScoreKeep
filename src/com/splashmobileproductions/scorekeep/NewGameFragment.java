@@ -146,7 +146,9 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
         }
 
         GameDefinition gameType = GameDefs.TYPES.get(GameDefs.DEFAULT);
-        gameType.setName(((EditText) getDialog().findViewById(R.id.new_game_text)).getText().toString());
+        String gameName = ((EditText) getDialog().findViewById(R.id.new_game_text)).getText().toString();
+        if(gameName.isEmpty()) gameName = getString(R.string.new_game);
+        gameType.setName(gameName);
         Uri newGameUri = newGame(gameType, players);
         intent.setData(newGameUri);  //set data uri for the new game
         dismiss();
