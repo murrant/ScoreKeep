@@ -106,7 +106,7 @@ public class HomeActivity extends Activity implements LoaderManager.LoaderCallba
         Outline outline = new Outline();
         outline.setOval(0, 0, size, size);
         View newButton = findViewById(R.id.home_btn_new);
-        newButton.setOutline(outline);
+//TODO        newButton.setOutline(outline);
 //        newButton.setClipToOutline(true);
 //        newButton.setElevation(R.dimen.fab_elevation);
     }
