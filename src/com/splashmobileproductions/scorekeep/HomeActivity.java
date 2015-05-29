@@ -83,9 +83,7 @@ public class HomeActivity extends Activity implements LoaderManager.LoaderCallba
     }
 
     public void gotoDefaultHomeScreen(View view) {
-
         mTransitionManager.transitionTo(mDefaultScene);
-//        setFabOutline();
     }
 
     public void gotoHistoryHomeScreen(View view) {
@@ -95,22 +93,10 @@ public class HomeActivity extends Activity implements LoaderManager.LoaderCallba
 //            ft.setCustomAnimations(R.animator.game_history_animator, 0);
             ft.add(R.id.home_history_frame, new GameHistoryFragment()).commitAllowingStateLoss();
             mTransitionManager.transitionTo(mHistoryScene);
-
-//            setFabOutline();
         }
     }
 
-    /*
-        private void setFabOutline() {
-            int size = getResources().getDimensionPixelSize(R.dimen.fab_size);
-            Outline outline = new Outline();
-            outline.setOval(0, 0, size, size);
-            View newButton = findViewById(R.id.home_btn_new);
-    //TODO        newButton.setOutline(outline);
-    //        newButton.setClipToOutline(true);
-    //        newButton.setElevation(R.dimen.fab_elevation);
-        }
-    */
+
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {

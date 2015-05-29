@@ -44,7 +44,7 @@
         <item>Double Nello</item>
     </string-array>
     <string-array name="gamedef_fivehundred_bidamount">
-        <item></item>
+        <item>6</item>
         <item>7</item>
         <item>8</item>
         <item>9</item>
@@ -63,7 +63,7 @@
     <string name="settings_keepscreenon">Prevent the device from sleeping</string>
     <string name="about">About ScoreKeep</string>
     <string name="about_short">About</string>
-    <string name="about_dialog_text">\u00A9 2011-2014 Tony Murray</string>
+    <string name="about_dialog_text">\u00A9 2011-2015 Tony Murray</string>
     <string name="score_history">Score History</string>
     <string name="settings_keepscreenon_summary">Prevents your device from going to sleep while you are on the scoring screen.</string>
     <string name="clear_players">Clear Players</string>
