@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.splashmobileproductions.scorekeep">
 
     <application
@@ -54,11 +53,11 @@
 
         <provider
             android:name=".provider.ScoresProvider"
-            android:authorities="com.splashmobileproductions.scoresprovider"></provider>
+            android:authorities="com.splashmobileproductions.scoresprovider" />
 
         <activity
             android:name="AddPlayerDialog"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
     </application>
 </manifest>

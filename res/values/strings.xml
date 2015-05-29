@@ -74,4 +74,5 @@
     <string name="manage_players">Manage Players</string>
     <string name="no_players_add_one">Please create players first.</string>
     <string name="game_name_hint">Game Title</string>
+    <string name="player_avatar">Player Avatar</string>
 </resources>

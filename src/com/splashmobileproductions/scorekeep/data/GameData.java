@@ -1,17 +1,17 @@
 /**
- *  Copyright 2011 Tony Murray <murraytony@gmail.com>
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * Copyright 2011 Tony Murray <murraytony@gmail.com>
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.splashmobileproductions.scorekeep.data;
 
@@ -34,6 +34,7 @@ import com.splashmobileproductions.scorekeep.games.GameDefinition;
 import com.splashmobileproductions.scorekeep.games.GameDefs;
 import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.ScoresProvider;
+import com.splashmobileproductions.scorekeep.view.CircularImageView;
 
 import java.util.ArrayList;
 
@@ -45,7 +46,7 @@ public final class GameData extends BaseAdapter implements ListAdapter {
     public final String description;
     public final long starting_score = 0;  //TODO support alternate starting scores
     private final LayoutInflater mInflater;
-    private ArrayList<PlayerData> players = new ArrayList<PlayerData>();
+    private ArrayList<PlayerData> players = new ArrayList<>();
     private ContentValues extra = new ContentValues();
 
     /**
@@ -69,6 +70,8 @@ public final class GameData extends BaseAdapter implements ListAdapter {
         for (long playerId : playerIds) {
             players.add(new PlayerData(context, playerId, this));
         }
+
+        gameCursor.close();
     }
 
     public ArrayList<PlayerData> getPlayers() {
@@ -99,10 +102,11 @@ public final class GameData extends BaseAdapter implements ListAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.badge, null);
             holder = new ViewHolder();
+            holder.avatar = (CircularImageView) convertView.findViewById(R.id.badge_avatar);
             holder.name = (TextView) convertView.findViewById(R.id.badge_name);
             holder.score = (TextView) convertView.findViewById(R.id.badge_score);
             holder.context = (TextView) convertView.findViewById(R.id.badge_context);
@@ -113,7 +117,9 @@ public final class GameData extends BaseAdapter implements ListAdapter {
         }
         PlayerData pl = players.get(position);
         holder.name.setText(pl.name);
-        convertView.setBackgroundColor((int) pl.color);
+        //TODO avatar images
+        holder.avatar.setTintEnabled(true);
+        holder.avatar.setTintColor(pl.color);
         holder.score.setText(Long.toString(pl.getTotal()));
         if (pl.getCurrentContext() != null) {
             holder.context.setText(pl.getCurrentContext());
@@ -176,8 +182,6 @@ public final class GameData extends BaseAdapter implements ListAdapter {
         return extra.getAsInteger(key);
     }
 
-    ;
-
     public Boolean getExtraAsBoolean(String key) {
         return extra.getAsBoolean(key);
     }
@@ -195,5 +199,6 @@ public final class GameData extends BaseAdapter implements ListAdapter {
         TextView score;
         TextView context;
         ImageView addButton;
+        CircularImageView avatar;
     }
 }

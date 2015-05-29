@@ -38,9 +38,9 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
     private static final String DEBUG_TAG = "ScoreKeep:PlayerData";
     public final long id;
     public final String name;
-    public final long color;
+    public final int color;
     public final GameData game;
-    private final ArrayList<ScoreData> scores = new ArrayList<ScoreData>();
+    private final ArrayList<ScoreData> scores = new ArrayList<>();
     private final Context appContext;
     private long total;
     private String scoreContext = null;
@@ -52,15 +52,15 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
      * @param playerId Unique player identifier
      * @param gameId   Unique id for game to get scores from
      */
-    public PlayerData(Context context, long playerId, GameData game) {
+    public PlayerData(Context context, long playerId, GameData gameId) {
         id = playerId;
-        this.game = game;
+        this.game = gameId;
         appContext = context.getApplicationContext();
 
         Cursor pc = appContext.getContentResolver().query(ContentUris.withAppendedId(Player.CONTENT_ID_URI_BASE, playerId), null, null, null, null);
         pc.moveToFirst();
         name = pc.getString(pc.getColumnIndex(Player.COLUMN_NAME_NAME));
-        color = pc.getLong(pc.getColumnIndex(Player.COLUMN_NAME_COLOR));
+        color = pc.getInt(pc.getColumnIndex(Player.COLUMN_NAME_COLOR));
 
         String selection = Score.COLUMN_NAME_GAME_ID + "=" + game.id + " AND " + Score.COLUMN_NAME_PLAYER_ID + "=" + playerId;
         Cursor sc = appContext.getContentResolver().query(Score.CONTENT_URI, null, selection, null, null);
@@ -77,7 +77,7 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
             if (sc.isNull(scoreColumn)) {
                 score = null;
             } else {
-                score = new Long(sc.getLong(scoreColumn));
+                score = sc.getLong(scoreColumn);
                 total += score;
             }
 
@@ -90,7 +90,8 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
             scores.add(new ScoreData(id, score, tmpContext, created));
         }
 
-
+        pc.close();
+        sc.close();
     }
 
     public long addScore(long score) {
@@ -115,14 +116,14 @@ public final class PlayerData implements View.OnClickListener, DialogInterface.O
             return total;
         }
         if (sd.score != null) {
-            values.put(Score.COLUMN_NAME_SCORE, sd.score.longValue());
+            values.put(Score.COLUMN_NAME_SCORE, sd.score);
             total += sd.score;
         }
         if (sd.context != null && !sd.context.isEmpty()) {
             values.put(Score.COLUMN_NAME_CONTEXT, sd.context);
             scoreContext = sd.context;
         }
-        Long now = Long.valueOf(System.currentTimeMillis());
+        Long now = System.currentTimeMillis();
         values.put(Score.COLUMN_NAME_CREATE_DATE, now);
 
         Uri uri = appContext.getContentResolver().insert(Score.CONTENT_URI, values);
