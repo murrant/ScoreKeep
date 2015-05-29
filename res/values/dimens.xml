@@ -3,4 +3,6 @@
     <dimen name="fab_size">56dp</dimen>
     <dimen name="fab_elevation">2dp</dimen>
     <dimen name="fab_press_elevation">6dp</dimen>
+    <dimen name="fab_offset_center">-40dp</dimen>
+    <dimen name="fab_correction">74dp</dimen>
 </resources>

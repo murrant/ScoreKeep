@@ -4,48 +4,45 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
+
     <ImageView
         android:id="@+id/home_logo"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
         android:importantForAccessibility="no"
-        android:src="@drawable/bg" />
+        android:src="@drawable/bg"
+        android:background="@color/primary"
+        android:paddingTop="20dp"
+        android:paddingBottom="40dp" />
 
     <TextView
         android:id="@+id/home_btn_new_text"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/fab_size"
-        android:layout_below="@id/home_logo"
+        android:layout_height="@dimen/fab_correction"
+        android:layout_below="@+id/home_logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/fab_size"
         android:layout_marginRight="12dp"
         android:layout_marginTop="16dp"
         android:clickable="true"
         android:gravity="left|center_vertical"
         android:maxLines="1"
         android:onClick="newGame"
-        android:paddingLeft="64dp"
         android:text="@string/new_game"
         android:textAppearance="?android:textAppearanceButton"
-        android:textSize="28sp" />
+        android:textSize="28sp"
+        android:paddingLeft="68dp"
+        android:paddingRight="10dp" />
 
-    <ImageButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/home_btn_new"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
-        android:layout_alignLeft="@+id/home_btn_new_text"
-        android:layout_below="@id/home_logo"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/ripple"
         android:contentDescription="@string/new_game"
-        android:elevation="@dimen/fab_elevation"
         android:onClick="newGame"
-        android:paddingLeft="3dp"
         android:src="@drawable/ic_menu_play_clip"
-        android:stateListAnimator="@anim/fab" />
+        android:layout_alignLeft="@+id/home_btn_new_text"
+        android:layout_alignBottom="@+id/home_btn_new_text" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
@@ -53,10 +50,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/home_btn_new"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp" />
 
     <Button
         android:id="@+id/swap_layout"
@@ -75,4 +70,5 @@
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="1dp" />
+
 </RelativeLayout>

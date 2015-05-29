@@ -28,7 +28,6 @@ import android.content.Loader;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Outline;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.util.Linkify;
@@ -67,7 +66,7 @@ public class HomeActivity extends Activity implements LoaderManager.LoaderCallba
         if (savedInstanceState == null) {
             getLoaderManager().initLoader(GAME_LOADER, null, this);
         }
-        setFabOutline();
+//        setFabOutline();
     }
 
     @Override
@@ -86,7 +85,7 @@ public class HomeActivity extends Activity implements LoaderManager.LoaderCallba
     public void gotoDefaultHomeScreen(View view) {
 
         mTransitionManager.transitionTo(mDefaultScene);
-        setFabOutline();
+//        setFabOutline();
     }
 
     public void gotoHistoryHomeScreen(View view) {
@@ -97,20 +96,21 @@ public class HomeActivity extends Activity implements LoaderManager.LoaderCallba
             ft.add(R.id.home_history_frame, new GameHistoryFragment()).commitAllowingStateLoss();
             mTransitionManager.transitionTo(mHistoryScene);
 
-            setFabOutline();
+//            setFabOutline();
         }
     }
 
-    private void setFabOutline() {
-        int size = getResources().getDimensionPixelSize(R.dimen.fab_size);
-        Outline outline = new Outline();
-        outline.setOval(0, 0, size, size);
-        View newButton = findViewById(R.id.home_btn_new);
-//TODO        newButton.setOutline(outline);
-//        newButton.setClipToOutline(true);
-//        newButton.setElevation(R.dimen.fab_elevation);
-    }
-
+    /*
+        private void setFabOutline() {
+            int size = getResources().getDimensionPixelSize(R.dimen.fab_size);
+            Outline outline = new Outline();
+            outline.setOval(0, 0, size, size);
+            View newButton = findViewById(R.id.home_btn_new);
+    //TODO        newButton.setOutline(outline);
+    //        newButton.setClipToOutline(true);
+    //        newButton.setElevation(R.dimen.fab_elevation);
+        }
+    */
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
@@ -123,7 +123,7 @@ public class HomeActivity extends Activity implements LoaderManager.LoaderCallba
                 //show about dialog
                 try {
                     AboutDialogBuilder.create(this).show();
-                } catch (PackageManager.NameNotFoundException nnfe) {
+                } catch (PackageManager.NameNotFoundException ignored) {
                 }
             default:
                 return super.onOptionsItemSelected(item);

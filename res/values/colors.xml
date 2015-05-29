@@ -3,4 +3,5 @@
     <color name="primary">#FFDA45</color>
     <color name="primary_dark">#FFCC00</color>
     <color name="accent">#E89696</color>
+    <color name="background">#FFEEEEEE</color>
 </resources>

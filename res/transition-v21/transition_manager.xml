@@ -8,5 +8,9 @@
         android:fromScene="@layout/sk_home_default"
         android:toScene="@layout/sk_home"
         android:transition="@transition/home_transition" />
+    <transition
+        android:fromScene="@layout/sk_home_default"
+        android:toScene="@layout/sk_home_default"
+        android:transition="@android:transition/no_transition" />
 
 </transitionManager>
