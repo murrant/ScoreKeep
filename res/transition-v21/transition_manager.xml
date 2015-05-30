@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <transitionManager xmlns:android="http://schemas.android.com/apk/res/android">
     <transition
-        android:fromScene="@layout/sk_home"
+        android:fromScene="@layout/sk_home_list"
         android:toScene="@layout/sk_home_default"
         android:transition="@transition/home_transition" />
     <transition
         android:fromScene="@layout/sk_home_default"
-        android:toScene="@layout/sk_home"
+        android:toScene="@layout/sk_home_list"
         android:transition="@transition/home_transition" />
     <transition
         android:fromScene="@layout/sk_home_default"

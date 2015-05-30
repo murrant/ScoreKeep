@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent" android:layout_height="match_parent"
-	android:orientation="vertical">
-	<TextView android:layout_height="wrap_content"
-		android:layout_width="match_parent" android:text="Game Description"
-		android:gravity="center_horizontal" android:id="@+id/game_desc_title" android:textSize="24sp" android:visibility="gone"></TextView>
-	<GridView android:layout_width="match_parent" android:id="@+id/score_card_grid" android:layout_height="match_parent" android:horizontalSpacing="24sp" android:numColumns="auto_fit" android:layout_margin="4sp"></GridView>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/game_desc_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Game Description"
+        android:textSize="24sp"
+        android:visibility="gone" />
+
+    <GridView
+        android:id="@+id/score_card_grid"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="4sp"
+        android:horizontalSpacing="16sp"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="16dp" />
 </LinearLayout>

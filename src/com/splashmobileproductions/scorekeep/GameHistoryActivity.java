@@ -21,7 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 public class GameHistoryActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_history_activity);
+        setContentView(R.layout.sk_game_list);
 //        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

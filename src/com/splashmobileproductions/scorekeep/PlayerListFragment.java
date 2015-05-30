@@ -17,17 +17,17 @@ package com.splashmobileproductions.scorekeep;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.DialogFragment;
-import android.app.ListFragment;
-import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -46,7 +46,7 @@ import com.splashmobileproductions.scorekeep.provider.Player;
 import com.splashmobileproductions.scorekeep.provider.Score;
 import com.splashmobileproductions.scorekeep.util.JobManager;
 
-public class PlayerListFragment extends ListFragment implements OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class PlayerListFragment extends ListFragment implements DialogInterface.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
     private static final int PLAYER_LOADER = 0;
     private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
 	private final static int[] TO = new int[]{android.R.id.text1};
@@ -63,9 +63,9 @@ public class PlayerListFragment extends ListFragment implements OnClickListener,
 
     @SuppressLint("Override")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.players_list, container, false);
-	}
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.players_list, container, false);
+    }
 
     @SuppressLint("Override")
     @Override

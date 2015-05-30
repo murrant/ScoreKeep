@@ -16,7 +16,8 @@
             android:id="@+id/badge_layout_inside"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/background_light">
+            android:background="@android:color/background_light"
+            android:padding="6dp">
 
             <com.splashmobileproductions.scorekeep.view.CircularImageView
                 android:id="@+id/badge_avatar"

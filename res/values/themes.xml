@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="MyAppTheme" parent="Theme.AppCompat.Light">
+    <style name="MyAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Main theme colors -->
         <!--   your app's branding color (for the app bar) -->
         <item name="colorPrimary">@color/primary</item>

@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/home_base_layout"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="fill_parent">
-
 
     <ImageView
         android:id="@+id/home_logo"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_gravity="center_horizontal"
-        android:importantForAccessibility="no"
-        android:src="@drawable/bg"
         android:background="@color/primary"
+        android:importantForAccessibility="no"
+        android:paddingBottom="40dp"
         android:paddingTop="20dp"
-        android:paddingBottom="40dp" />
+        android:src="@drawable/bg" />
 
     <TextView
         android:id="@+id/home_btn_new_text"
@@ -22,27 +20,27 @@
         android:layout_height="@dimen/fab_correction"
         android:layout_below="@+id/home_logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginTop="16dp"
         android:clickable="true"
-        android:gravity="left|center_vertical"
+        android:gravity="start|center_vertical"
         android:maxLines="1"
         android:onClick="newGame"
+        android:paddingEnd="10dp"
+        android:paddingStart="68dp"
         android:text="@string/new_game"
         android:textAppearance="?android:textAppearanceButton"
-        android:textSize="28sp"
-        android:paddingLeft="68dp"
-        android:paddingRight="10dp" />
+        android:textSize="28sp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/home_btn_new"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/home_btn_new_text"
+        android:layout_alignStart="@+id/home_btn_new_text"
         android:contentDescription="@string/new_game"
         android:onClick="newGame"
-        android:src="@drawable/ic_menu_play_clip"
-        android:layout_alignLeft="@+id/home_btn_new_text"
-        android:layout_alignBottom="@+id/home_btn_new_text" />
+        android:src="@drawable/ic_menu_play_clip" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
@@ -50,18 +48,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/home_btn_new"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp" />
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="24dp" />
 
     <Button
         android:id="@+id/swap_layout"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="12dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="12dp"
         android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/ic_menu_preferences"
-        android:gravity="left|center_vertical"
+        android:drawableStart="@drawable/ic_menu_preferences"
+        android:gravity="start|center_vertical"
         android:onClick="gotoHistoryHomeScreen" />
 
     <FrameLayout

@@ -15,10 +15,10 @@
  */
 package com.splashmobileproductions.scorekeep;
 
-import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +61,6 @@ public class SettingsFragment extends Fragment {
 		}
 
 		// Commit the edits!
-		editor.commit();
+		editor.apply();
 	}
 }

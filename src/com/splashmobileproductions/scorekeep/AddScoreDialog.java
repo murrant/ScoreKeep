@@ -1,17 +1,17 @@
 /**
- *  Copyright 2011 Tony Murray <murraytony@gmail.com>
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * Copyright 2011 Tony Murray <murraytony@gmail.com>
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.splashmobileproductions.scorekeep;
 
@@ -32,9 +32,8 @@ import com.splashmobileproductions.scorekeep.games.GameDefinition;
 import com.splashmobileproductions.scorekeep.games.MathEval;
 
 public class AddScoreDialog extends Dialog implements View.OnClickListener, TextView.OnEditorActionListener {
-    private static final String DEBUG_TAG = "ScoreKeep:AddScoreDialog";
+    private static final String DEBUG_TAG = "ScoreKeep:AddScoreDialo";
     private final TextView scoreEdit;
-    private final TextView contextEdit;
 
     private final PlayerData player;
     private final GameDefinition gameDef;
@@ -51,7 +50,7 @@ public class AddScoreDialog extends Dialog implements View.OnClickListener, Text
 
         //generic elements
         scoreEdit = (TextView) findViewById(R.id.score_edit);
-        contextEdit = (TextView) findViewById(R.id.context_edit);
+        TextView contextEdit = (TextView) findViewById(R.id.context_edit);
         Button minusFive = (Button) findViewById(R.id.minus_5);
         Button minusOne = (Button) findViewById(R.id.minus_1);
         Button plusOne = (Button) findViewById(R.id.plus_1);

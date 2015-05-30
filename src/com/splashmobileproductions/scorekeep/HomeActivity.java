@@ -17,18 +17,19 @@ package com.splashmobileproductions.scorekeep;
 
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.transition.Scene;
@@ -47,39 +48,47 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
     @SuppressWarnings("unused")
     private static final String DEBUG_TAG = "ScoreKeep:HomeActivity";
     private static final int GAME_LOADER = 1;
+    private int gamesListFragmentId = -1;
     TransitionManager mTransitionManager;
     Scene mDefaultScene, mHistoryScene;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sk_home_default);
+        setContentView(R.layout.sk_home);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //toolbar.setTitle("ScoreKeep");
+        setSupportActionBar(toolbar);
+        toolbar.bringToFront();
+
+
         GameHistoryFragment mGameFragment;
 
         //set up transitions
-        ViewGroup container = (ViewGroup) findViewById(R.id.home_base_layout).getParent();
+        ViewGroup container = (ViewGroup) findViewById(R.id.home_layout);
         mDefaultScene = Scene.getSceneForLayout(container, R.layout.sk_home_default, this);
-        mHistoryScene = Scene.getSceneForLayout(container, R.layout.sk_home, this);
+        mHistoryScene = Scene.getSceneForLayout(container, R.layout.sk_home_list, this);
         TransitionInflater transitionInflater = TransitionInflater.from(this);
         mTransitionManager = transitionInflater.inflateTransitionManager(R.transition.transition_manager, container);
 
         if (savedInstanceState == null) {
-            getLoaderManager().initLoader(GAME_LOADER, null, this);
+            getSupportLoaderManager().initLoader(GAME_LOADER, null, this);
         }
-//        setFabOutline();
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
-        menu.clear();
+//        menu.clear();
         getMenuInflater().inflate(R.menu.home_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     public void newGame(View view) {
         NewGameFragment newGameFragment = new NewGameFragment();
-        newGameFragment.show(getFragmentManager(), "sk_new_game_dialog");
+        newGameFragment.show(getSupportFragmentManager(), "sk_new_game_dialog");
     }
 
     public void gotoDefaultHomeScreen(View view) {
@@ -87,13 +96,20 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     public void gotoHistoryHomeScreen(View view) {
-        Fragment gamesListFragment = getFragmentManager().findFragmentById(R.layout.games_list);
+        Fragment gamesListFragment = getSupportFragmentManager().findFragmentById(gamesListFragmentId);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
         if (gamesListFragment == null) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-//            ft.setCustomAnimations(R.animator.game_history_animator, 0);
-            ft.add(R.id.home_history_frame, new GameHistoryFragment()).commitAllowingStateLoss();
-            mTransitionManager.transitionTo(mHistoryScene);
+            gamesListFragment = new GameHistoryFragment();
+            gamesListFragmentId = gamesListFragment.getId();
+
+//        ft.setCustomAnimations(R.animator.game_history_animator, 0);
+            ft.add(R.id.home_history_frame, gamesListFragment).commitAllowingStateLoss();
+        } else {
+            ft.show(gamesListFragment).commitAllowingStateLoss();
         }
+
+        mTransitionManager.transitionTo(mHistoryScene);
     }
 
 
@@ -127,7 +143,7 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor.getCount() > 0) {
             gotoHistoryHomeScreen(null);
         }

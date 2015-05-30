@@ -1,34 +1,34 @@
 /**
- *  Copyright 2011-2013 Tony Murray <murraytony@gmail.com>
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * Copyright 2011-2013 Tony Murray <murraytony@gmail.com>
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.splashmobileproductions.scorekeep;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.DialogFragment;
-import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.text.InputType;
 import android.transition.Scene;
 import android.transition.TransitionManager;
@@ -51,7 +51,7 @@ import com.splashmobileproductions.scorekeep.provider.Player;
 import com.splashmobileproductions.scorekeep.provider.ScoresProvider;
 
 public class NewGameFragment extends DialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String DEBUG_TAG = "ScoreKeep:NewGameFragment";
+    private static final String DEBUG_TAG = "ScoreKeep:NewGameFragme";
     private static final int PLAYER_LOADER = 0;
     private final static String[] FROM = new String[]{Player.COLUMN_NAME_NAME};
     private final static int[] TO = new int[]{android.R.id.text1};
@@ -147,7 +147,7 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
 
         GameDefinition gameType = GameDefs.TYPES.get(GameDefs.DEFAULT);
         String gameName = ((EditText) getDialog().findViewById(R.id.new_game_text)).getText().toString();
-        if(gameName.isEmpty()) gameName = getString(R.string.new_game);
+        if (gameName.isEmpty()) gameName = getString(R.string.new_game);
         gameType.setName(gameName);
         Uri newGameUri = newGame(gameType, players);
         intent.setData(newGameUri);  //set data uri for the new game
@@ -198,7 +198,7 @@ public class NewGameFragment extends DialogFragment implements LoaderManager.Loa
                     long itemId = mPlayerList.getItemIdAtPosition(i);
                     boolean isChecked = (itemId == targetId); // remove and only change check when needed
                     if (isChecked) {
-                        mPlayerList.setItemChecked(i, isChecked);
+                        mPlayerList.setItemChecked(i, true);
                         mPlayerList.getAdapter().unregisterDataSetObserver(this);
                     }
                 }
