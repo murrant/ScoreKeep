@@ -106,14 +106,8 @@ public class RecyclerGameAdapter extends CursorRecyclerAdapter<RecyclerGameAdapt
             mPlayers.put(cursor.getLong(cursor.getColumnIndex(Player._ID)), cursor.getString(cursor.getColumnIndex(Player.COLUMN_NAME_NAME)));
         }
 
-
         // notify for redraw if the player names came late
-        mFragmentActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                RecyclerGameAdapter.this.notifyDataSetChanged();
-            }
-        });
-
+        notifyDataSetChanged();
     }
 
     @Override
