@@ -23,24 +23,24 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.transition.Scene;
-import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.splashmobileproductions.scorekeep.data.RecyclerGameAdapter;
 import com.splashmobileproductions.scorekeep.provider.Game;
 
 
@@ -48,10 +48,10 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
     @SuppressWarnings("unused")
     private static final String DEBUG_TAG = "ScoreKeep:HomeActivity";
     private static final int GAME_LOADER = 1;
-    private int gamesListFragmentId = -1;
     TransitionManager mTransitionManager;
     Scene mDefaultScene, mHistoryScene;
-
+    RecyclerView mHistoryList;
+    private int gamesListFragmentId = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,9 +60,21 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //toolbar.setTitle("ScoreKeep");
         setSupportActionBar(toolbar);
-        toolbar.bringToFront();
+//        toolbar.bringToFront();
 
 
+//        if (savedInstanceState == null) {
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.add(R.id.home_base_layout, new GameHistoryFragment()).commit();
+//        }
+
+
+        mHistoryList = (RecyclerView) findViewById(R.id.history_list);
+        mHistoryList.setLayoutManager(new LinearLayoutManager(this));
+
+
+
+/*
         GameHistoryFragment mGameFragment;
 
         //set up transitions
@@ -71,7 +83,7 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
         mHistoryScene = Scene.getSceneForLayout(container, R.layout.sk_home_list, this);
         TransitionInflater transitionInflater = TransitionInflater.from(this);
         mTransitionManager = transitionInflater.inflateTransitionManager(R.transition.transition_manager, container);
-
+*/
         if (savedInstanceState == null) {
             getSupportLoaderManager().initLoader(GAME_LOADER, null, this);
         }
@@ -90,6 +102,7 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
         NewGameFragment newGameFragment = new NewGameFragment();
         newGameFragment.show(getSupportFragmentManager(), "sk_new_game_dialog");
     }
+/*
 
     public void gotoDefaultHomeScreen(View view) {
         mTransitionManager.transitionTo(mDefaultScene);
@@ -112,6 +125,7 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
         mTransitionManager.transitionTo(mHistoryScene);
     }
 
+*/
 
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -120,6 +134,9 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
                 return true;
             case R.id.home_menu_manage_players:
                 startActivity(new Intent(this, PlayerListActivity.class));
+                return true;
+            case R.id.home_menu_swap:
+//                gotoHistoryHomeScreen(null);
                 return true;
             case R.id.home_menu_about:
                 //show about dialog
@@ -144,8 +161,10 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        Log.d(DEBUG_TAG, "Game List Cursor loaded, count: " + cursor.getCount());
         if (cursor.getCount() > 0) {
-            gotoHistoryHomeScreen(null);
+//            gotoHistoryHomeScreen(null);
+            mHistoryList.setAdapter(new RecyclerGameAdapter(this, cursor));
         }
     }
 
