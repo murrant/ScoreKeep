@@ -135,9 +135,6 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
             case R.id.home_menu_manage_players:
                 startActivity(new Intent(this, PlayerListActivity.class));
                 return true;
-            case R.id.home_menu_swap:
-//                gotoHistoryHomeScreen(null);
-                return true;
             case R.id.home_menu_about:
                 //show about dialog
                 try {
