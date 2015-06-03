@@ -28,6 +28,7 @@ public class ScoreCardActivity extends AppCompatActivity {
         setContentView(R.layout.score_card_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.bringToFront();
 
         Uri dataUri = getIntent().getData();
