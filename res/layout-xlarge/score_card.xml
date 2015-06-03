@@ -1,28 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/score_card_grid"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="fill_parent"
+    android:layout_margin="4sp"
+    android:horizontalSpacing="16sp"
+    android:numColumns="auto_fit"
+    android:verticalSpacing="16dp" />
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
-
-    <TextView
-        android:id="@+id/game_desc_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Game Description"
-        android:textSize="24sp"
-        android:visibility="gone" />
-
-    <GridView
-        android:id="@+id/score_card_grid"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="4sp"
-        android:horizontalSpacing="16sp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="16dp" />
-</LinearLayout>
