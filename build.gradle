@@ -13,12 +13,11 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:design:22.2.+'
-    compile 'com.android.support:cardview-v7:22.2.+'
-    compile 'com.android.support:recyclerview-v7:22.2.+'
-    compile 'com.android.support:palette-v7:22.2.+'
+    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:cardview-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+//    compile 'com.android.support:palette-v7:22.2.0'
     compile 'org.ocpsoft.prettytime:prettytime:3.2.5.Final'
-    compile 'com.google.android.gms:play-services:+'
 }
 
 android {
