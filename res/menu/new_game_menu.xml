@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/new_game_add_player_button"
         android:icon="@drawable/ic_menu_invite"
-        android:showAsAction="ifRoom|withText"
         android:title="@string/add_player"
-        android:titleCondensed="@string/add_player_short"></item>
+        android:titleCondensed="@string/add_player_short"
+        app:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/start_game"
         android:icon="@drawable/ic_menu_play_clip"
-        android:showAsAction="ifRoom|withText"
         android:title="@string/start_game"
-        android:titleCondensed="@string/start_game_short"></item>
+        android:titleCondensed="@string/start_game_short"
+        app:showAsAction="ifRoom|withText" />
 </menu>

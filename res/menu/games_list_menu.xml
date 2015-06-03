@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/clear_history" android:titleCondensed="@string/clear_history_short" android:icon="@drawable/ic_menu_delete" android:id="@+id/glmenu_clear_history" android:showAsAction="never"></item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/glmenu_clear_history"
+        android:icon="@drawable/ic_menu_delete"
+        android:title="@string/clear_history"
+        android:titleCondensed="@string/clear_history_short"
+        app:showAsAction="never" />
 </menu>

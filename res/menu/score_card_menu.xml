@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/score_round" android:showAsAction="always|withText" android:id="@+id/score_round" android:icon="@drawable/ic_menu_edit"></item><item android:title="@string/new_game" android:id="@+id/new_game" android:titleCondensed="@string/new_game_short" android:showAsAction="never"></item>
-    <item android:title="@string/change_players" android:id="@+id/change_players" android:showAsAction="never"></item>
-    <item android:showAsAction="never" android:title="@string/reset_scores" android:id="@+id/reset_scores" android:titleCondensed="@string/reset_scores_short"></item>
-    
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/score_round"
+        android:icon="@drawable/ic_menu_edit"
+        android:title="@string/score_round"
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/new_game"
+        android:showAsAction="never"
+        android:title="@string/new_game"
+        android:titleCondensed="@string/new_game_short" />
+    <item
+        android:id="@+id/change_players"
+        android:title="@string/change_players"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/reset_scores"
+        android:title="@string/reset_scores"
+        android:titleCondensed="@string/reset_scores_short"
+        app:showAsAction="never" />
 </menu>
