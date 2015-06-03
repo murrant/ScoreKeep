@@ -1,6 +1,9 @@
 package com.splashmobileproductions.scorekeep.data;
 
+import android.content.ContentUris;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.splashmobileproductions.scorekeep.R;
+import com.splashmobileproductions.scorekeep.ScoreCardActivity;
 import com.splashmobileproductions.scorekeep.provider.Game;
 import com.splashmobileproductions.scorekeep.provider.Player;
 import com.splashmobileproductions.scorekeep.provider.ScoresProvider;
@@ -42,6 +46,7 @@ import java.util.Locale;
  */
 
 public class RecyclerGameAdapter extends CursorRecyclerAdapter<RecyclerGameAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String DEBUG_TAG = "SK:RecyclerGameAdapter";
     private static final int PLAYER_LOADER = 54;
     private final PrettyTime mPrettyTime = new PrettyTime(Locale.getDefault());
     private final LongSparseArray<String> mPlayers = new LongSparseArray<>();
@@ -54,16 +59,21 @@ public class RecyclerGameAdapter extends CursorRecyclerAdapter<RecyclerGameAdapt
     }
 
     @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.sk_game_list_item, parent, false);
+        return new ViewHolder(v);
+    }
+
+    @Override
     public void onBindViewHolder(ViewHolder holder, Cursor cursor) {
         holder.mDescription.setText(getDescription(cursor));
         holder.mModifiedDate.setText(getModifiedDate(cursor));
         holder.mPlayers.setText(getPlayerList(cursor));
+        holder.mGameID = getGameID(cursor);
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.sk_game_list_item, parent, false);
-        return new ViewHolder(v);
+    private long getGameID(Cursor cursor) {
+        return cursor.getLong(cursor.getColumnIndex(Game._ID));
     }
 
     private String getDescription(Cursor cursor) {
@@ -115,14 +125,25 @@ public class RecyclerGameAdapter extends CursorRecyclerAdapter<RecyclerGameAdapt
         mPlayers.clear();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView mDescription, mModifiedDate, mPlayers;
+        long mGameID;
 
         public ViewHolder(View v) {
             super(v);
             mDescription = (TextView) itemView.findViewById(R.id.gl_desc);
             mModifiedDate = (TextView) itemView.findViewById(R.id.gl_modified);
             mPlayers = (TextView) itemView.findViewById(R.id.gl_players);
+            v.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+//            Log.d(DEBUG_TAG, "Item Clicked. Game ID: "+mGameID);
+            Intent intent = new Intent(v.getContext(), ScoreCardActivity.class);
+            Uri gameUri = ContentUris.withAppendedId(Game.CONTENT_ID_URI_BASE, mGameID);
+            intent.setData(gameUri);  //set data uri for the new game
+            v.getContext().startActivity(intent);
         }
     }
 }
