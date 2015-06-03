@@ -15,21 +15,21 @@
  */
 package com.splashmobileproductions.scorekeep.data;
 
-import android.app.Activity;
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.util.LongSparseArray;
+import android.support.v4.widget.CursorAdapter;
 import android.text.TextUtils;
-import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.splashmobileproductions.scorekeep.R;
@@ -47,13 +47,13 @@ public class GameAdapter extends CursorAdapter implements LoaderManager.LoaderCa
     private static final int PLAYER_LOADER = 0;
     private final PrettyTime mPrettyTime = new PrettyTime(Locale.getDefault());
     private final LongSparseArray<String> mPlayers = new LongSparseArray<String>();
-    private Activity mActivity;
+    private FragmentActivity mActivity;
     private int mLastPosition = -1;
 
     public GameAdapter(Context context, Cursor c) {
         super(context, c, 0);
-        mActivity = (Activity) context;
-        mActivity.getLoaderManager().initLoader(PLAYER_LOADER, null, this);
+        mActivity = (FragmentActivity) context;
+        mActivity.getSupportLoaderManager().initLoader(PLAYER_LOADER, null, this);
     }
 
     @Override
