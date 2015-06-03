@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.GridView;
-import android.widget.TextView;
 
 import com.splashmobileproductions.scorekeep.data.GameData;
 
@@ -61,8 +60,6 @@ public class ScoreCardFragment extends Fragment {
         game = new GameData(getActivity(), dataUri);
 
         GridView grid = (GridView) view.findViewById(R.id.score_card_grid);
-        TextView desc = (TextView) view.findViewById(R.id.game_desc_title);
-        desc.setText(game.description);
         getActivity().setTitle(game.description);
         grid.setAdapter(game);
 
