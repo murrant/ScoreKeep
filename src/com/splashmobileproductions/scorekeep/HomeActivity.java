@@ -23,6 +23,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -57,37 +58,19 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sk_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //toolbar.setTitle("ScoreKeep");
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        toolbar.bringToFront();
 
-
-//        if (savedInstanceState == null) {
-//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//            ft.add(R.id.home_base_layout, new GameHistoryFragment()).commit();
-//        }
-
+        final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle(getText(R.string.app_name));
 
         mHistoryList = (RecyclerView) findViewById(R.id.history_list);
         mHistoryList.setLayoutManager(new LinearLayoutManager(this));
 
-
-
-/*
-        GameHistoryFragment mGameFragment;
-
-        //set up transitions
-        ViewGroup container = (ViewGroup) findViewById(R.id.home_layout);
-        mDefaultScene = Scene.getSceneForLayout(container, R.layout.sk_home_default, this);
-        mHistoryScene = Scene.getSceneForLayout(container, R.layout.sk_home_list, this);
-        TransitionInflater transitionInflater = TransitionInflater.from(this);
-        mTransitionManager = transitionInflater.inflateTransitionManager(R.transition.transition_manager, container);
-*/
         if (savedInstanceState == null) {
             getSupportLoaderManager().initLoader(GAME_LOADER, null, this);
         }
-
     }
 
     @Override
