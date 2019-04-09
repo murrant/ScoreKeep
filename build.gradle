@@ -1,32 +1,42 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.3'
+        classpath 'com.android.tools.build:gradle:3.3.2'
     }
 }
 apply plugin: 'com.android.application'
 
-repositories {
-    mavenCentral()
+allprojects {
+    repositories {
+        jcenter()
+        google()
+    }
+}
+
+ext {
+    supportLibVersion = '28.0.0'
 }
 
 dependencies {
-    compile 'com.android.support:design:22.2.0'
-    compile 'com.android.support:cardview-v7:22.2.0'
-    compile 'com.android.support:recyclerview-v7:22.2.0'
-//    compile 'com.android.support:palette-v7:22.2.0'
-    compile 'org.ocpsoft.prettytime:prettytime:3.2.5.Final'
+    implementation "com.android.support:support-v4:${supportLibVersion}"
+    implementation "com.android.support:appcompat-v7:${supportLibVersion}"
+    implementation "com.android.support:design:${supportLibVersion}"
+    implementation "com.android.support:cardview-v7:${supportLibVersion}"
+    implementation "com.android.support:recyclerview-v7:${supportLibVersion}"
+    implementation "com.android.support:palette-v7:${supportLibVersion}"
+    implementation 'org.ocpsoft.prettytime:prettytime:3.2.5.Final'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha4'
 }
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 28
     defaultConfig {
 
-        minSdkVersion 19
-        targetSdkVersion 22
+        minSdkVersion 17
+        targetSdkVersion 23
         versionCode 4
         versionName '0.5'
     }
@@ -43,7 +53,7 @@ android {
         }
 
         // Move the tests to tests/java, tests/res, etc...
-        instrumentTest.setRoot('tests')
+//        instrumentTest.setRoot('tests')
 
         // Move the build types to build-types/<type>
         // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...

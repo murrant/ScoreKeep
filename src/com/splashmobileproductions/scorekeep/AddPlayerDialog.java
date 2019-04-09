@@ -34,7 +34,7 @@ public class AddPlayerDialog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.new_player);
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);

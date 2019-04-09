@@ -67,6 +67,7 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
 
         mHistoryList = (RecyclerView) findViewById(R.id.history_list);
         mHistoryList.setLayoutManager(new LinearLayoutManager(this));
+        mHistoryList.setVisibility(View.GONE);
 
         if (savedInstanceState == null) {
             getSupportLoaderManager().initLoader(GAME_LOADER, null, this);
@@ -145,6 +146,7 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
         if (cursor.getCount() > 0) {
 //            gotoHistoryHomeScreen(null);
             mHistoryList.setAdapter(new RecyclerGameAdapter(this, cursor));
+            mHistoryList.setVisibility(View.VISIBLE);
         }
     }
 
